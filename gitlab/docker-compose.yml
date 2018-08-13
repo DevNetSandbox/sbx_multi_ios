@@ -1,0 +1,32 @@
+
+version: '3.2'
+
+services:
+
+  gitlab:
+    image: gitlab/gitlab-ce
+    hostname: gitlab
+    # volumes:
+    #   - ./etc/gitlab:/etc/gitlab
+    #   - ./data/gitlab:/var/opt/gitlab
+    ports: ["443", "80:80", "22", "4567:4567"]
+    environment:
+      - GITLAB_ROOT_PASSWORD=C1sco12345
+      - GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN=sandboxrunners
+      - GITLAB_HOST=http://10.10.20.20
+      - GITLAB_OMNIBUS_CONFIG="external_url 'http://10.10.20.20/'"
+
+  runner1:
+    image: gitlab/gitlab-runner
+    environment:
+      - REGISTRATION_TOKEN=sandboxrunners
+      - RUNNER_NAME=runner1
+      - RUNNER_EXECUTOR=docker
+      - CI_SERVER_URL=http://gitlab/
+      - CLONE_URL=http://10.10.20.20/
+      - REGISTER_NON_INTERACTIVE=true
+      - DOCKER_IMAGE=alpine
+      - DOCKER_EXTRA_HOSTS=gitlab:10.10.20.20
+    volumes:
+      #- ./etc/runner:/etc/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
