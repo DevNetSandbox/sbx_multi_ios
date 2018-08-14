@@ -538,7 +538,7 @@ telemetry model-driven
         </extensions>
         <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.0.14" netPrefixLenV4="30"/>
     </node>
-    <node name="metrics" type="SIMPLE" subtype="server" location="520,61">
+    <node name="metrics" type="SIMPLE" subtype="server" location="520,61" vmFlavor="m1.medium">
         <extensions>
             <entry key="config" type="string">#cloud-config
 bootcmd:

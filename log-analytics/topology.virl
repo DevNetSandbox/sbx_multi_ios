@@ -368,7 +368,7 @@ end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1" ipv4="10.0.0.13" netPrefixLenV4="30"/>
     </node>
-    <node name="elk" type="SIMPLE" subtype="server" location="520,61">
+    <node name="elk" type="SIMPLE" subtype="server" location="520,61" vmFlavor="m1.medium">
         <extensions>
             <entry key="config" type="string">#cloud-config
 bootcmd:
