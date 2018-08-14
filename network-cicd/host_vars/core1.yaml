@@ -1,0 +1,249 @@
+config:
+  tailf-ned-cisco-ios:control-plane: {}
+  tailf-ned-cisco-ios:crypto:
+    pki:
+      certificate:
+        chain:
+        - certificate:
+          - cert: "  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101\
+              \ 05050030 \r\n  31312F30 2D060355 04031326 494F532D 53656C66 2D536967\
+              \ 6E65642D 43657274 \r\n  69666963 6174652D 32323338 30333836 3035301E\
+              \ 170D3138 30383134 31353339 \r\n  30305A17 0D323030 31303130 30303030\
+              \ 305A3031 312F302D 06035504 03132649 \r\n  4F532D53 656C662D 5369676E\
+              \ 65642D43 65727469 66696361 74652D32 32333830 \r\n  33383630 35308201\
+              \ 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 \r\n  0A028201\
+              \ 0100A6C6 A74370C0 808AEE5B 9115AF5F 07265A20 0B7C685E 200D6FE9 \r\n\
+              \  ACB6AF26 FC8E83EF 9F3DFDE6 BC86656A E78FC729 D064197B 0456C929 E02B86C5\
+              \ \r\n  E66ADA4A 3C12BDE6 9E8242DE 18B58E3A BC9F3C39 ECADED29 3AB61A1C\
+              \ 3EF0E270 \r\n  92A6FD04 E81214B0 6141ADE8 152274BC 9AFB2C48 21C164D1\
+              \ E7B5A139 855A3B2D \r\n  1A88F9CE C0FAD789 7D9E52B4 BF002E5D 8BC01FCD\
+              \ 868F7086 EB581DC4 0E40E66E \r\n  92674F07 1ADA0C5D B254BC69 78176505\
+              \ 4B88FD10 6FE690CD 4B678BD0 30345ACA \r\n  39272740 1B035715 04275D72\
+              \ CE070A65 EE07F50D 7F121FAE 65FC3071 62027435 \r\n  371F5290 23A37E3A\
+              \ 1D5E15AF 8ADEDBFC 55EBB8EE 22FC1C0E 1734E292 5230F8B9 \r\n  A2F590CB\
+              \ 9EAD0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF \r\n\
+              \  301F0603 551D2304 18301680 14B6D60E 70FA25A6 D1C4B707 5F4FD9E7 FED9644D\
+              \ \r\n  98301D06 03551D0E 04160414 B6D60E70 FA25A6D1 C4B7075F 4FD9E7FE\
+              \ D9644D98 \r\n  300D0609 2A864886 F70D0101 05050003 82010100 69854BD4\
+              \ 9032DE67 5EFD801D \r\n  915FB0AD F404C289 1124BDEB B308022F 18485DAF\
+              \ F9CB3CBC 9FFDAEA6 86295B13 \r\n  3EE21872 9DBC6420 09B2A503 7693F78C\
+              \ 33E77CA6 1B509377 67B55C6E A7A978A9 \r\n  AF9E118C 92BF509E 0C6EAA5F\
+              \ C69A9E0D EDD16790 4A3670B7 25EFB630 14356534 \r\n  2AE38105 5333B795\
+              \ 00A2DAE7 76B43496 6EA1DE1C B12D0C63 32928A79 A3E34E2C \r\n  B3B9FE06\
+              \ 721F2399 AB0A3238 6DFBFA6B 4590B820 887A9513 1F851369 970E6076 \r\n\
+              \  B49F8F90 579B9FDC 21885C91 AC92A896 28545164 147F0CC5 343AF62C 5B3C6B0B\
+              \ \r\n  913533B3 05291061 B694588F 16A32411 7B47AEA4 BD65DD0E 0C6E56C3\
+              \ EA85F1C9 \r\n  A97A0CAA 8F388418 1A03702F F8FD8B7E BCBE3CA9\r\n"
+            cert-type: self-signed
+            serial: '01'
+          name: TP-self-signed-2238038605
+      trustpoint:
+      - enrollment:
+          selfsigned:
+          -
+        id: TP-self-signed-2238038605
+        revocation-check:
+        - none
+        rsakeypair:
+          key-label: TP-self-signed-2238038605
+        subject-name: cn=IOS-Self-Signed-Certificate-2238038605
+  tailf-ned-cisco-ios:diagnostic:
+    bootup:
+      level: minimal
+  tailf-ned-cisco-ios:enable:
+    password:
+      secret: cisco
+    secret:
+      secret: tnhtc92DXBhelxjYk8LWJrPV36S2i4ntXrpb4RFmfqY
+      type: '4'
+  tailf-ned-cisco-ios:hostname: core1
+  tailf-ned-cisco-ios:interface:
+    GigabitEthernet:
+    - cdp:
+        enable: true
+      description: OOB Management
+      ip:
+        address:
+          primary:
+            address: 172.16.30.116
+            mask: 255.255.255.0
+      mop:
+        sysid: false
+        xenabled: false
+      name: '1'
+      negotiation:
+        auto: true
+      vrf:
+        forwarding: Mgmt-intf
+    - description: L3 Link to dist1
+      ip:
+        address:
+          primary:
+            address: 172.16.0.1
+            mask: 255.255.255.252
+      mop:
+        sysid: false
+        xenabled: false
+      name: '2'
+      negotiation:
+        auto: true
+    - description: L3 Link to dist2
+      ip:
+        address:
+          primary:
+            address: 172.16.0.5
+            mask: 255.255.255.252
+      mop:
+        sysid: false
+        xenabled: false
+      name: '3'
+      negotiation:
+        auto: true
+    - description: L3 Link to core2
+      ip:
+        address:
+          primary:
+            address: 172.16.0.17
+            mask: 255.255.255.252
+      mop:
+        sysid: false
+        xenabled: false
+      name: '4'
+      negotiation:
+        auto: true
+    Loopback:
+    - description: Default Loopback
+      ip:
+        address:
+          primary:
+            address: 192.168.1.1
+            mask: 255.255.255.255
+      name: '0'
+  tailf-ned-cisco-ios:ip:
+    domain:
+      lookup-conf:
+        lookup: false
+    forward-protocol:
+      nd:
+      -
+    http:
+      authentication:
+        local:
+        -
+      secure-server: true
+      server: true
+    route:
+      vrf:
+      - ip-route-forwarding-list:
+        - forwarding-address: 172.16.30.254
+          mask: 0.0.0.0
+          prefix: 0.0.0.0
+        name: Mgmt-intf
+  tailf-ned-cisco-ios:ipv6:
+    unicast-routing:
+    -
+  tailf-ned-cisco-ios:license:
+    accept:
+      end:
+        user:
+          agreement:
+          -
+  tailf-ned-cisco-ios:line:
+    console:
+    - first: '0'
+      password:
+        secret: cisco
+      stopbits: '1'
+    vty:
+    - exec-timeout:
+        minutes: 720
+        seconds: 0
+      first: 0
+      last: 4
+      login:
+        local:
+        -
+      password:
+        secret: cisco
+      transport:
+        input:
+        - ssh
+        - telnet
+  tailf-ned-cisco-ios:logging:
+    buffered:
+      severity-level: debugging
+    console:
+      severity-level: debugging
+    monitor:
+      severity-level: debugging
+  tailf-ned-cisco-ios:multilink:
+    bundle-name: authenticated
+  tailf-ned-cisco-ios:platform:
+    console: virtual
+    punt-keepalive:
+      disable-kernel-core: false
+  tailf-ned-cisco-ios:redundancy: {}
+  tailf-ned-cisco-ios:router:
+    ospf:
+    - id: 1
+      network:
+      - area: 0
+        ip: 172.16.0.0
+        mask: 0.0.0.3
+      - area: 0
+        ip: 172.16.0.4
+        mask: 0.0.0.3
+      - area: 0
+        ip: 172.16.0.16
+        mask: 0.0.0.3
+      - area: 0
+        ip: 192.168.1.1
+        mask: 0.0.0.0
+      router-id: 192.168.1.1
+  tailf-ned-cisco-ios:service:
+    timestamps:
+      debug:
+        datetime:
+          msec:
+          -
+      log:
+        datetime:
+          msec:
+          -
+  tailf-ned-cisco-ios:snmp-server:
+    community:
+    - RW:
+      -
+      name: private
+    - RO:
+      -
+      name: public
+  tailf-ned-cisco-ios:spanning-tree:
+    extend:
+      system-id:
+      -
+  tailf-ned-cisco-ios:subscriber:
+    templating:
+    -
+  tailf-ned-cisco-ios:tailfned:
+    police: cirmode
+  tailf-ned-cisco-ios:username:
+  - name: cisco
+    privilege: 15
+    secret:
+      secret: $1$7aVS$q/jxs7YBkA49wck5nJFmO1
+      type: '5'
+  tailf-ned-cisco-ios:version: '16.8'
+  tailf-ned-cisco-ios:vrf:
+    definition:
+    - address-family:
+        ipv4: {}
+        ipv6: {}
+      name: Mgmt-intf
+  tailf-ned-cisco-ios:wsma:
+    agent:
+    - name: config
+    - name: exec
+    - name: filesys
+    - name: notify
+  tailf-ned-cisco-ios:xxyyzztop: 0

@@ -1,0 +1,275 @@
+config:
+  tailf-ned-cisco-nx:feature:
+    bash-shell:
+    -
+    interface-vlan:
+    -
+    lacp:
+    -
+    nxapi:
+    -
+    scp-server:
+    -
+    telnet:
+    -
+  tailf-ned-cisco-nx:hardware:
+    forwarding:
+      unicast:
+        trace:
+        -
+    qos:
+      ns-buffer-profile: burst
+  tailf-ned-cisco-nx:hostname: access1
+  tailf-ned-cisco-nx:interface:
+    Ethernet:
+    - channel-group:
+        id: 11
+      name: 1/1
+      switchport:
+        mode: trunk
+    - name: 1/10
+    - name: 1/100
+    - name: 1/101
+    - name: 1/102
+    - name: 1/103
+    - name: 1/104
+    - name: 1/105
+    - name: 1/106
+    - name: 1/107
+    - name: 1/108
+    - name: 1/109
+    - name: 1/11
+    - name: 1/110
+    - name: 1/111
+    - name: 1/112
+    - name: 1/113
+    - name: 1/114
+    - name: 1/115
+    - name: 1/116
+    - name: 1/117
+    - name: 1/118
+    - name: 1/119
+    - name: 1/12
+    - name: 1/120
+    - name: 1/121
+    - name: 1/122
+    - name: 1/123
+    - name: 1/124
+    - name: 1/125
+    - name: 1/126
+    - name: 1/127
+    - name: 1/128
+    - name: 1/13
+    - name: 1/14
+    - name: 1/15
+    - name: 1/16
+    - name: 1/17
+    - name: 1/18
+    - name: 1/19
+    - channel-group:
+        id: 11
+      name: 1/2
+      switchport:
+        mode: trunk
+    - name: 1/20
+    - name: 1/21
+    - name: 1/22
+    - name: 1/23
+    - name: 1/24
+    - name: 1/25
+    - name: 1/26
+    - name: 1/27
+    - name: 1/28
+    - name: 1/29
+    - name: 1/3
+    - name: 1/30
+    - name: 1/31
+    - name: 1/32
+    - name: 1/33
+    - name: 1/34
+    - name: 1/35
+    - name: 1/36
+    - name: 1/37
+    - name: 1/38
+    - name: 1/39
+    - name: 1/4
+    - name: 1/40
+    - name: 1/41
+    - name: 1/42
+    - name: 1/43
+    - name: 1/44
+    - name: 1/45
+    - name: 1/46
+    - name: 1/47
+    - name: 1/48
+    - name: 1/49
+    - name: 1/5
+    - name: 1/50
+    - name: 1/51
+    - name: 1/52
+    - name: 1/53
+    - name: 1/54
+    - name: 1/55
+    - name: 1/56
+    - name: 1/57
+    - name: 1/58
+    - name: 1/59
+    - name: 1/6
+    - name: 1/60
+    - name: 1/61
+    - name: 1/62
+    - name: 1/63
+    - name: 1/64
+    - name: 1/65
+    - name: 1/66
+    - name: 1/67
+    - name: 1/68
+    - name: 1/69
+    - name: 1/7
+    - name: 1/70
+    - name: 1/71
+    - name: 1/72
+    - name: 1/73
+    - name: 1/74
+    - name: 1/75
+    - name: 1/76
+    - name: 1/77
+    - name: 1/78
+    - name: 1/79
+    - name: 1/8
+    - name: 1/80
+    - name: 1/81
+    - name: 1/82
+    - name: 1/83
+    - name: 1/84
+    - name: 1/85
+    - name: 1/86
+    - name: 1/87
+    - name: 1/88
+    - name: 1/89
+    - name: 1/9
+    - name: 1/90
+    - name: 1/91
+    - name: 1/92
+    - name: 1/93
+    - name: 1/94
+    - name: 1/95
+    - name: 1/96
+    - name: 1/97
+    - name: 1/98
+    - name: 1/99
+    Vlan:
+    - name: 1
+    loopback:
+    - description: Default Loopback
+      ip:
+        address:
+          ipaddr: 192.168.0.2/32
+      name: 0
+    mgmt:
+    - description: OOB Management
+      ip:
+        address:
+          ipaddr: 172.16.30.115/24
+      name: 0
+      vrf:
+        member: management
+    port-channel:
+    - lacp:
+        suspend-individual: true
+      name: '11'
+      switchport:
+        mode: trunk
+  tailf-ned-cisco-nx:ip:
+    domain-lookup: false
+  tailf-ned-cisco-nx:line:
+    console: {}
+    vty: {}
+  tailf-ned-cisco-nx:logging:
+    console: 2
+    monitor: 5
+  tailf-ned-cisco-nx:mac:
+    address-table:
+      notification:
+        mac-move: true
+  tailf-ned-cisco-nx:password:
+    strength-check: false
+  tailf-ned-cisco-nx:rmon:
+    event:
+    - description: FATAL(1)
+      number: 1
+      owner: PMON@FATAL
+    - description: CRITICAL(2)
+      number: 2
+      owner: PMON@CRITICAL
+    - description: ERROR(3)
+      number: 3
+      owner: PMON@ERROR
+    - description: WARNING(4)
+      number: 4
+      owner: PMON@WARNING
+    - description: INFORMATION(5)
+      number: 5
+      owner: PMON@INFO
+  tailf-ned-cisco-nx:service:
+    unsupported-transceiver: true
+  tailf-ned-cisco-nx:tailfned:
+    default-lacp-suspend-individual: true
+    default-notification-mac-move: true
+    default-unsupported-transceiver: true
+  tailf-ned-cisco-nx:username:
+  - name: admin
+    password:
+      encryption: '5'
+      password: $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51
+    role: network-admin
+  - name: cisco
+    password:
+      encryption: '5'
+      password: $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1
+    role: network-admin
+  tailf-ned-cisco-nx:vdc:
+    vdc-list:
+    - id: 1
+      limit-resource:
+        m4route-mem:
+          maximum: 58
+          minimum: 58
+        m6route-mem:
+          maximum: 8
+          minimum: 8
+        port-channel:
+          maximum: 511
+          minimum: 0
+        u4route-mem:
+          maximum: 128
+          minimum: 128
+        u6route-mem:
+          maximum: 96
+          minimum: 96
+        vlan:
+          maximum: 4094
+          minimum: 16
+        vrf:
+          maximum: 4096
+          minimum: 2
+      name: access1
+  tailf-ned-cisco-nx:vlan:
+    vlan-list:
+    - id: 1
+    - id: 100
+      name: Management
+    - id: 101
+      name: Private
+    - id: 102
+      name: Guest
+    - id: 103
+      name: Security
+  tailf-ned-cisco-nx:vrf:
+    context:
+    - id: management
+      ip:
+        route:
+          ip-route-list:
+          - next-hop: 172.16.30.254
+            prefix-mask: 0.0.0.0/0
