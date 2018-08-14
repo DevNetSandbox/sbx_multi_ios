@@ -27,6 +27,7 @@ services:
       - REGISTER_NON_INTERACTIVE=true
       - DOCKER_IMAGE=alpine
       - DOCKER_EXTRA_HOSTS=gitlab:10.10.20.20
+      - DOCKER_PULL_POLICY=if-not-present
     volumes:
       #- ./etc/runner:/etc/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
