@@ -6,3 +6,5 @@ Sample code, examples, and resources for use with the [DevNet Multi-IOS Sandbox]
 # resources
 
 * [GitLab Community Edition](./gitlab/) - Add version control and CI/CD to your sandbox.
+
+* [NetDevOps Metrics](./metrics/) - Get insights by analyzing large amounts of data through visualizations using streaming telemetry

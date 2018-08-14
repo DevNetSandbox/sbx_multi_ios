@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# VIRL stuff
+.virl/*
+
 # Distribution / packaging
 .Python
 build/
