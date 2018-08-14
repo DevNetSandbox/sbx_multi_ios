@@ -29,7 +29,7 @@ config:
         -
     qos:
       ns-buffer-profile: burst
-  tailf-ned-cisco-nx:hostname: dist2
+  tailf-ned-cisco-nx:hostname: "{{ nso_device_name}}"
   tailf-ned-cisco-nx:interface:
     Ethernet:
     - channel-group:
@@ -383,7 +383,7 @@ config:
         vrf:
           maximum: 4096
           minimum: 2
-      name: dist2
+      name: "{{ nso_device_name}}"
   tailf-ned-cisco-nx:vlan:
     vlan-list:
     - id: 1

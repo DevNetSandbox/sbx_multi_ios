@@ -9,7 +9,7 @@ config:
     secret:
       secret: tnhtc92DXBhelxjYk8LWJrPV36S2i4ntXrpb4RFmfqY
       type: '4'
-  tailf-ned-cisco-ios:hostname: core1
+  tailf-ned-cisco-ios:hostname: "{{ nso_device_name}}"
   tailf-ned-cisco-ios:interface:
     GigabitEthernet:
     - cdp:

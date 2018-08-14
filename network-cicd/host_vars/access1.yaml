@@ -19,7 +19,7 @@ config:
         -
     qos:
       ns-buffer-profile: burst
-  tailf-ned-cisco-nx:hostname: access1
+  tailf-ned-cisco-nx:hostname: "{{ nso_device_name }}"
   tailf-ned-cisco-nx:interface:
     Ethernet:
     - channel-group:
