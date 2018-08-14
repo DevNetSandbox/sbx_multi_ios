@@ -1,0 +1,18 @@
+stages:
+  - validate
+  - deploy_to_test
+
+lint:
+  stage: validate
+  image: kecorbin/ansible:devel
+  script:
+    - ansible-playbook --syntax-check -i inventory.yaml site.yaml
+
+deploy_to_test:
+  image: kecorbin/ansible:devel
+  stage: deploy_to_test
+  script:
+    - echo "Deploy to test env"
+    - ansible-playbook -v --inventory-file ./inventory.yaml site.yaml
+  environment:
+    name: test
