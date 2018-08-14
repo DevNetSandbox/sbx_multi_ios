@@ -44,6 +44,10 @@ printf "Launching Gitlab CE ..."
 docker-compose up -d 2>> gitlab_setup.log
 success
 
+printf "Adding firewall rules for Gitlab CE ..."
+sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
+sudo firewall-cmd --reload
+success
 printf "Waiting for Gitlab CE to become available ."
 
 until $(curl --output /dev/null --silent --head --fail http://10.10.20.20); do
