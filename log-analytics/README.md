@@ -19,30 +19,36 @@ For log analytics we are using the ELK stack
 
 ![elk](./static/stack.png "ELK Stack")
 
-The grafana ui can be found at http://mgmt-ip-of-elk-server:3000
+The kibana ui can be found at http://mgmt-ip-of-elk-server:5601
 You can find the management IP of the elk server node in your simulation using `virl nodes`
+
+You'll need to add an index pattern of syslog* in the initial Kibana setup, you can also import
+the [kibana-dashboard.json](./kibana-dashboard.json) file for some initial visualizations
 
 ## Device Configuration
 
-The following configuration is placed on all the  nodes
+The logging configuration is placed on all the  nodes
 via the [topology.virl](./topology.virl) file
 
 
 ### xr1 configuration
 
 ```
-loggng
+logging 10.0.0.5 vrf default port 5140
+logging source-interface Loopback0
 
 ```
 
 ### nxos1 configuration
 
 ```
-logging
+logging server 10.0.0.5 port 5140
+logging source-interface loopback0
 ```
 
-### nxos1 configuration
+### ios1 configuration
 
 ```
-logging
+logging host 10.0.0.5 transport udp port 5140
+logging source-interface Loopback0
 ```

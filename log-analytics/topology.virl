@@ -12,6 +12,7 @@
 hostname xr1
 service timestamps log datetime msec
 service timestamps debug datetime msec
+service timestamps log datetime show-timezone
 telnet vrf default ipv4 server max-servers 10
 telnet vrf Mgmt-intf ipv4 server max-servers 10
 domain lookup disable
@@ -20,6 +21,9 @@ vrf Mgmt-intf
  !
  address-family ipv6 unicast
  !
+!
+logging 10.0.0.5 vrf default port 5140
+logging source-interface Loopback0
 !
 domain name virl.info
 ssh server v2
@@ -197,6 +201,8 @@ rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
 rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
 rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
 
+logging server 10.0.0.5 port 5140
+logging source-interface loopback0
 
 vlan 1
 
@@ -307,6 +313,8 @@ line con 0
 !
 no cdp run
 !
+logging host 10.0.0.5 transport udp port 5140
+logging source-interface Loopback0
 !
 interface Loopback0
   description Loopback
