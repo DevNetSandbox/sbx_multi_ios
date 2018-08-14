@@ -26,7 +26,7 @@
         data:
           tailf-ncs:devices:
             device:
-            - name: "{{ inventory_hostname }}"
+            - name: "{{ nso_device_name }}"
               tailf-ncs:config:
                 "{{ config }}"
 

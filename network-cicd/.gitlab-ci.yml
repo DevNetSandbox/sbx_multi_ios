@@ -1,6 +1,8 @@
 stages:
   - validate
   - deploy_to_test
+  - deploy_to_prod
+
 
 lint:
   stage: validate
@@ -13,6 +15,19 @@ deploy_to_test:
   stage: deploy_to_test
   script:
     - echo "Deploy to test env"
-    - ansible-playbook -v --inventory-file ./inventory.yaml site.yaml
+    - ansible-playbook -i inventory/test.yaml site.yaml
   environment:
     name: test
+  only:
+    - test
+
+deploy_to_test:
+  image: kecorbin/ansible:devel
+  stage: deploy_to_prod
+  script:
+    - echo "Deploy to prod env"
+    - ansible-playbook -i inventory/prod.yaml site.yaml
+  environment:
+    name: production
+  only:
+    - production

@@ -284,7 +284,7 @@ config:
     - description: OOB Management
       ip:
         address:
-          ipaddr: 172.16.30.119/24
+          ipaddr: "{{ oob_mgmt_ip}}/24"
       name: 0
       vrf:
         member: management
@@ -403,8 +403,8 @@ config:
       peer-gateway:
       -
       peer-keepalive:
-        destination: 172.16.30.101
-        source: 172.16.30.102
+        destination: "{{ peer_mgmt_ip }}"
+        source: "{{ peer_mgmt_ip }}"
   tailf-ned-cisco-nx:vrf:
     context:
     - id: management

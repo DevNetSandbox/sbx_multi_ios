@@ -170,7 +170,7 @@ config:
     - description: OOB Management
       ip:
         address:
-          ipaddr: 172.16.30.115/24
+          ipaddr: "{{ oob_mgmt_ip }}/24"
       name: 0
       vrf:
         member: management

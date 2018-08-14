@@ -65,7 +65,7 @@ config:
       ip:
         address:
           primary:
-            address: 172.16.30.117
+            address: "{{ oob_mgmt_ip }}"
             mask: 255.255.255.0
       mop:
         sysid: false
