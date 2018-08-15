@@ -29,6 +29,24 @@ vrf context management
   ip route 0.0.0.0/0 172.16.30.254
 hardware forwarding unicast trace
 
+interface ethernet1/1
+  no shutdown
+
+interface ethernet1/2
+  no shutdown
+
+interface ethernet1/3
+  no shutdown
+
+interface ethernet1/4
+  no shutdown
+
+interface ethernet1/5
+  no shutdown
+
+interface ethernet1/6
+  no shutdown
+
 interface mgmt0
   description OOB Management
   ! Configured on launch
@@ -72,6 +90,24 @@ vrf context management
   ip route 0.0.0.0/0 172.16.30.254
 hardware forwarding unicast trace
 
+interface ethernet1/1
+  no shutdown
+
+interface ethernet1/2
+  no shutdown
+
+interface ethernet1/3
+  no shutdown
+
+interface ethernet1/4
+  no shutdown
+
+interface ethernet1/5
+  no shutdown
+
+interface ethernet1/6
+  no shutdown
+  
 interface mgmt0
   description OOB Management
   ! Configured on launch
