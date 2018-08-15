@@ -9,6 +9,21 @@ __pycache__/
 # VIRL stuff
 .virl/
 
+# Ansible Stuff
+*.retry
+
+# NSO Stuff
+README.ncs
+README.netsim
+logs/
+ncs-cdb/
+ncs-java-vm.log
+ncs-python-vm.log
+ncs.conf
+packages/
+state/
+storedstate
+
 # Distribution / packaging
 .Python
 build/
