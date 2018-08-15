@@ -65,3 +65,7 @@ printf "Creating user 'developer' ..."
 create_gitlab_token 2>&1 >> gitlab_setup.log
 curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "email=developer@devnetsandbox.cisco.com&password=C1sco12345&username=developer&name=developer&skip_confirmation=true" "http://10.10.20.20/api/v4/users" 2>&1 >> gitlab_setup.log
 success
+
+echo "Updating git global config on devbox"
+git config --global user.name "Developer"
+git config --global user.email developer@devnetsandbox.cisco.com
