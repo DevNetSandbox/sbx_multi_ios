@@ -78,7 +78,8 @@ git config --global user.email "developer@devnetsandbox.cisco.com"
 
 echo "Initalizing Local Repository"
 git init
-git remote add origin http://10.10.20.20/developer/network-cicd.git
+git remote add origin http://$gitlab_user:$gitlab_password@10.10.20.20/developer/network-cicd.git
+
 git add .
 git checkout -b test
 git commit -m "Initial commit"
