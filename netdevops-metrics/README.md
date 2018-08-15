@@ -1,4 +1,4 @@
-# netdevops-metrics
+# metrics
 
 Demonstrates how streaming telemetry on Cisco IOS-XR devices can be incorporated into a metrics pipeline.
 
