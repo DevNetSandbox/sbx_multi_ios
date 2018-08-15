@@ -3,13 +3,38 @@ testbed:
   name: test_default_8MXNX1
 
   tacacs:
-      username: "%ENV{PYATS_USERNAME}"
+      # ideally we should pull from env
+      # username: "%ENV{PYATS_USERNAME}"
+
+      # but who needs security???
+      username: cisco
+
   passwords:
-      tacacs: "%ENV{PYATS_PASSWORD}"
-      enable: "%ENV{PYATS_AUTH_PASS}"
-      line: "%ENV{PYATS_PASSWORD}"
+      # ideally we should pull from env
+      # tacacs: "%ENV{PYATS_PASSWORD}"
+      # enable: "%ENV{PYATS_AUTH_PASS}"
+      # line: "%ENV{PYATS_PASSWORD}"
+
+      # but who needs security???
+      tacacs: cisco
 
 devices:
+
+  test-core1:
+    alias: test-core1
+    os: iosxe
+    type: CSR1000v
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 172.16.30.211
+        protocol: ssh
+
+    custom:
+      abstraction:
+        order: [os, type]
 
   test-core2:
     alias: test-core2
@@ -19,10 +44,11 @@ devices:
 
       defaults:
         class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17007
+      ssh:
+        ip: 172.16.30.212
+        protocol: ssh
+
+
     custom:
       abstraction:
         order: [os, type]
@@ -35,42 +61,10 @@ devices:
 
       defaults:
         class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17011
-    custom:
-      abstraction:
-        order: [os, type]
+      ssh:
+        ip: 172.16.30.213
+        protocol: ssh
 
-  test-core1:
-    alias: test-core1
-    os: iosxe
-    type: CSR1000v
-    connections:
-
-      defaults:
-        class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17003
-    custom:
-      abstraction:
-        order: [os, type]
-
-  test-access1:
-    alias: test-access1
-    os: nxos
-    type: NX-OSv 9000
-    connections:
-
-      defaults:
-        class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17001
     custom:
       abstraction:
         order: [os, type]
@@ -83,10 +77,27 @@ devices:
 
       defaults:
         class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17015
+      ssh:
+        ip: 172.16.30.214
+        protocol: ssh
+
+    custom:
+      abstraction:
+        order: [os, type]
+
+
+  test-access1:
+    alias: test-access1
+    os: nxos
+    type: NX-OSv 9000
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 172.16.30.215
+        protocol: ssh
+
     custom:
       abstraction:
         order: [os, type]
