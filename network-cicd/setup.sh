@@ -89,3 +89,13 @@ git push -u origin test
 git checkout -b production
 git push -u origin production
 git checkout test
+
+echo "Test Network Summary"
+cd $root_dir/virl/test
+virl ls
+virl nodes
+
+echo "Production Network Summary"
+cd $root_dir/virl/prod
+virl ls
+virl nodes
