@@ -2,7 +2,8 @@
 
 *** Settings ***
 # Importing test libraries, resource files and variable files.
-Library        genierobot.GenieRobot
+
+Library        genie.libs.robot.GenieRobot
 
 # we can also import variables from yaml
 # Variables      prod_vars.yaml
@@ -15,8 +16,8 @@ Library        genierobot.GenieRobot
 ${testbed}      ./prod_testbed.yml
 
 # Genie Libraries to use
-${trigger_datafile}     %{VIRTUAL_ENV}/projects/genie_libs/sdk/yaml/iosxe/trigger_datafile_iosxe.yaml
-${verification_datafile}     %{VIRTUAL_ENV}/projects/genie_libs/sdk/yaml/iosxe/verification_datafile_iosxe.yaml
+${trigger_datafile}     /pyats/genie_yamls/iosxe/trigger_datafile_iosxe.yaml
+${verification_datafile}     /pyats/genie_yamls/iosxe/verification_datafile_iosxe.yaml
 
 *** Test Cases ***
 # Creating test cases from available keywords.

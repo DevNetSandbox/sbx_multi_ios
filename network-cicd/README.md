@@ -47,7 +47,7 @@ virl start test-dist2
 
 ## Verification / Troubleshooting
 
-You should see output similar to This
+If all goes well, you should see output similar to This
 
 ```
 [developer@devbox network-cicd]$./setup.sh
@@ -100,16 +100,16 @@ sync-result {
     result true
 }
 sync-result {
-  device test-dist2
-  result true
+    device test-dist2
+    result true
 }
 Creating Repo on Gitlab
 Configure Git
 Initalizing Local Repository
 Initialized empty Git repository in /home/developer/sbx_multi_ios/network-cicd/.git/
 Switched to a new branch 'test'
-[test (root-commit) a8d9e7b] Initial commit
- 24 files changed, 3394 insertions(+)
+[test (root-commit) ba69843] Initial commit
+ 24 files changed, 3540 insertions(+)
  create mode 100644 .gitignore
  create mode 100644 .gitlab-ci.yml
  create mode 100644 README.md
@@ -138,7 +138,7 @@ Pushing Branches
 Counting objects: 35, done.
 Delta compression using up to 5 threads.
 Compressing objects: 100% (30/30), done.
-Writing objects: 100% (35/35), 355.41 KiB | 0 bytes/s, done.
+Writing objects: 100% (35/35), 356.63 KiB | 0 bytes/s, done.
 Total 35 (delta 7), reused 0 (delta 0)
 To http://developer:C1sco12345@10.10.20.20/developer/network-cicd.git
  * [new branch]      test -> test
@@ -153,5 +153,46 @@ To http://developer:C1sco12345@10.10.20.20/developer/network-cicd.git
  * [new branch]      production -> production
 Branch production set up to track remote branch production from origin.
 Switched to branch 'test'
-[developer@devbox network-cicd]$
+Test Network Summary
+Running Simulations
+╒═════════════════════╤══════════╤════════════════════════════╤═══════════╕
+│ Simulation          │ Status   │ Launched                   │ Expires   │
+╞═════════════════════╪══════════╪════════════════════════════╪═══════════╡
+│ test_default_ldTwiU │ ACTIVE   │ 2018-08-15T04:18:26.886231 │           │
+╘═════════════════════╧══════════╧════════════════════════════╧═══════════╛
+Here is a list of all the running nodes
+╒══════════════╤═════════════╤═════════╤═════════════╤════════════╤══════════════════════╤════════════════════╕
+│ Node         │ Type        │ State   │ Reachable   │ Protocol   │ Management Address   │ External Address   │
+╞══════════════╪═════════════╪═════════╪═════════════╪════════════╪══════════════════════╪════════════════════╡
+│ test-dist1   │ NX-OSv 9000 │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.213        │ N/A                │
+├──────────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+│ test-access1 │ NX-OSv 9000 │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.215        │ N/A                │
+├──────────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+│ test-dist2   │ NX-OSv 9000 │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.214        │ N/A                │
+├──────────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+│ test-core2   │ CSR1000v    │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.212        │ N/A                │
+├──────────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+│ test-core1   │ CSR1000v    │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.211        │ N/A                │
+╘══════════════╧═════════════╧═════════╧═════════════╧════════════╧══════════════════════╧════════════════════╛
+Production Network Summary
+Running Simulations
+╒═════════════════════╤══════════╤════════════════════════════╤═══════════╕
+│ Simulation          │ Status   │ Launched                   │ Expires   │
+╞═════════════════════╪══════════╪════════════════════════════╪═══════════╡
+│ prod_default_ZufsKU │ ACTIVE   │ 2018-08-15T04:18:27.136267 │           │
+╘═════════════════════╧══════════╧════════════════════════════╧═══════════╛
+Here is a list of all the running nodes
+╒═════════╤═════════════╤═════════╤═════════════╤════════════╤══════════════════════╤════════════════════╕
+│ Node    │ Type        │ State   │ Reachable   │ Protocol   │ Management Address   │ External Address   │
+╞═════════╪═════════════╪═════════╪═════════════╪════════════╪══════════════════════╪════════════════════╡
+│ core1   │ CSR1000v    │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.221        │ N/A                │
+├─────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+│ access1 │ NX-OSv 9000 │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.225        │ N/A                │
+├─────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+│ dist1   │ NX-OSv 9000 │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.223        │ N/A                │
+├─────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+│ core2   │ CSR1000v    │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.222        │ N/A                │
+├─────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+│ dist2   │ NX-OSv 9000 │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.224        │ N/A                │
+╘═════════╧═════════════╧═════════╧═════════════╧════════════╧══════════════════════╧═══════════════════╛
 ```

@@ -2,7 +2,7 @@
 
 *** Settings ***
 # Importing test libraries, resource files and variable files.
-Library        genierobot.GenieRobot
+Library        genie.libs.robot.GenieRobot
 
 # we can also import variables from yaml
 # Variables      prod_vars.yaml
@@ -15,8 +15,8 @@ Library        genierobot.GenieRobot
 ${testbed}      ./test_testbed.yml
 
 # Genie Libraries to use
-${trigger_datafile}     %{VIRTUAL_ENV}/projects/genie_libs/sdk/yaml/iosxe/trigger_datafile_iosxe.yaml
-${verification_datafile}     %{VIRTUAL_ENV}/projects/genie_libs/sdk/yaml/iosxe/verification_datafile_iosxe.yaml
+${trigger_datafile}     /pyats/genie_yamls/iosxe/trigger_datafile_iosxe.yaml
+${verification_datafile}     /pyats/genie_yamls/iosxe/verification_datafile_iosxe.yaml
 
 *** Test Cases ***
 # Creating test cases from available keywords.
@@ -28,33 +28,33 @@ Initialize
     execute testcase    reachability.pyats_loopback_reachability.common_setup
 
 Ping
-    execute testcase     reachability.pyats_loopback_reachability.PingTestcase    device=core1
-    execute testcase     reachability.pyats_loopback_reachability.PingTestcase    device=core2
-    execute testcase     reachability.pyats_loopback_reachability.NxosPingTestcase    device=dist1
-    execute testcase     reachability.pyats_loopback_reachability.NxosPingTestcase    device=dist2
+    execute testcase     reachability.pyats_loopback_reachability.PingTestcase    device=test-core1
+    execute testcase     reachability.pyats_loopback_reachability.PingTestcase    device=test-core2
+    execute testcase     reachability.pyats_loopback_reachability.NxosPingTestcase    device=test-dist1
+    execute testcase     reachability.pyats_loopback_reachability.NxosPingTestcase    device=test-dist2
 
 
 
 # Verify OSPF neighbor counts
-Verify Ospf neighbors dist1
-    verify count "2" "ospf neighbors" on device "dist1"
-Verify Ospf neighbors dist2
-    verify count "2" "ospf neighbors" on device "dist2"
-Verify Ospf neighbors core1
-    verify count "2" "ospf neighbors" on device "core1"
-Verify Ospf neighbors core2
-    verify count "2" "ospf neighbors" on device "core1"
+Verify Ospf neighbors test-dist1
+    verify count "2" "ospf neighbors" on device "test-dist1"
+Verify Ospf neighbors test-dist2
+    verify count "2" "ospf neighbors" on device "test-dist2"
+Verify Ospf neighbors test-core1
+    verify count "2" "ospf neighbors" on device "test-core1"
+Verify Ospf neighbors test-core2
+    verify count "2" "ospf neighbors" on device "test-core1"
 
 
 # Verify Interfaces
-Verify Interface dist1
-    verify count "74" "interface up" on device "dist1"
-Verify Interface dist2
-    verify count "76" "interface up" on device "dist2"
-Verify Interface core1
-    verify count "12" "interface up" on device "core1"
-Verify Interface core2
-    verify count "10" "interface up" on device "core2"
+Verify Interface test-dist1
+    verify count "74" "interface up" on device "test-dist1"
+Verify Interface test-dist2
+    verify count "76" "interface up" on device "test-dist2"
+Verify Interface test-core1
+    verify count "12" "interface up" on device "test-core1"
+Verify Interface test-core2
+    verify count "10" "interface up" on device "test-core2"
 
 Terminate
     execute testcase "reachability.pyats_loopback_reachability.common_cleanup"
