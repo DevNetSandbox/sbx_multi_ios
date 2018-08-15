@@ -253,7 +253,7 @@ config:
         vrf:
           maximum: 4096
           minimum: 2
-      name: access1
+      name: "{{ nso_device_name }}"
   tailf-ned-cisco-nx:vlan:
     vlan-list:
     - id: 1
