@@ -74,14 +74,18 @@ cd $root_dir
 create_gitlab_token 2>&1 >> $logfile
 curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=network-cicd&visibility=public" "http://10.10.20.20/api/v4/projects" 2>&1 >> $logfile
 
+echo "Configure Git"
+git config --global user.name "developer"
+git config --global user.email "developer@devnetsandbox.cisco.com"
 
 echo "Initalizing Local Repository"
-
 git init
 git remote add origin http://10.10.20.20/developer/network-cicd.git
 git add .
 git checkout -b test
 git commit -m "Initial commit"
+
+echo "Pushing Branches"
 git push -u origin test
 git checkout -b production
 git push -u origin production
