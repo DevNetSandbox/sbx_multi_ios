@@ -42,17 +42,15 @@ success () {
 echo "Launching VIRL simulations (prod+test) ... "
 root_dir=$(pwd)
 cd $root_dir/virl/test
-virl up --provision &
+virl up --provision > /dev/null &
 TEST=$!
 cd $root_dir/virl/prod
 virl up --provision &
 PROD=$!
 wait $TEST $PROD
-
+cd $root_dir
 
 echo "Launching NSO ... "
-mkdir /home/cisco/nso-run
-cd /home/cisco/ncs-run
 ncs-setup --dest .
 ncs
 

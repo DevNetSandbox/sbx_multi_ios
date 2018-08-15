@@ -41,7 +41,7 @@ success () {
 
 echo ""
 printf "Launching Gitlab CE ..."
-docker-compose up -d 2>> gitlab_setup.log
+docker-compose up -d 2> gitlab_setup.log
 success
 
 printf "Adding firewall rules for Gitlab CE ..."
