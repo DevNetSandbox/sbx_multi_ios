@@ -9,9 +9,6 @@ __pycache__/
 # VIRL stuff
 .virl/
 
-# Ansible Stuff
-*.retry
-
 # Distribution / packaging
 .Python
 build/

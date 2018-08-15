@@ -50,32 +50,39 @@ PROD=$!
 wait $TEST $PROD
 
 
-printf "Launching NSO ... "
+echo "Launching NSO ... "
 mkdir /home/cisco/nso-run
 cd /home/cisco/ncs-run
 ncs-setup --dest .
 ncs
-success
 
 
-echo "Importing Test network to NSO"
+echo "Importing Test network to NSO .. "
 cd $root_dir/virl/test
-virl generate nso
+virl generate nso 2>&1
+
 
 echo "Importing Prod network to NSO"
 cd $root_dir/virl/prod
-virl generate nso
+virl generate nso 2>&1
 
-# echo "Creating Repo on Gitlab"
-# cd $root_dir
-# create_gitlab_token 2>&1 >> $logfile
-# curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=network-cicd&visibility=public" "http://10.10.20.20/api/v4/projects" 2>&1 >> $logfile
-#
-#
-# echo "Initalizing Local Repository"
-#
-# git init
-# git remote add origin http://10.10.20.20/developer/network-cicd.git
-# git add .
-# git commit -m "Initial commit"
-# git push -u origin master
+echo "Performing initial sync of devices..."
+echo "devices sync-from" | ncs_cli -u admin -C
+
+echo "Creating Repo on Gitlab"
+cd $root_dir
+create_gitlab_token 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=network-cicd&visibility=public" "http://10.10.20.20/api/v4/projects" 2>&1 >> $logfile
+
+
+echo "Initalizing Local Repository"
+
+git init
+git remote add origin http://10.10.20.20/developer/network-cicd.git
+git add .
+git checkout -b test
+git commit -m "Initial commit"
+git push -u origin test
+git checkout -b production
+git push -u origin production
+git checkout test
