@@ -1,47 +1,24 @@
 testbed:
 
-  name: prod_default_YvqsfN
+  name: test_default_8MXNX1
 
   tacacs:
-      username: "%ENV{PYATS_USERNAME}"
+      # ideally we should pull from env
+      # username: "%ENV{PYATS_USERNAME}"
+
+      # but who needs security???
+      username: cisco
+
   passwords:
-      tacacs: "%ENV{PYATS_PASSWORD}"
-      enable: "%ENV{PYATS_AUTH_PASS}"
-      line: "%ENV{PYATS_PASSWORD}"
+      # ideally we should pull from env
+      # tacacs: "%ENV{PYATS_PASSWORD}"
+      # enable: "%ENV{PYATS_AUTH_PASS}"
+      # line: "%ENV{PYATS_PASSWORD}"
+
+      # but who needs security???
+      tacacs: cisco
 
 devices:
-
-  core2:
-    alias: core2
-    os: iosxe
-    type: CSR1000v
-    connections:
-
-      defaults:
-        class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17013
-    custom:
-      abstraction:
-        order: [os, type]
-
-  access1:
-    alias: access1
-    os: nxos
-    type: NX-OSv 9000
-    connections:
-
-      defaults:
-        class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17005
-    custom:
-      abstraction:
-        order: [os, type]
 
   core1:
     alias: core1
@@ -51,10 +28,27 @@ devices:
 
       defaults:
         class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17009
+      ssh:
+        ip: 172.16.30.221
+        protocol: ssh
+
+    custom:
+      abstraction:
+        order: [os, type]
+
+  core2:
+    alias: core2
+    os: iosxe
+    type: CSR1000v
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 172.16.30.222
+        protocol: ssh
+
+
     custom:
       abstraction:
         order: [os, type]
@@ -67,10 +61,10 @@ devices:
 
       defaults:
         class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17017
+      ssh:
+        ip: 172.16.30.223
+        protocol: ssh
+
     custom:
       abstraction:
         order: [os, type]
@@ -83,10 +77,27 @@ devices:
 
       defaults:
         class: unicon.Unicon
-      console:
-        ip: 10.10.20.160
-        protocol: telnet
-        port: 17019
+      ssh:
+        ip: 172.16.30.224
+        protocol: ssh
+
+    custom:
+      abstraction:
+        order: [os, type]
+
+
+  access1:
+    alias: access1
+    os: nxos
+    type: NX-OSv 9000
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 172.16.30.225
+        protocol: ssh
+
     custom:
       abstraction:
         order: [os, type]
@@ -106,13 +117,13 @@ topology:
         link: core1-to-core2
         type: ethernet
       GigabitEthernet1:
-        ipv4: 172.16.30.222/24
+        ipv4: 172.16.30.212/24
         link: flat
         type: ethernet
   dist1:
     interfaces:
       mgmt0:
-        ipv4: 172.16.30.223/24
+        ipv4: 172.16.30.213/24
         link: flat
         type: ethernet
       Ethernet1/2:
@@ -147,7 +158,7 @@ topology:
         link: core1-to-core2
         type: ethernet
       GigabitEthernet1:
-        ipv4: 172.16.30.221/24
+        ipv4: 172.16.30.211/24
         link: flat
         type: ethernet
   access1:
@@ -162,13 +173,13 @@ topology:
         link: access1-unconnected#2
         type: ethernet
       mgmt0:
-        ipv4: 172.16.30.225/24
+        ipv4: 172.16.30.215/24
         link: flat
         type: ethernet
   dist2:
     interfaces:
       mgmt0:
-        ipv4: 172.16.30.224/24
+        ipv4: 172.16.30.214/24
         link: flat
         type: ethernet
       Ethernet1/2:

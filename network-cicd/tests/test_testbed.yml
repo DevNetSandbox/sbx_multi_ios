@@ -21,7 +21,7 @@ testbed:
 devices:
 
   test-core1:
-    alias: test-core1
+    alias: core1
     os: iosxe
     type: CSR1000v
     connections:
@@ -37,7 +37,7 @@ devices:
         order: [os, type]
 
   test-core2:
-    alias: test-core2
+    alias: core2
     os: iosxe
     type: CSR1000v
     connections:
@@ -54,7 +54,7 @@ devices:
         order: [os, type]
 
   test-dist1:
-    alias: test-dist1
+    alias: dist1
     os: nxos
     type: NX-OSv 9000
     connections:
@@ -70,7 +70,7 @@ devices:
         order: [os, type]
 
   test-dist2:
-    alias: test-dist2
+    alias: dist2
     os: nxos
     type: NX-OSv 9000
     connections:
@@ -87,7 +87,7 @@ devices:
 
 
   test-access1:
-    alias: test-access1
+    alias: access1
     os: nxos
     type: NX-OSv 9000
     connections:
