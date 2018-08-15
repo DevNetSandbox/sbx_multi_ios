@@ -1,0 +1,202 @@
+testbed:
+
+  name: test_default_8MXNX1
+
+  tacacs:
+      # ideally we should pull from env
+      # username: "%ENV{PYATS_USERNAME}"
+
+      # but who needs security???
+      username: cisco
+
+  passwords:
+      # ideally we should pull from env
+      # tacacs: "%ENV{PYATS_PASSWORD}"
+      # enable: "%ENV{PYATS_AUTH_PASS}"
+      # line: "%ENV{PYATS_PASSWORD}"
+
+      # but who needs security???
+      tacacs: cisco
+
+devices:
+
+  test-core1:
+    alias: test-core1
+    os: iosxe
+    type: CSR1000v
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 172.16.30.211
+        protocol: ssh
+
+    custom:
+      abstraction:
+        order: [os, type]
+
+  test-core2:
+    alias: test-core2
+    os: iosxe
+    type: CSR1000v
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 172.16.30.212
+        protocol: ssh
+
+
+    custom:
+      abstraction:
+        order: [os, type]
+
+  test-dist1:
+    alias: test-dist1
+    os: nxos
+    type: NX-OSv 9000
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 172.16.30.213
+        protocol: ssh
+
+    custom:
+      abstraction:
+        order: [os, type]
+
+  test-dist2:
+    alias: test-dist2
+    os: nxos
+    type: NX-OSv 9000
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 172.16.30.214
+        protocol: ssh
+
+    custom:
+      abstraction:
+        order: [os, type]
+
+
+  test-access1:
+    alias: test-access1
+    os: nxos
+    type: NX-OSv 9000
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 172.16.30.215
+        protocol: ssh
+
+    custom:
+      abstraction:
+        order: [os, type]
+
+topology:
+  test-core2:
+    interfaces:
+      GigabitEthernet3:
+        ipv4: 10.0.0.13/30
+        link: test-core2-to-test-dist1
+        type: ethernet
+      GigabitEthernet2:
+        ipv4: 10.0.0.17/30
+        link: test-core2-to-test-dist2
+        type: ethernet
+      GigabitEthernet4:
+        link: test-core1-to-test-core2
+        type: ethernet
+      GigabitEthernet1:
+        ipv4: 172.16.30.212/24
+        link: flat
+        type: ethernet
+  test-dist1:
+    interfaces:
+      mgmt0:
+        ipv4: 172.16.30.213/24
+        link: flat
+        type: ethernet
+      Ethernet1/2:
+        link: test-dist1-unconnected#1
+        type: ethernet
+      Ethernet1/1:
+        link: test-access1-to-test-dist1
+        type: ethernet
+      Ethernet1/4:
+        link: test-dist1-to-test-dist2#1
+        type: ethernet
+      Ethernet1/3:
+        link: test-dist1-to-test-dist2
+        type: ethernet
+      Ethernet1/6:
+        link: test-core2-to-test-dist1
+        type: ethernet
+      Ethernet1/5:
+        link: test-core1-to-test-dist1
+        type: ethernet
+  test-core1:
+    interfaces:
+      GigabitEthernet3:
+        ipv4: 10.0.0.9/30
+        link: test-core1-to-test-dist2
+        type: ethernet
+      GigabitEthernet2:
+        ipv4: 10.0.0.5/30
+        link: test-core1-to-test-dist1
+        type: ethernet
+      GigabitEthernet4:
+        link: test-core1-to-test-core2
+        type: ethernet
+      GigabitEthernet1:
+        ipv4: 172.16.30.211/24
+        link: flat
+        type: ethernet
+  test-access1:
+    interfaces:
+      Ethernet1/2:
+        link: test-access1-to-test-dist2
+        type: ethernet
+      Ethernet1/1:
+        link: test-access1-to-test-dist1
+        type: ethernet
+      Ethernet1/3:
+        link: test-access1-unconnected#2
+        type: ethernet
+      mgmt0:
+        ipv4: 172.16.30.215/24
+        link: flat
+        type: ethernet
+  test-dist2:
+    interfaces:
+      mgmt0:
+        ipv4: 172.16.30.214/24
+        link: flat
+        type: ethernet
+      Ethernet1/2:
+        link: test-dist2-unconnected#1
+        type: ethernet
+      Ethernet1/1:
+        link: test-access1-to-test-dist2
+        type: ethernet
+      Ethernet1/4:
+        link: test-dist1-to-test-dist2#1
+        type: ethernet
+      Ethernet1/3:
+        link: test-dist1-to-test-dist2
+        type: ethernet
+      Ethernet1/6:
+        link: test-core1-to-test-dist2
+        type: ethernet
+      Ethernet1/5:
+        link: test-core2-to-test-dist2
+        type: ethernet

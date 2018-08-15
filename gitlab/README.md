@@ -4,6 +4,7 @@ Quickly spin up a GitLab stack in your sandbox.
 
 # Quickstart
 
+While VPN'd into the sandbox. Run the following commands from the devbox `ssh developer@10.10.20.20`
 ```
 git clone https://github.com/DevNetSandbox/sbx_multi_ios.git
 cd sbx_multi_ios/gitlab

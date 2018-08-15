@@ -13,8 +13,16 @@ git clone --recurse-submodules https://github.com/DevNetSandbox/sbx_multi_ios.gi
 
 # whats here
 
+A number of different demo environments that can be quickly stood up.
+
 * [GitLab Community Edition](./gitlab/) - Add version control and CI/CD to your sandbox.
 
-* [NetDevOps Metrics](./metrics/) - Get insights by analyzing large amounts of data through visualizations using streaming telemetry
+* [Network CI/CD Pipeline](./network-cicd/) - A complete infrastructure as code pipeline including GitLab, pyATS, and NSO
+
+* [Metrics](./netdevops-metrics/) - Get insights by analyzing large amounts of data through visualizations using streaming telemetry
 
 * [Log Analytics](./log-analytics/) - Use ELK stack for analyzing syslog message from network devices.
+
+# whats not
+
+These are designed to be starting points for future tutorials, and not tutorials themselves.

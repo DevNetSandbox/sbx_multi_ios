@@ -4,16 +4,16 @@
         <entry key="management_lxc" type="Boolean">false</entry>
         <entry key="management_network" type="String">flat</entry>
     </extensions>
-    <node name="dist1" type="SIMPLE" subtype="NX-OSv 9000" location="108,143" ipv4="192.168.0.1">
+    <node name="test-dist1" type="SIMPLE" subtype="NX-OSv 9000" location="108,143" ipv4="192.168.0.1">
         <extensions>
-            <entry key="static_mac" type="String">aa:aa:aa:aa:aa:aa</entry>
+            <entry key="static_ip" type="String">172.16.30.213</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="ansible_group" type="String">distribution</entry>
             <entry key="config" type="String">power redundancy-mode combined force
 license grace-period
 
-hostname dist1
+hostname test-dist1
 
 feature telnet
 feature nxapi
@@ -26,7 +26,7 @@ username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1  role network-admin
 no ip domain-lookup
 
 vrf context management
-  ip route 0.0.0.0/0 {{ gateway }}
+  ip route 0.0.0.0/0 172.16.30.254
 hardware forwarding unicast trace
 
 interface mgmt0
@@ -46,9 +46,9 @@ interface mgmt0
         <interface id="4" name="Ethernet1/5"/>
         <interface id="5" name="Ethernet1/6"/>
     </node>
-    <node name="access1" type="SIMPLE" subtype="NX-OSv 9000" location="250,285" ipv4="192.168.0.3">
+    <node name="test-access1" type="SIMPLE" subtype="NX-OSv 9000" location="250,285" ipv4="192.168.0.3">
         <extensions>
-            <entry key="static_mac" type="String">aa:aa:aa:aa:aa:ac</entry>
+            <entry key="static_ip" type="String">172.16.30.215</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="ansible_group" type="String">access</entry>
@@ -56,7 +56,7 @@ interface mgmt0
 
 license grace-period
 
-hostname access1
+hostname test-access1
 
 feature telnet
 feature nxapi
@@ -69,7 +69,7 @@ username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1  role network-admin
 no ip domain-lookup
 
 vrf context management
-  ip route 0.0.0.0/0 {{ gateway }}
+  ip route 0.0.0.0/0 172.16.30.254
 hardware forwarding unicast trace
 
 interface mgmt0
@@ -85,9 +85,9 @@ interface mgmt0
         <interface id="1" name="Ethernet1/2"/>
         <interface id="2" name="Ethernet1/3"/>
     </node>
-    <node name="dist2" type="SIMPLE" subtype="NX-OSv 9000" location="402,139" ipv4="192.168.0.2">
+    <node name="test-dist2" type="SIMPLE" subtype="NX-OSv 9000" location="402,139" ipv4="192.168.0.2">
         <extensions>
-            <entry key="static_mac" type="String">aa:aa:aa:aa:aa:ab</entry>
+            <entry key="static_ip" type="String">172.16.30.214</entry>
             <entry key="ansible_group" type="String">distribution</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
@@ -95,7 +95,7 @@ interface mgmt0
 
   license grace-period
 
-  hostname dist2
+  hostname test-dist2
 
   feature telnet
   feature nxapi
@@ -108,7 +108,7 @@ interface mgmt0
   no ip domain-lookup
 
   vrf context management
-    ip route 0.0.0.0/0 {{ gateway }}
+    ip route 0.0.0.0/0 172.16.30.254
   hardware forwarding unicast trace
 
   interface mgmt0
@@ -127,13 +127,14 @@ interface mgmt0
         <interface id="4" name="Ethernet1/5"/>
         <interface id="5" name="Ethernet1/6"/>
     </node>
-    <node name="core1" type="SIMPLE" subtype="CSR1000v" location="114,41" ipv4="192.168.1.1">
+    <node name="test-core1" type="SIMPLE" subtype="CSR1000v" location="114,41" ipv4="192.168.1.1">
         <extensions>
+            <entry key="static_ip" type="String">172.16.30.211</entry>
             <entry key="ansible_group" type="String">core</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">! IOS Config generated on 2017-10-04 14:46
-hostname core1
+hostname test-core1
 boot-start-marker
 boot-end-marker
 !
@@ -188,18 +189,18 @@ interface GigabitEthernet1
   cdp enable
   no shutdown
 
-ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 {{ gateway }}
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
 !
 interface GigabitEthernet2
-  description to dist1
+  description to test-dist1
   no shutdown
 !
 interface GigabitEthernet3
-  description to dist2
+  description to test-dist2
   no shutdown
 !
 interface GigabitEthernet4
-  description core2
+  description test-core2
   no ip address
   no shutdown
 !
@@ -213,13 +214,14 @@ end</entry>
         <interface id="1" name="GigabitEthernet3" ipv4="10.0.0.9" netPrefixLenV4="30"/>
         <interface id="2" name="GigabitEthernet4"/>
     </node>
-    <node name="core2" type="SIMPLE" subtype="CSR1000v" location="399,42" ipv4="192.168.1.2">
+    <node name="test-core2" type="SIMPLE" subtype="CSR1000v" location="399,42" ipv4="192.168.1.2">
         <extensions>
+            <entry key="static_ip" type="String">172.16.30.212</entry>
             <entry key="ansible_group" type="String">core</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">! IOS Config generated on 2017-10-04 14:46
-hostname core2
+hostname test-core2
 boot-start-marker
 boot-end-marker
 !
@@ -274,18 +276,18 @@ interface GigabitEthernet1
   cdp enable
   no shutdown
 
-ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 {{ gateway }}
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
 !
 interface GigabitEthernet2
-  description to dist1
+  description to test-dist1
   no shutdown
 !
 interface GigabitEthernet3
-  description to dist2
+  description to test-dist2
   no shutdown
 !
 interface GigabitEthernet4
-  description core2
+  description test-core2
   no ip address
   no shutdown
 !

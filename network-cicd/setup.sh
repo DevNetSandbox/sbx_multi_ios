@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-logfile=setup.log
+logfile=cicd-setup.log
 gitlab_host="http://10.10.20.20"
 gitlab_user="developer"
 gitlab_password="C1sco12345"
@@ -31,15 +31,71 @@ create_gitlab_token () {
 
 }
 
+# prints colored text
+success () {
+    COLOR="92m"; # green
+    STARTCOLOR="\e[$COLOR";
+    ENDCOLOR="\e[0m";
+    printf "$STARTCOLOR%b$ENDCOLOR" "done\n";
+}
+
+echo "Launching VIRL simulations (prod+test) ... "
+root_dir=$(pwd)
+cd $root_dir/virl/test
+virl up --provision > /dev/null &
+TEST=$!
+cd $root_dir/virl/prod
+virl up --provision &
+PROD=$!
+wait $TEST $PROD
+cd $root_dir
+
+echo "Launching NSO ... "
+ncs-setup --dest .
+ncs
+
+
+echo "Importing Test network to NSO .. "
+cd $root_dir/virl/test
+virl generate nso 2>&1
+
+
+echo "Importing Prod network to NSO"
+cd $root_dir/virl/prod
+virl generate nso 2>&1
+
+echo "Performing initial sync of devices..."
+echo "devices sync-from" | ncs_cli -u admin -C
+
 echo "Creating Repo on Gitlab"
+cd $root_dir
 create_gitlab_token 2>&1 >> $logfile
 curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=network-cicd&visibility=public" "http://10.10.20.20/api/v4/projects" 2>&1 >> $logfile
 
+echo "Configure Git"
+git config --global user.name "developer"
+git config --global user.email "developer@devnetsandbox.cisco.com"
 
 echo "Initalizing Local Repository"
-
 git init
-git remote add origin http://10.10.20.20/developer/network-cicd.git
+git remote add origin http://$gitlab_user:$gitlab_password@10.10.20.20/developer/network-cicd.git
+
 git add .
+git checkout -b test
 git commit -m "Initial commit"
-git push -u origin master
+
+echo "Pushing Branches"
+git push -u origin test
+git checkout -b production
+git push -u origin production
+git checkout test
+
+echo "Test Network Summary"
+cd $root_dir/virl/test
+virl ls
+virl nodes
+
+echo "Production Network Summary"
+cd $root_dir/virl/prod
+virl ls
+virl nodes
