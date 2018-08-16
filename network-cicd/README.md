@@ -6,6 +6,13 @@ Use Gitlab to create a full CI-CD pipeline
 
 This lab requires you to have the [gitlab stack](../gitlab) running on your devbox
 
+
+## Network topology
+
+The network topology for both test and prod is provided by virl as defined in [./virl/test/topology.virl](./virl/test/topology.virl) and [./virl/prod/topology.virl](./virl/prod/topology.virl)
+
+![network](./static/topology.png)
+
 ## Pipeline Technology Stack
 
 ![pipeline](./static/pipeline.png "CICD Pipeline")
