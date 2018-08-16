@@ -6,7 +6,7 @@
     </extensions>
     <node name="dist1" type="SIMPLE" subtype="NX-OSv 9000" location="108,143" ipv4="192.168.0.1">
         <extensions>
-            <entry key="static_mac" type="String">aa:aa:aa:aa:aa:aa</entry>
+            <entry key="static_ip" type="String">172.16.30.223</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="ansible_group" type="String">distribution</entry>
@@ -26,8 +26,26 @@ username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1  role network-admin
 no ip domain-lookup
 
 vrf context management
-  ip route 0.0.0.0/0 {{ gateway }}
+  ip route 0.0.0.0/0 172.16.30.254
 hardware forwarding unicast trace
+
+interface ethernet1/1
+  no shutdown
+
+interface ethernet1/2
+  no shutdown
+
+interface ethernet1/3
+  no shutdown
+
+interface ethernet1/4
+  no shutdown
+
+interface ethernet1/5
+  no shutdown
+
+interface ethernet1/6
+  no shutdown
 
 interface mgmt0
   description OOB Management
@@ -48,7 +66,7 @@ interface mgmt0
     </node>
     <node name="access1" type="SIMPLE" subtype="NX-OSv 9000" location="250,285" ipv4="192.168.0.3">
         <extensions>
-            <entry key="static_mac" type="String">aa:aa:aa:aa:aa:ac</entry>
+            <entry key="static_ip" type="String">172.16.30.225</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="ansible_group" type="String">access</entry>
@@ -69,8 +87,26 @@ username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1  role network-admin
 no ip domain-lookup
 
 vrf context management
-  ip route 0.0.0.0/0 {{ gateway }}
+  ip route 0.0.0.0/0 172.16.30.254
 hardware forwarding unicast trace
+
+interface Ethernet1/1
+  no shutdown
+
+interface Ethernet1/2
+  no shutdown
+
+interface Ethernet1/3
+  no shutdown
+
+interface Ethernet1/4
+  no shutdown
+
+interface Ethernet1/5
+  no shutdown
+
+interface Ethernet1/6
+  no shutdown
 
 interface mgmt0
   description OOB Management
@@ -87,7 +123,7 @@ interface mgmt0
     </node>
     <node name="dist2" type="SIMPLE" subtype="NX-OSv 9000" location="402,139" ipv4="192.168.0.2">
         <extensions>
-            <entry key="static_mac" type="String">aa:aa:aa:aa:aa:ab</entry>
+            <entry key="static_ip" type="String">172.16.30.224</entry>
             <entry key="ansible_group" type="String">distribution</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
@@ -108,7 +144,7 @@ interface mgmt0
   no ip domain-lookup
 
   vrf context management
-    ip route 0.0.0.0/0 {{ gateway }}
+    ip route 0.0.0.0/0 172.16.30.254
   hardware forwarding unicast trace
 
   interface mgmt0
@@ -129,6 +165,7 @@ interface mgmt0
     </node>
     <node name="core1" type="SIMPLE" subtype="CSR1000v" location="114,41" ipv4="192.168.1.1">
         <extensions>
+            <entry key="static_ip" type="String">172.16.30.221</entry>
             <entry key="ansible_group" type="String">core</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
@@ -188,7 +225,7 @@ interface GigabitEthernet1
   cdp enable
   no shutdown
 
-ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 {{ gateway }}
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
 !
 interface GigabitEthernet2
   description to dist1
@@ -215,6 +252,7 @@ end</entry>
     </node>
     <node name="core2" type="SIMPLE" subtype="CSR1000v" location="399,42" ipv4="192.168.1.2">
         <extensions>
+            <entry key="static_ip" type="String">172.16.30.222</entry>
             <entry key="ansible_group" type="String">core</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
@@ -274,7 +312,7 @@ interface GigabitEthernet1
   cdp enable
   no shutdown
 
-ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 {{ gateway }}
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.16.30.254
 !
 interface GigabitEthernet2
   description to dist1

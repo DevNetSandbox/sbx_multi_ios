@@ -29,7 +29,7 @@ config:
         -
     qos:
       ns-buffer-profile: burst
-  tailf-ned-cisco-nx:hostname: dist1
+  tailf-ned-cisco-nx:hostname: "{{ nso_device_name}}"
   tailf-ned-cisco-nx:interface:
     Ethernet:
     - channel-group:
@@ -284,7 +284,7 @@ config:
     - description: OOB Management
       ip:
         address:
-          ipaddr: 172.16.30.118/24
+          ipaddr: "{{ oob_mgmt_ip }}/24"
       name: 0
       vrf:
         member: management
@@ -383,7 +383,7 @@ config:
         vrf:
           maximum: 4096
           minimum: 2
-      name: dist1
+      name: "{{ nso_device_name}}"
   tailf-ned-cisco-nx:vlan:
     vlan-list:
     - id: 1
@@ -403,8 +403,8 @@ config:
       peer-gateway:
       -
       peer-keepalive:
-        destination: 172.16.30.102
-        source: 172.16.30.101
+        destination: "{{ peer_mgmt_ip }}"
+        source: "{{ oob_mgmt_ip }}"
   tailf-ned-cisco-nx:vrf:
     context:
     - id: management

@@ -1,52 +1,5 @@
 config:
   tailf-ned-cisco-ios:control-plane: {}
-  tailf-ned-cisco-ios:crypto:
-    pki:
-      certificate:
-        chain:
-        - certificate:
-          - cert: "  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101\
-              \ 05050030 \r\n  31312F30 2D060355 04031326 494F532D 53656C66 2D536967\
-              \ 6E65642D 43657274 \r\n  69666963 6174652D 34323334 36373230 3537301E\
-              \ 170D3138 30383134 31353339 \r\n  30365A17 0D323030 31303130 30303030\
-              \ 305A3031 312F302D 06035504 03132649 \r\n  4F532D53 656C662D 5369676E\
-              \ 65642D43 65727469 66696361 74652D34 32333436 \r\n  37323035 37308201\
-              \ 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 \r\n  0A028201\
-              \ 0100AF0D 0A4E39A9 0C3BF170 593CBC78 C976F987 86E22426 C823E5D8 \r\n\
-              \  45D0ED3C F558DED0 0908443A 7034EA11 1113DDD4 CD196D30 281C4CD0 DAE67EA1\
-              \ \r\n  F3BDEF7C 87E7B320 FA82CD5F AC774D03 B8DE587B 551A91A6 C60D7FAD\
-              \ C9198175 \r\n  4C005851 0C498057 80ED81C8 E1CBC1AC 9AD8838C E11346F3\
-              \ 17AB77F8 019D7B07 \r\n  9BD7DE36 ACBE4F79 75A04245 62E88546 BCB70F85\
-              \ F5434F9D 0B5A50C9 74B5E84A \r\n  44F65C82 CA4441F1 24BD69ED FF00B0DD\
-              \ 526165D8 953C4D59 3FA7C8AC 343456A2 \r\n  B048E0DE D5152F1B 90DC0DA8\
-              \ 32DFC686 45E92478 54923EC0 BDAAF04A B7AEE629 \r\n  43A1CE91 4F50C543\
-              \ 190865BD 0C9ED963 E5889135 3940D82B 93196B12 05CE5A0F \r\n  D86D88FC\
-              \ 94B90203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF \r\n\
-              \  301F0603 551D2304 18301680 14DE79AA F8489AB6 EABD7BD8 E863D728 5C314F42\
-              \ \r\n  7C301D06 03551D0E 04160414 DE79AAF8 489AB6EA BD7BD8E8 63D7285C\
-              \ 314F427C \r\n  300D0609 2A864886 F70D0101 05050003 82010100 4960E0EA\
-              \ 425C9B69 BA342A36 \r\n  69753A34 61D1A6E1 6EBB3302 B4CCA8A5 3C9B0F4B\
-              \ B5EACAE1 157650F6 F15E714F \r\n  F4EAC1EC C007D6A7 B2E5A448 A01CA807\
-              \ AC665C81 B5A3A194 BC94CD0E 0F4F7A1B \r\n  071AA6CA 9E0E0726 CE9F918E\
-              \ BE268988 AC4FCBD6 1E831625 A73E4177 76D879B4 \r\n  5998DE1A 691A0557\
-              \ C09341B8 5FE1FDB8 FD3A2959 986C7C27 800D1308 14DDF4FA \r\n  497F935A\
-              \ A221F445 7FA91840 19178122 E00C7471 31CC3AAF 696E851B 5BAA82DC \r\n\
-              \  12F41EE2 9CFF965E EB96B45E 09BCAC55 48070442 1946DE0F 1C36ADD5 8ED26C34\
-              \ \r\n  C77F60FA EF7779A0 AE51975D 31355828 EF957C19 D067EC9C BAAA8878\
-              \ EB6BC88A \r\n  ACC08D71 F4FD2B71 4BEFD0D1 76B083AE CB69AB9B\r\n"
-            cert-type: self-signed
-            serial: '01'
-          name: TP-self-signed-4234672057
-      trustpoint:
-      - enrollment:
-          selfsigned:
-          -
-        id: TP-self-signed-4234672057
-        revocation-check:
-        - none
-        rsakeypair:
-          key-label: TP-self-signed-4234672057
-        subject-name: cn=IOS-Self-Signed-Certificate-4234672057
   tailf-ned-cisco-ios:diagnostic:
     bootup:
       level: minimal
@@ -56,7 +9,7 @@ config:
     secret:
       secret: tnhtc92DXBhelxjYk8LWJrPV36S2i4ntXrpb4RFmfqY
       type: '4'
-  tailf-ned-cisco-ios:hostname: core2
+  tailf-ned-cisco-ios:hostname: "{{ nso_device_name}}"
   tailf-ned-cisco-ios:interface:
     GigabitEthernet:
     - cdp:
@@ -65,7 +18,7 @@ config:
       ip:
         address:
           primary:
-            address: 172.16.30.117
+            address: "{{ oob_mgmt_ip }}"
             mask: 255.255.255.0
       mop:
         sysid: false

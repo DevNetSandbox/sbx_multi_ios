@@ -1,7 +1,0 @@
-all:
-  hosts:
-    access1: null
-    core1: null
-    core2: null
-    dist1: null
-    dist2: null

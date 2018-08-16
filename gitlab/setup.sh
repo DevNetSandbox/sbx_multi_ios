@@ -41,13 +41,9 @@ success () {
 
 echo ""
 printf "Launching Gitlab CE ..."
-docker-compose up -d 2>> gitlab_setup.log
+docker-compose up -d 2> gitlab_setup.log
 success
 
-printf "Adding firewall rules for Gitlab CE ..."
-sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
-sudo firewall-cmd --reload
-success
 printf "Waiting for Gitlab CE to become available ."
 
 until $(curl --output /dev/null --silent --head --fail http://10.10.20.20); do
@@ -64,3 +60,7 @@ printf "Creating user 'developer' ..."
 create_gitlab_token 2>&1 >> gitlab_setup.log
 curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "email=developer@devnetsandbox.cisco.com&password=C1sco12345&username=developer&name=developer&skip_confirmation=true" "http://10.10.20.20/api/v4/users" 2>&1 >> gitlab_setup.log
 success
+
+echo "Updating git global config on devbox"
+git config --global user.name "Developer"
+git config --global user.email developer@devnetsandbox.cisco.com
