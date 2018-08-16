@@ -38,20 +38,20 @@ Ping
 
 # Verify OSPF neighbor counts
 Verify Ospf neighbors dist1
-    verify count "2" "ospf neighbors" on device "dist1"
+    verify count "6" "ospf neighbors" on device "dist1"
 Verify Ospf neighbors dist2
-    verify count "2" "ospf neighbors" on device "dist2"
+    verify count "6" "ospf neighbors" on device "dist2"
 Verify Ospf neighbors core1
-    verify count "2" "ospf neighbors" on device "core1"
+    verify count "3" "ospf neighbors" on device "core1"
 Verify Ospf neighbors core2
-    verify count "2" "ospf neighbors" on device "core1"
+    verify count "3" "ospf neighbors" on device "core1"
 
 
 # Verify Interfaces
 Verify Interface dist1
-    verify count "12" "interface up" on device "dist1"
+    verify count "15" "interface up" on device "dist1"
 Verify Interface dist2
-    verify count "13" "interface up" on device "dist2"
+    verify count "15" "interface up" on device "dist2"
 Verify Interface core1
     verify count "5" "interface up" on device "core1"
 Verify Interface core2
