@@ -45,7 +45,9 @@ interface Ethernet1/5
   no shutdown
 
 interface Ethernet1/6
-  no shutdowninterface mgmt0
+  no shutdown
+
+interface mgmt0
   description OOB Management
   ! Configured on launch
   no ip address
