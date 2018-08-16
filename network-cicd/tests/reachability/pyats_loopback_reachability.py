@@ -89,7 +89,7 @@ class common_setup(aetest.CommonSetup):
 
 
 # Ping Testcase: leverage dual-level looping
-@aetest.loop(device = ('core1', 'core2'))
+@aetest.loop(device=('core1', 'core2'))
 class PingTestcase(aetest.Testcase):
     '''Ping test'''
 
@@ -220,7 +220,7 @@ class common_cleanup(aetest.CommonCleanup):
 
         if core1.connected or core2.connected:
             # abort/fail the testscript if device connection still exists
-            self.failed('One of the two devices could not be disconnected from',
+            self.failed('One of the devices could not be disconnected from',
                         goto=['exit'])
 
         with steps.start('Disconnecting from dist1'):

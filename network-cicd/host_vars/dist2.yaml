@@ -404,7 +404,7 @@ config:
       -
       peer-keepalive:
         destination: "{{ peer_mgmt_ip }}"
-        source: "{{ peer_mgmt_ip }}"
+        source: "{{ oob_mgmt_ip }}"
   tailf-ned-cisco-nx:vrf:
     context:
     - id: management
