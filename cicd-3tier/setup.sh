@@ -70,7 +70,7 @@ echo "devices sync-from" | ncs_cli -u admin -C
 echo "Creating Repo on Gitlab"
 cd $root_dir
 create_gitlab_token 2>&1 >> $logfile
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=network-cicd&visibility=public" "http://10.10.20.20/api/v4/projects" 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=cicd-3tier&visibility=public" "http://10.10.20.20/api/v4/projects" 2>&1 >> $logfile
 
 echo "Configure Git"
 git config --global user.name "developer"
@@ -78,7 +78,7 @@ git config --global user.email "developer@devnetsandbox.cisco.com"
 
 echo "Initalizing Local Repository"
 git init
-git remote add origin http://$gitlab_user:$gitlab_password@10.10.20.20/developer/network-cicd.git
+git remote add origin http://$gitlab_user:$gitlab_password@10.10.20.20/developer/cicd-3tier.git
 
 git add .
 git checkout -b test
