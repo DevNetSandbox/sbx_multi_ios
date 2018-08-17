@@ -33,6 +33,8 @@ You should be able to see your infrastructure as code repository at http://10.10
 
 ## Known Issues
 
+### VIRL node boot error
+
 Occasionally, a node may not boot up correctly and you will see an error similar to
 this
 
@@ -51,6 +53,38 @@ cd virl/test
 virl stop test-dist2
 virl start test-dist2
 ```
+
+### Initial Configuration Pushes from GitLab may fail
+
+Occasionally the intial configuration pushes from GitLab to the networks may start before the nodes are fully ready, and one or more may timeout.  This can result in the initial configuration and connectivity in the topology from not coming up automatically after running `setup`.  
+
+The most common operational issue is the VPC domain not coming up correctly between the dist nodes.  Troubleshoot using CLI, but these steps tend to work.  (Maybe needed on test, prod, or both)
+
+1. SSH to both `dist1` and `dist2` and shutdown the VPC peerlink and VPC to `access1`
+
+    ```
+    conf t
+    int po1
+    shut
+    int po11
+    shut
+    ```
+
+1. Wait about a minute for everything to settle, and then reenable the peer-link on both switches.  
+
+    ```
+    int po1
+    no shut
+    ```
+
+1. Once `show vpc` shows adjaceny healthy on both dist switches, bring up the link to access1
+
+    ```
+    int po11
+    no shut
+    ```
+
+1. If VPC is not healthy on the distribution layer, the pyATS test will fail many of the tests as they are written to expect a healthy network.  
 
 ## Verification / Troubleshooting
 
