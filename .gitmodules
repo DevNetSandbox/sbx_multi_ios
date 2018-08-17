@@ -1,6 +1,9 @@
 [submodule "netdevops-metrics/stack"]
 	path = netdevops-metrics/stack
 	url = https://github.com/kecorbin/pig
-[submodule "log-analytics/elk"]
-	path = log-analytics/elk
+[submodule "metrics-elk/elk"]
+	path = metrics-elk/elk
 	url = https://github.com/kecorbin/elknet
+[submodule "metrics-pig/stack"]
+	path = metrics-pig/stack
+	url = https://github.com/kecorbin/pig

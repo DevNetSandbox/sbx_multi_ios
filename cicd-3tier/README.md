@@ -1,6 +1,6 @@
-# network-cicd
+# cicd-3tier
 
-Use Gitlab to create a full CI-CD pipeline
+Use Gitlab to create a full CI-CD pipeline for a standard 3 Tier, Core > Distribution > Access, topology.  The Core is composed of 2 IOS XE routers, Distribution and Access are Open NX-OS switches.  
 
 ## Prerequisites
 
@@ -28,12 +28,14 @@ This following script should cover all the initial installation
 
 ## Getting started
 
-You should be able to see your infrastructure as code repository at http://10.10.20.20/developer/network-cicd
+You should be able to see your infrastructure as code repository at http://10.10.20.20/developer/cicd-3tier
 
 
 ## Known Issues
 
-Occasinally, a node may not boot up correctly and you will see an error similar to
+### VIRL node boot error
+
+Occasionally, a node may not boot up correctly and you will see an error similar to
 this
 
 ```
@@ -52,12 +54,44 @@ virl stop test-dist2
 virl start test-dist2
 ```
 
+### Initial Configuration Pushes from GitLab may fail
+
+Occasionally the intial configuration pushes from GitLab to the networks may start before the nodes are fully ready, and one or more may timeout.  This can result in the initial configuration and connectivity in the topology from not coming up automatically after running `setup`.  
+
+The most common operational issue is the VPC domain not coming up correctly between the dist nodes.  Troubleshoot using CLI, but these steps tend to work.  (Maybe needed on test, prod, or both)
+
+1. SSH to both `dist1` and `dist2` and shutdown the VPC peerlink and VPC to `access1`
+
+    ```
+    conf t
+    int po1
+    shut
+    int po11
+    shut
+    ```
+
+1. Wait about a minute for everything to settle, and then reenable the peer-link on both switches.  
+
+    ```
+    int po1
+    no shut
+    ```
+
+1. Once `show vpc` shows adjaceny healthy on both dist switches, bring up the link to access1
+
+    ```
+    int po11
+    no shut
+    ```
+
+1. If VPC is not healthy on the distribution layer, the pyATS test will fail many of the tests as they are written to expect a healthy network.  
+
 ## Verification / Troubleshooting
 
 If all goes well, you should see output similar to This
 
 ```
-[developer@devbox network-cicd]$./setup.sh
+[developer@devbox cicd-3tier]$./setup.sh
 Launching VIRL simulations (prod+test) ...
 Creating default environment from topology.virl
 Waiting 10 minutes for nodes to come online....
@@ -113,7 +147,7 @@ sync-result {
 Creating Repo on Gitlab
 Configure Git
 Initalizing Local Repository
-Initialized empty Git repository in /home/developer/sbx_multi_ios/network-cicd/.git/
+Initialized empty Git repository in /home/developer/sbx_multi_ios/cicd-3tier/.git/
 Switched to a new branch 'test'
 [test (root-commit) ba69843] Initial commit
  24 files changed, 3540 insertions(+)
@@ -147,16 +181,16 @@ Delta compression using up to 5 threads.
 Compressing objects: 100% (30/30), done.
 Writing objects: 100% (35/35), 356.63 KiB | 0 bytes/s, done.
 Total 35 (delta 7), reused 0 (delta 0)
-To http://developer:C1sco12345@10.10.20.20/developer/network-cicd.git
+To http://developer:C1sco12345@10.10.20.20/developer/cicd-3tier.git
  * [new branch]      test -> test
 Branch test set up to track remote branch test from origin.
 Switched to a new branch 'production'
 Total 0 (delta 0), reused 0 (delta 0)
 remote:
 remote: To create a merge request for production, visit:
-remote:   http://gitlab/developer/network-cicd/merge_requests/new?merge_request%5Bsource_branch%5D=production
+remote:   http://gitlab/developer/cicd-3tier/merge_requests/new?merge_request%5Bsource_branch%5D=production
 remote:
-To http://developer:C1sco12345@10.10.20.20/developer/network-cicd.git
+To http://developer:C1sco12345@10.10.20.20/developer/cicd-3tier.git
  * [new branch]      production -> production
 Branch production set up to track remote branch production from origin.
 Switched to branch 'test'

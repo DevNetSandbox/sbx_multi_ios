@@ -40,6 +40,12 @@ success () {
 }
 
 echo ""
+echo "Ensuring firewalld is stopped and disabled"
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl restart docker 
+
+echo ""
 printf "Launching Gitlab CE ..."
 docker-compose up -d 2> gitlab_setup.log
 success
