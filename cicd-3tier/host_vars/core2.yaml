@@ -1,0 +1,202 @@
+config:
+  tailf-ned-cisco-ios:control-plane: {}
+  tailf-ned-cisco-ios:diagnostic:
+    bootup:
+      level: minimal
+  tailf-ned-cisco-ios:enable:
+    password:
+      secret: cisco
+    secret:
+      secret: tnhtc92DXBhelxjYk8LWJrPV36S2i4ntXrpb4RFmfqY
+      type: '4'
+  tailf-ned-cisco-ios:hostname: "{{ nso_device_name}}"
+  tailf-ned-cisco-ios:interface:
+    GigabitEthernet:
+    - cdp:
+        enable: true
+      description: OOB Management
+      ip:
+        address:
+          primary:
+            address: "{{ oob_mgmt_ip }}"
+            mask: 255.255.255.0
+      mop:
+        sysid: false
+        xenabled: false
+      name: '1'
+      negotiation:
+        auto: true
+      vrf:
+        forwarding: Mgmt-intf
+    - description: L3 Link to dist2
+      ip:
+        address:
+          primary:
+            address: 172.16.0.13
+            mask: 255.255.255.252
+      mop:
+        sysid: false
+        xenabled: false
+      name: '2'
+      negotiation:
+        auto: true
+    - description: L3 Link to dist1
+      ip:
+        address:
+          primary:
+            address: 172.16.0.9
+            mask: 255.255.255.252
+      mop:
+        sysid: false
+        xenabled: false
+      name: '3'
+      negotiation:
+        auto: true
+    - description: L3 Link to core1
+      ip:
+        address:
+          primary:
+            address: 172.16.0.18
+            mask: 255.255.255.252
+      mop:
+        sysid: false
+        xenabled: false
+      name: '4'
+      negotiation:
+        auto: true
+    Loopback:
+    - description: Default Loopback
+      ip:
+        address:
+          primary:
+            address: 192.168.1.2
+            mask: 255.255.255.255
+      name: '0'
+  tailf-ned-cisco-ios:ip:
+    domain:
+      lookup-conf:
+        lookup: false
+    forward-protocol:
+      nd:
+      -
+    http:
+      authentication:
+        local:
+        -
+      secure-server: true
+      server: true
+    route:
+      vrf:
+      - ip-route-forwarding-list:
+        - forwarding-address: 172.16.30.254
+          mask: 0.0.0.0
+          prefix: 0.0.0.0
+        name: Mgmt-intf
+  tailf-ned-cisco-ios:ipv6:
+    unicast-routing:
+    -
+  tailf-ned-cisco-ios:license:
+    accept:
+      end:
+        user:
+          agreement:
+          -
+  tailf-ned-cisco-ios:line:
+    console:
+    - first: '0'
+      password:
+        secret: cisco
+      stopbits: '1'
+    vty:
+    - exec-timeout:
+        minutes: 720
+        seconds: 0
+      first: 0
+      last: 4
+      login:
+        local:
+        -
+      password:
+        secret: cisco
+      transport:
+        input:
+        - ssh
+        - telnet
+  tailf-ned-cisco-ios:logging:
+    buffered:
+      severity-level: debugging
+    console:
+      severity-level: debugging
+    monitor:
+      severity-level: debugging
+  tailf-ned-cisco-ios:multilink:
+    bundle-name: authenticated
+  tailf-ned-cisco-ios:platform:
+    console: virtual
+    punt-keepalive:
+      disable-kernel-core: false
+  tailf-ned-cisco-ios:redundancy: {}
+  tailf-ned-cisco-ios:router:
+    ospf:
+    - id: 1
+      network:
+      - area: 0
+        ip: 172.16.0.8
+        mask: 0.0.0.3
+      - area: 0
+        ip: 172.16.0.12
+        mask: 0.0.0.3
+      - area: 0
+        ip: 172.16.0.16
+        mask: 0.0.0.3
+      - area: 0
+        ip: 192.168.1.2
+        mask: 0.0.0.0
+      router-id: 192.168.1.2
+  tailf-ned-cisco-ios:service:
+    timestamps:
+      debug:
+        datetime:
+          msec:
+          -
+      log:
+        datetime:
+          msec:
+          -
+  tailf-ned-cisco-ios:snmp-server:
+    community:
+    - RW:
+      -
+      name: private
+    - RO:
+      -
+      name: public
+  tailf-ned-cisco-ios:spanning-tree:
+    extend:
+      system-id:
+      -
+  tailf-ned-cisco-ios:subscriber:
+    templating:
+    -
+  tailf-ned-cisco-ios:tailfned:
+    police: cirmode
+  tailf-ned-cisco-ios:username:
+  - name: cisco
+    privilege: 15
+    secret:
+      secret: $1$9dHi$XG45fpTAkCd2NGDLanJJj0
+      type: '5'
+  tailf-ned-cisco-ios:version: '16.8'
+  tailf-ned-cisco-ios:vrf:
+    definition:
+    - address-family:
+        ipv4: {}
+        ipv6: {}
+      name: Mgmt-intf
+  tailf-ned-cisco-ios:wsma:
+    agent:
+    - name: config
+    - name: exec
+    - name: filesys
+    - name: notify
+  tailf-ned-cisco-ios:xxyyzztop: 0
