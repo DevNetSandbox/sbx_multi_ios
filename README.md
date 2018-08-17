@@ -17,11 +17,11 @@ A number of different demo environments that can be quickly stood up.
 
 * [GitLab Community Edition](./gitlab/) - Add version control and CI/CD to your sandbox.
 
-* [Network CI/CD Pipeline](./network-cicd/) - A complete infrastructure as code pipeline including GitLab, VIRL, pyATS, and NSO
+* [Network CI/CD Pipeline](./cicd-3tier/) - A core-distribution-access network with a CICD pipeline including GitLab, VIRL, pyATS, and NSO
 
-* [Metrics](./netdevops-metrics/) - Get insights by analyzing large amounts of data through visualizations using streaming telemetry
+* [Streaming Telemetry](./metrics-pig/) - Get insights by analyzing large amounts of data through visualizations using streaming telemetry using Pipeline, InfluxDB, and Grafana
 
-* [Log Analytics](./log-analytics/) - Use ELK stack for analyzing syslog message from network devices.
+* [Log Analytics with ELK](./metrics-elk/) - Use Elasticsearch, Logstash, and Kibana (ELK) for analyzing syslog message from network devices.
 
 # whats not
 
