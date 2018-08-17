@@ -39,6 +39,9 @@ success () {
     printf "$STARTCOLOR%b$ENDCOLOR" "done\n";
 }
 
+# installing telnet if not present
+sudo yum install -y telnet
+
 echo "Launching VIRL simulations (prod+test) ... "
 root_dir=$(pwd)
 cd $root_dir/virl/test
