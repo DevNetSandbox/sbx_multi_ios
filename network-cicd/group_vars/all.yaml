@@ -1,6 +1,0 @@
----
-nso:
-  ip: 10.10.20.20
-  url: http://10.10.20.20:8080/jsonrpc
-  username: admin
-  password: admin
