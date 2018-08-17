@@ -1,4 +1,4 @@
-# network-cicd
+# cicd-3tier
 
 Use Gitlab to create a full CI-CD pipeline
 
@@ -28,7 +28,7 @@ This following script should cover all the initial installation
 
 ## Getting started
 
-You should be able to see your infrastructure as code repository at http://10.10.20.20/developer/network-cicd
+You should be able to see your infrastructure as code repository at http://10.10.20.20/developer/cicd-3tier
 
 
 ## Known Issues
@@ -57,7 +57,7 @@ virl start test-dist2
 If all goes well, you should see output similar to This
 
 ```
-[developer@devbox network-cicd]$./setup.sh
+[developer@devbox cicd-3tier]$./setup.sh
 Launching VIRL simulations (prod+test) ...
 Creating default environment from topology.virl
 Waiting 10 minutes for nodes to come online....
@@ -113,7 +113,7 @@ sync-result {
 Creating Repo on Gitlab
 Configure Git
 Initalizing Local Repository
-Initialized empty Git repository in /home/developer/sbx_multi_ios/network-cicd/.git/
+Initialized empty Git repository in /home/developer/sbx_multi_ios/cicd-3tier/.git/
 Switched to a new branch 'test'
 [test (root-commit) ba69843] Initial commit
  24 files changed, 3540 insertions(+)
@@ -147,16 +147,16 @@ Delta compression using up to 5 threads.
 Compressing objects: 100% (30/30), done.
 Writing objects: 100% (35/35), 356.63 KiB | 0 bytes/s, done.
 Total 35 (delta 7), reused 0 (delta 0)
-To http://developer:C1sco12345@10.10.20.20/developer/network-cicd.git
+To http://developer:C1sco12345@10.10.20.20/developer/cicd-3tier.git
  * [new branch]      test -> test
 Branch test set up to track remote branch test from origin.
 Switched to a new branch 'production'
 Total 0 (delta 0), reused 0 (delta 0)
 remote:
 remote: To create a merge request for production, visit:
-remote:   http://gitlab/developer/network-cicd/merge_requests/new?merge_request%5Bsource_branch%5D=production
+remote:   http://gitlab/developer/cicd-3tier/merge_requests/new?merge_request%5Bsource_branch%5D=production
 remote:
-To http://developer:C1sco12345@10.10.20.20/developer/network-cicd.git
+To http://developer:C1sco12345@10.10.20.20/developer/cicd-3tier.git
  * [new branch]      production -> production
 Branch production set up to track remote branch production from origin.
 Switched to branch 'test'
