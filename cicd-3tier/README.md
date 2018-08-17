@@ -1,6 +1,6 @@
 # cicd-3tier
 
-Use Gitlab to create a full CI-CD pipeline
+Use Gitlab to create a full CI-CD pipeline for a standard 3 Tier, Core > Distribution > Access, topology.  The Core is composed of 2 IOS XE routers, Distribution and Access are Open NX-OS switches.  
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ You should be able to see your infrastructure as code repository at http://10.10
 
 ## Known Issues
 
-Occasinally, a node may not boot up correctly and you will see an error similar to
+Occasionally, a node may not boot up correctly and you will see an error similar to
 this
 
 ```
