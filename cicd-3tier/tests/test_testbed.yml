@@ -19,7 +19,22 @@ testbed:
       tacacs: cisco
 
 devices:
+  dummy:
+    # im no dummy
+    alias: uut
+    os: iosxe
+    type: NOT REAL
+    connections:
+      defaults:
+        class: unicon.Unicon
+      ssh:
+        ip: 1.1.1.1
+        protocol: ssh
+    custom:
+      abstraction:
+        order: [os, type]
 
+        
   test-core1:
     alias: core1
     os: iosxe
