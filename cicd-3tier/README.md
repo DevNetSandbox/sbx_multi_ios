@@ -403,3 +403,20 @@ With the pre-requisites under control, follow these steps to setup your local de
         ansible-playbook -i inventory/dev.yaml site.yaml
         ```
 
+## Cleaning Up the Local Dev Envrionment 
+When you are ready to shutdown the local dev environment, simply `make clean` to shut down netsim and NSO and erase their remnants.  
+
+```bash
+$ make clean
+
+ncs --stop
+rm -Rf README.ncs logs/ ncs-cdb/ ncs-java-vm.log ncs-python-vm.log ncs.conf packages/ state/ storedstate target/
+ncs-netsim stop
+DEVICE core1 STOPPED
+DEVICE core2 STOPPED
+DEVICE dist1 STOPPED
+DEVICE dist2 STOPPED
+DEVICE access1 STOPPED
+rm -Rf netsim/
+rm README.netsim
+```
