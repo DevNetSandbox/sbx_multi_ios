@@ -36,14 +36,26 @@ connect to the sandbox via VPN.  Once connected.  you can ssh to the devbox usin
 git clone --recurse-submodules https://github.com/DevNetSandbox/sbx_multi_ios.git
 ```
 
-### Step 4: Start the setup...
+### Step 3: Setup GitLab...
+
+```
+cd sbx_multi_ios/gitlab
+./setup.sh
+```
+
+### Step 3a: Refill your drink...
+
+Seriously, this is going to take like 5 minutes...
+
+
+### Step 4: Start the CICD setup...
 
 ```
 cd sbx_multi_ios/cicd-3tier
 ./setup.sh
 ```
 
-### Step 4: Check your email
+### Step 4a: Check your email
 
 Seriously, this is going to take like 10 minutes...
 
