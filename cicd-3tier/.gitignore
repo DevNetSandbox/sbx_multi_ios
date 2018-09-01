@@ -23,6 +23,7 @@ ncs.conf
 packages/
 state/
 storedstate
+netsim/
 
 # Distribution / packaging
 .Python
