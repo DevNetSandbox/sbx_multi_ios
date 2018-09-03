@@ -9,6 +9,7 @@ lint:
   stage: validate
   image: kecorbin/ansible:devel
   script:
+    - ansible-playbook --syntax-check -i inventory/dev.yaml site.yaml
     - ansible-playbook --syntax-check -i inventory/test.yaml site.yaml
     - ansible-playbook --syntax-check -i inventory/prod.yaml site.yaml
 
