@@ -75,7 +75,7 @@ echo "devices sync-from" | ncs_cli -u admin -C
 echo "Creating Repo on Gitlab"
 cd $root_dir
 create_gitlab_token 2>&1 >> $logfile
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=${repo_name}&visibility=public" "http://10.10.20.20/api/v4/projects" 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=${repo_name}&visibility=public" "${gitlab_host}/api/v4/projects" 2>&1 >> $logfile
 
 echo "Retrieve User Id for ${gitlab_user}"
 user_id=$(curl -s -X GET --header "PRIVATE-TOKEN: $personal_access_token" "${gitlab_host}/api/v4/users?search=${gitlab_user}" | python -c "import sys, json; print(json.load(sys.stdin)[0]['id'])")
@@ -86,19 +86,19 @@ project_id=$(curl -s -X GET --header "PRIVATE-TOKEN: $personal_access_token" "${
 # echo "Project Id for ${repo_name} is ${project_id}."
 
 echo "Create Project Labels for Issues"
-doing_label_id=$(curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Doing&color=#A8D695" "http://10.10.20.20/api/v4/projects/${project_id}/labels" | python -c "import sys, json; print(json.load(sys.stdin)['id'])")
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Bug&color=#FF0000" "http://10.10.20.20/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Enhancement&color=#0033CC" "http://10.10.20.20/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Research&color=#8E44AD" "http://10.10.20.20/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Change&color=#F0AD4E" "http://10.10.20.20/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=ToProduction&color=#5CB85C" "http://10.10.20.20/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Urgent&color=#CC0033" "http://10.10.20.20/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Documentation&color=#428BCA" "http://10.10.20.20/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Security&color=#D9534F" "http://10.10.20.20/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
+doing_label_id=$(curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Doing&color=#A8D695" "${gitlab_host}/api/v4/projects/${project_id}/labels" | python -c "import sys, json; print(json.load(sys.stdin)['id'])")
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Bug&color=#FF0000" "${gitlab_host}/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Enhancement&color=#0033CC" "${gitlab_host}/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Research&color=#8E44AD" "${gitlab_host}/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Change&color=#F0AD4E" "${gitlab_host}/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=ToProduction&color=#5CB85C" "${gitlab_host}/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Urgent&color=#CC0033" "${gitlab_host}/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Documentation&color=#428BCA" "${gitlab_host}/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Security&color=#D9534F" "${gitlab_host}/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
 
 echo "Create Board List for Doing"
-board_id=$(curl -s --header "PRIVATE-TOKEN: $personal_access_token" "http://10.10.20.20/api/v4/projects/${project_id}/boards" | python -c "import sys, json; print(json.load(sys.stdin)[0]['id'])")
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "label_id=${doing_label_id}" "http://10.10.20.20/api/v4/projects/${project_id}/boards/${board_id}/lists" 2>&1 >> $logfile
+board_id=$(curl -s --header "PRIVATE-TOKEN: $personal_access_token" "${gitlab_host}/api/v4/projects/${project_id}/boards" | python -c "import sys, json; print(json.load(sys.stdin)[0]['id'])")
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "label_id=${doing_label_id}" "${gitlab_host}/api/v4/projects/${project_id}/boards/${board_id}/lists" 2>&1 >> $logfile
 
 echo "Open Sample Issues for Demo"
 ./open_issues.py ${gitlab_host} ${personal_access_token} ${project_id} ${user_id} issues_list.csv 2>&1 >> $logfile
