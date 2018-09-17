@@ -97,7 +97,8 @@ curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Documentation&
 curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "name=Security&color=#D9534F" "http://10.10.20.20/api/v4/projects/${project_id}/labels" 2>&1 >> $logfile
 
 echo "Create Board List for Doing"
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "label_id=${doing_label_id}" "http://10.10.20.20/api/v4/projects/${project_id}/boards/1/lists" 2>&1 >> $logfile
+board_id=$(curl -s --header "PRIVATE-TOKEN: $personal_access_token" "http://10.10.20.20/api/v4/projects/${project_id}/boards" | python -c "import sys, json; print(json.load(sys.stdin)[0]['id'])")
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "label_id=${doing_label_id}" "http://10.10.20.20/api/v4/projects/${project_id}/boards/${board_id}/lists" 2>&1 >> $logfile
 
 echo "Open Sample Issues for Demo"
 ./open_issues.py ${gitlab_host} ${personal_access_token} ${project_id} ${user_id} issues_list.csv 2>&1 >> $logfile
