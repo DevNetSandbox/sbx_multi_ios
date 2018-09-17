@@ -86,6 +86,16 @@ The most common operational issue is the VPC domain not coming up correctly betw
 
 1. If VPC is not healthy on the distribution layer, the pyATS test will fail many of the tests as they are written to expect a healthy network.  
 
+### Web Redirect from Open Issue -> Merge Request Fails
+When creating a Merge Request from an Issue as in the following image, GitLab will mistakenly redirect you to a web url using `gitlab` as the host name, rather than the IP address of `10.10.20.20`.  
+
+![](../static/gitlab-issue-mergerequest.jpg)
+
+When this happens, simply change the host back to `10.10.20.20` to return to the correct page.  
+
+![](../static/gitlab-url-redirector-error.jpg)
+
+
 ## Verification / Troubleshooting
 
 If all goes well, you should see output similar to This
@@ -241,14 +251,14 @@ Here is a list of all the running nodes
 # Setting up a Local Development Environment
 To experience and demonstrate the full NetDevOps configuration pipeline, you may want to setup a local development environment where you can test proposed configuration changes before committing and pushing them to GitLab for the full test builds to occur.  To complete this step you will need to have a few local prerequisites setup on your local workstation.  
 
-## Local Development Environment Prerequisites 
-### Network Service Orchestrator 
+## Local Development Environment Prerequisites
+### Network Service Orchestrator
 In order to test the configuration pipeline locally, you'll need to have a local install of NSO on your workstation.  Furthermore, you'll need to have the same versions of NSO and NEDs installed as the DevBox within the Sandbox.  Using different versions **may** work, but for best experience matching the versions exactly is recommended.  
 
-* Network Service Orchestrator 4.5.3 
-* Cisco IOS NED 5.8 
-* Cisco IOS XE NED 6.2.10 
-* Cisco NX-OS NED 4.5.10 
+* Network Service Orchestrator 4.5.3
+* Cisco IOS NED 5.8
+* Cisco IOS XE NED 6.2.10
+* Cisco NX-OS NED 4.5.10
 
 Once you have installed these versions, you'll need to `source` the `ncsrc` file for this version before beginning the local dev process.  
 
@@ -259,11 +269,11 @@ The Network as Code mechanism in this demonstration leverages both Ansible and N
 
 * Python 3.6.x (3.6.5 or higher recommended)
     * *Python 2.7 would likely work, but the time to move to Python 3 has arrived.*
-* Ansible 2.6.3 or higher 
+* Ansible 2.6.3 or higher
 
 A `requirements.txt` file is included in the repository.  Simply `pip install -r requirements.txt` to get started.  
 
-## "Making" the Dev Environment 
+## "Making" the Dev Environment
 With the pre-requisites under control, follow these steps to setup your local dev environment.  
 
 1. Clone a copy of the repository from GitLab to your local workstation.  Use this command to ensure the demo credentials are embedded in the git configuration.  
@@ -274,16 +284,16 @@ With the pre-requisites under control, follow these steps to setup your local de
     ```
 
 2. To simplify the setup and management of the local environment, a `Makefile` is included in the repository.  Simply `make dev` to do the following. (To see the exact commands being executed for each of these steps, just take a look at the contents of [`Makefile`](Makefile))
-    1. Use NCS NetSim to start a local simulation of the network including the core, distribution, and access devices. 
-    2. Setup a local NCS project directory within the repo 
-    3. Start NCS and import in the netsim simulation 
-    4. Preform and initial `sync-from` 
+    1. Use NCS NetSim to start a local simulation of the network including the core, distribution, and access devices.
+    2. Setup a local NCS project directory within the repo
+    3. Start NCS and import in the netsim simulation
+    4. Preform and initial `sync-from`
     5. Deploy the current "Network as Code" configuration to NCS and the network devices using Ansible
 
     ```bash
     # Sample output
     $ make dev
-    
+
     ncs-netsim --dir netsim create-device cisco-ios core1
     DEVICE core1 CREATED
     ncs-netsim --dir netsim add-device cisco-ios core2
@@ -327,29 +337,29 @@ With the pre-requisites under control, follow these steps to setup your local de
       </sync-result>
     </output>
     ansible-playbook --syntax-check -i inventory/dev.yaml site.yaml
-    
+
     playbook: site.yaml
     ansible-playbook -i inventory/dev.yaml site.yaml
-    
+
     PLAY [Check Synchronization of Devices] ******
-    
+
     TASK [check-sync] ***********************
     changed: [localhost]
-    
+
     PLAY [Verify device configuration] ***********************
-    
+
     TASK [Device configuration] ***************
     changed: [core2]
     changed: [core1]
     changed: [access1]
     changed: [dist1]
     changed: [dist2]
-    
+
     PLAY [Push Desired Configuration to Devices] ************
-    
+
     TASK [NSO sync-to action] ***********************
     changed: [localhost]
-    
+
     PLAY RECAP ***************************
     access1                    : ok=1    changed=1    unreachable=0    failed=0
     core1                      : ok=1    changed=1    unreachable=0    failed=0
@@ -358,35 +368,35 @@ With the pre-requisites under control, follow these steps to setup your local de
     dist2                      : ok=1    changed=1    unreachable=0    failed=0
     localhost                  : ok=2    changed=2    unreachable=0    failed=0
     ```
-    
-3. Now go ahead and open issues, create branches, make changes to the config, etc.  Then before running `git add/commit/push` you can test locally.  With `make dev-deploy`. 
+
+3. Now go ahead and open issues, create branches, make changes to the config, etc.  Then before running `git add/commit/push` you can test locally.  With `make dev-deploy`.
 
     ```bash
     $ make dev-deploy
     ansible-playbook --syntax-check -i inventory/dev.yaml site.yaml
-    
+
     playbook: site.yaml
     ansible-playbook -i inventory/dev.yaml site.yaml
-    
+
     PLAY [Check Synchronization of Devices] ******
-    
+
     TASK [check-sync] ***********************
     changed: [localhost]
-    
+
     PLAY [Verify device configuration] ***********************
-    
+
     TASK [Device configuration] ***************
     changed: [core2]
     changed: [core1]
     changed: [access1]
     changed: [dist1]
     changed: [dist2]
-    
+
     PLAY [Push Desired Configuration to Devices] ************
-    
+
     TASK [NSO sync-to action] ***********************
     changed: [localhost]
-    
+
     PLAY RECAP ***************************
     access1                    : ok=1    changed=1    unreachable=0    failed=0
     core1                      : ok=1    changed=1    unreachable=0    failed=0
@@ -395,7 +405,7 @@ With the pre-requisites under control, follow these steps to setup your local de
     dist2                      : ok=1    changed=1    unreachable=0    failed=0
     localhost                  : ok=2    changed=2    unreachable=0    failed=0
     ```
-    
+
     * Alternatively you can manually run the `ansible-playbook` commands to lint and then run the playbook.  
 
         ```bash
@@ -403,7 +413,7 @@ With the pre-requisites under control, follow these steps to setup your local de
         ansible-playbook -i inventory/dev.yaml site.yaml
         ```
 
-## Cleaning Up the Local Dev Envrionment 
+## Cleaning Up the Local Dev Envrionment
 When you are ready to shutdown the local dev environment, simply `make clean` to shut down netsim and NSO and erase their remnants.  
 
 ```bash
