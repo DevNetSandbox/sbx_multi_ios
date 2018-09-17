@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-"""This script stages Issues to GitLab based on a CSV fileself.
+"""This script stages Issues to GitLab based on a CSV file.
 Copyright (c) 2018 Cisco and/or its affiliates.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
