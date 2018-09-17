@@ -1,0 +1,31 @@
+Research EVPN Fabric,Investigate moving to EVPN Fabric,Research
+Implement OSPF Authentication,Increase security by implementing OSPF Authentication,"Enhancement,Security"
+Update SNMP Community Strings,Set to NetDevOpsRocks,"Security,Change"
+Setup Streaming Telemetry,To monitor core-dist l3 links. ,"Change,Enhancement"
+Send Syslogs to ELK,Across all systems,"Change,Enhancement"
+Add Network for Cameras,Use VLAN 201,Change
+Add Network for Door Locks,Use VLAN 202,Change
+Add Network for Motion Detectors,Use VLAN 203,Change
+Add Network for Speakers,Use VLAN 204,Change
+Add Network for Audio Sensors,Use VLAN 205,Change
+Add Network for Drone Security,Use VLAN 206,Change
+Add Network for App 1,Use VLAN 301,"Change,Urgent"
+Add Network for App 2,Use VLAN 302,"Change,Urgent"
+Add Network for App 3,Use VLAN 303,"Change,Urgent"
+Add Network for App 4,Use VLAN 304,"Change,Urgent"
+Add Network for App 5,Use VLAN 305,"Change,Urgent"
+Add Network for App 6,Use VLAN 306,"Change,Urgent"
+Add Network for App 7,Use VLAN 307,"Change,Urgent"
+Add Network for App 8,Use VLAN 308,"Change,Urgent"
+Add Network for App 9,Use VLAN 309,"Change,Urgent"
+Add Network for App 10,Use VLAN 310,"Change,Urgent"
+Add Network for App 11,Use VLAN 311,"Change,Urgent"
+Add Network for App 12,Use VLAN 312,"Change,Urgent"
+Add Network for App 13,Use VLAN 313,"Change,Urgent"
+Add Network for App 14,Use VLAN 314,"Change,Urgent"
+Add Network for App 15,Use VLAN 315,"Change,Urgent"
+Add Network for App 16,Use VLAN 316,"Change,Urgent"
+Add Network for App 17,Use VLAN 317,"Change,Urgent"
+Add Network for App 18,Use VLAN 318,"Change,Urgent"
+Add Network for App 19,Use VLAN 319,"Change,Urgent"
+Add Network for App 20,Use VLAN 320,"Change,Urgent"
