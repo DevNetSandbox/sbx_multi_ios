@@ -21,6 +21,7 @@ ncs-java-vm.log
 ncs-python-vm.log
 ncs.conf
 packages/
+!packages/vpc-distribution
 state/
 storedstate
 netsim/
