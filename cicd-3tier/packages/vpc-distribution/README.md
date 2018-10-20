@@ -1,3 +1,40 @@
+# vpc-distribution
+
+This package provides the ability to quickly provision a standard VPC distribution
+architecture.
+
+
+# Sample Instance
+
+```
+vpc-distribution BLOCK1
+ aggregate-prefix 172.16.0.0/16
+ distribution dist1
+  connection-to access1
+   interface 1/1
+  !
+ !
+ distribution dist2
+  connection-to access1
+   interface 1/2
+  !
+ !
+ access_pair BLOCK1-ROW1
+  switches access1
+   connection-to dist1
+    interface 1/1
+   !
+   connection-to dist2
+    interface 1/2
+   !
+  !
+ !
+!
+```
+
+
+# Credits
+
 This is a generated Python package, made by:
 
   ncs-make-package --service-skeleton python-and-template \

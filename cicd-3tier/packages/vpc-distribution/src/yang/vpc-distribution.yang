@@ -37,7 +37,7 @@ module vpc-distribution {
     }
   }
   list vpc-distribution {
-    description "This is an RFS skeleton service";
+    description "NSO Service Model for VPC Distribution Block with L3 SVI Support";
 
     key name;
     leaf name {
@@ -46,19 +46,85 @@ module vpc-distribution {
       type string;
     }
 
-    uses ncs:service-data;
-    ncs:servicepoint vpc-distribution-servicepoint;
+    leaf aggregate-prefix {
+      description
+        "This pool is used to pull the /24's needed for VLANs, this prefix is also
+        advertised northbound of the distribution block";
+      type inet:ipv4-prefix;
+      mandatory true;
+    }
 
-    // may replace this with other ways of refering to the devices.
-    leaf-list device {
-      type leafref {
-        path "/ncs:devices/ncs:device/ncs:name";
+    // TODO: limit to two devices
+    list distribution {
+      // For user-sorted lists, operations are defined
+      // for manipulating the order of the list entries
+      ordered-by user;
+      max-elements 2;
+      key device;
+      leaf device {
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+      list connection-to {
+        key switch;
+        leaf switch {
+          type leafref {
+            // top down or bottom up?
+            path "../../../access_pair/switches/device";
+            /* path "../../../../distribution/device"; */
+          }
+        }
+
+        leaf interface {
+          type string;
+          // TODO: FORMAT CONTROL
+        }
+      }
+
+    }
+
+    list access_pair {
+      key name;
+      leaf name {
+        type string;
+      }
+
+
+      list switches {
+        ordered-by user;
+        max-elements 2;
+        key device;
+
+        leaf device {
+          type leafref {
+            path "/ncs:devices/ncs:device/ncs:name";
+          }
+        }
+
+        list connection-to {
+          key distribution;
+          leaf distribution {
+            type leafref {
+              // top down or bottom up?
+              path "/vpc-distribution:vpc-distribution/vpc-distribution:distribution/device";
+              /* path "../../../../distribution/device"; */
+            }
+          }
+
+          leaf interface {
+            type string;
+            // TODO: FORMAT CONTROL
+          }
+        }
       }
     }
 
-    // replace with your own stuff here
-    leaf dummy {
-      type inet:ipv4-address;
-    }
+    
+
+
+    uses ncs:service-data;
+    ncs:servicepoint vpc-distribution-servicepoint;
+
   }
 }
