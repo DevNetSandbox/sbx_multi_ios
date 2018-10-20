@@ -1,5 +1,7 @@
 config:
-  tailf-ned-cisco-ios:control-plane: {}
+  tailf-ned-cisco-ios:aaa:
+    accounting:
+      delay-start: {}
   tailf-ned-cisco-ios:diagnostic:
     bootup:
       level: minimal
@@ -76,13 +78,16 @@ config:
     domain:
       lookup-conf:
         lookup: false
+    finger: {}
     forward-protocol:
       nd:
-      -
+      - null
+    gratuitous-arps-conf:
+      gratuitous-arps: false
     http:
       authentication:
         local:
-        -
+        - null
       secure-server: true
       server: true
     route:
@@ -92,15 +97,16 @@ config:
           mask: 0.0.0.0
           prefix: 0.0.0.0
         name: Mgmt-intf
+    source-route: true
   tailf-ned-cisco-ios:ipv6:
     unicast-routing:
-    -
+    - null
   tailf-ned-cisco-ios:license:
     accept:
       end:
         user:
           agreement:
-          -
+          - null
   tailf-ned-cisco-ios:line:
     console:
     - first: '0'
@@ -115,7 +121,7 @@ config:
       last: 4
       login:
         local:
-        -
+        - null
       password:
         secret: cisco
       transport:
@@ -135,7 +141,6 @@ config:
     console: virtual
     punt-keepalive:
       disable-kernel-core: false
-  tailf-ned-cisco-ios:redundancy: {}
   tailf-ned-cisco-ios:router:
     ospf:
     - id: 1
@@ -158,26 +163,25 @@ config:
       debug:
         datetime:
           msec:
-          -
+          - null
       log:
         datetime:
           msec:
-          -
+          - null
   tailf-ned-cisco-ios:snmp-server:
     community:
     - RW:
-      -
+      - null
       name: private
     - RO:
-      -
+      - null
       name: public
   tailf-ned-cisco-ios:spanning-tree:
     extend:
       system-id:
-      -
+      - null
   tailf-ned-cisco-ios:subscriber:
-    templating:
-    -
+    templating: true
   tailf-ned-cisco-ios:tailfned:
     police: cirmode
   tailf-ned-cisco-ios:username:
@@ -189,14 +193,10 @@ config:
   tailf-ned-cisco-ios:version: '16.8'
   tailf-ned-cisco-ios:vrf:
     definition:
-    - address-family:
-        ipv4: {}
-        ipv6: {}
-      name: Mgmt-intf
+    - name: Mgmt-intf
   tailf-ned-cisco-ios:wsma:
     agent:
     - name: config
     - name: exec
     - name: filesys
     - name: notify
-  tailf-ned-cisco-ios:xxyyzztop: 0

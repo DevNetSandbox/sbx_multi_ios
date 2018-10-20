@@ -1,22 +1,29 @@
 config:
   tailf-ned-cisco-nx:feature:
     bash-shell:
-    -
+    - null
     interface-vlan:
-    -
+    - null
     lacp:
-    -
+    - null
     nxapi:
-    -
+    - null
     scp-server:
-    -
+    - null
     telnet:
-    -
+    - null
+  tailf-ned-cisco-nx:fex:
+  - id: 101
+    pinning:
+      max-links: 1
+  - id: 102
+    pinning:
+      max-links: 1
   tailf-ned-cisco-nx:hardware:
     forwarding:
       unicast:
         trace:
-        -
+        - null
     qos:
       ns-buffer-profile: burst
   tailf-ned-cisco-nx:hostname: "{{ nso_device_name }}"
@@ -24,9 +31,20 @@ config:
     Ethernet:
     - channel-group:
         id: 11
+        mode: active
+      description: e1/1
+      enable:
+        switchport: true
       name: 1/1
       switchport:
         mode: trunk
+        trunk:
+          allowed:
+            vlan:
+              ids:
+              - 1
+              - 380
+              - 400
     - name: 1/10
     - name: 1/100
     - name: 1/101
@@ -158,6 +176,15 @@ config:
     - name: 1/97
     - name: 1/98
     - name: 1/99
+    - enable:
+        switchport: true
+      name: 101/1/1
+      spanning-tree:
+        port:
+          type: edge
+      switchport:
+        access:
+          vlan: 401
     Vlan:
     - name: 1
     loopback:
@@ -175,16 +202,28 @@ config:
       vrf:
         member: management
     port-channel:
-    - lacp:
-        suspend-individual: true
-      name: '11'
+    - name: '100'
+      spanning-tree:
+        port:
+          type: network
       switchport:
         mode: trunk
-  tailf-ned-cisco-nx:ip:
-    domain-lookup: false
-  tailf-ned-cisco-nx:line:
-    console: {}
-    vty: {}
+    - name: '11'
+      switchport:
+        mode: trunk
+    - name: '73'
+      spanning-tree:
+        port:
+          type: network
+      switchport:
+        mode: trunk
+        trunk:
+          allowed:
+            vlan:
+              ids:
+              - 1
+              - 380
+              - 400
   tailf-ned-cisco-nx:logging:
     console: 2
     monitor: 5
@@ -211,12 +250,8 @@ config:
     - description: INFORMATION(5)
       number: 5
       owner: PMON@INFO
-  tailf-ned-cisco-nx:service:
-    unsupported-transceiver: true
   tailf-ned-cisco-nx:tailfned:
     default-lacp-suspend-individual: true
-    default-notification-mac-move: true
-    default-unsupported-transceiver: true
   tailf-ned-cisco-nx:username:
   - name: admin
     password:
@@ -265,6 +300,8 @@ config:
       name: Guest
     - id: 103
       name: Security
+    - id: 380
+    - id: 400
   tailf-ned-cisco-nx:vrf:
     context:
     - id: management
