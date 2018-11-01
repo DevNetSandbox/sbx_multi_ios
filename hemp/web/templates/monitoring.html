@@ -2,7 +2,7 @@
 {% set active_sidebar = "monitoring" %}
 
 {% block mainpanel %}
-<iframe src="http://localhost:3000/dashboard/db/extranet-monitoring?orgId=1&kiosk&theme=light"></iframe>
+<iframe src="http://{{ grafana_host }}/dashboard/db/extranet-monitoring?orgId=1&kiosk&theme=light"></iframe>
 {% endblock %}
 {% block footer %}
 {% endblock %}
