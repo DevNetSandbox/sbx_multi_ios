@@ -269,7 +269,7 @@ crypto isakmp policy 10
  crypto ipsec transform-set VPN esp-3des esp-md5-hmac
   mode tunnel
  !
- access-list 100 permit 192.168.1.0 0.0.0.255 192.168.0.0 0.0.0.255
+ access-list 100 permit ip 192.168.1.0 0.0.0.255 192.168.0.0 0.0.0.255
  !
  !
  crypto map VPN local-address Loopback0
@@ -384,7 +384,7 @@ crypto isakmp policy 10
  crypto ipsec transform-set VPN esp-3des esp-md5-hmac
   mode tunnel
  !
- access-list 100 permit 192.168.2.0 0.0.0.255 192.168.0.0 0.0.0.255
+ access-list 100 permit ip 192.168.2.0 0.0.0.255 192.168.0.0 0.0.0.255
  !
  !
  crypto map VPN local-address Loopback0
@@ -501,7 +501,7 @@ crypto isakmp policy 10
  crypto ipsec transform-set VPN esp-3des esp-md5-hmac
   mode tunnel
  !
- access-list 100 permit 192.168.3.0 0.0.0.255 192.168.0.0 0.0.0.255
+ access-list 100 permit ip 192.168.3.0 0.0.0.255 192.168.0.0 0.0.0.255
  !
  !
  crypto map VPN local-address Loopback0
@@ -617,7 +617,7 @@ crypto isakmp policy 10
   mode tunnel
  !
  !
- access-list 100 permit 192.168.4.0 0.0.0.255 192.168.0.0 0.0.0.255
+ access-list 100 permit ip 192.168.4.0 0.0.0.255 192.168.0.0 0.0.0.255
  !
  crypto map VPN local-address Loopback0
  crypto map VPN 10 ipsec-isakmp
