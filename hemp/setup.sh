@@ -5,7 +5,7 @@ sudo yum install -y telnet
 
 echo "Launching VIRL simulation ... "
 root_dir=$(pwd)
-virl up --provision 
+virl up --provision
 
 
 echo "Launching NSO ... "
@@ -21,7 +21,7 @@ echo "Performing initial sync of devices..."
 echo "devices sync-from" | ncs_cli -u admin -C
 
 echo "Network Summary"
-cd $root_dir/virl/test
+cd $root_dir
 virl ls
 virl nodes
 

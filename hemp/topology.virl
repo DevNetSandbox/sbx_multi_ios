@@ -111,7 +111,7 @@ end</entry>
     <node name="internet" type="SIMPLE" subtype="CSR1000v" location="360,246" ipv4="172.16.252.5" ipv6="2001:db8:b:0:1::3">
         <extensions>
 
-            <entry key="static_ip" type="string">172.16.30.50</entry>
+            <entry key="static_ip" type="string">172.16.30.99</entry>
             <entry key="config" type="String">! IOS Config generated on 2018-02-07 20:26
 ! by autonetkit_0.23.5
 !
