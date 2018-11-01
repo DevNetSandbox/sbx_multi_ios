@@ -11,6 +11,9 @@ virl up --provision
 echo "Launching NSO ... "
 cd nso
 ncs-setup --dest .
+cd packages/vpn/src
+make clean all
+cd $root_dir/nso
 ncs
 cd $root_dir
 
