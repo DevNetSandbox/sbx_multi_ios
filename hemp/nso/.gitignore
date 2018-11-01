@@ -9,3 +9,4 @@ project-meta-data.xml
 README.ncs
 setup.mk
 storedstate
+*.fxs
