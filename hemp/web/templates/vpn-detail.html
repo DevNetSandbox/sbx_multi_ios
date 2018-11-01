@@ -63,7 +63,7 @@
 
 </div>
 <h1>Tunnel Metrics</h1>
-<iframe src="http://localhost:3000/dashboard/db/tunnel-detail?orgId=1&var-peer_ip={{ vpn.peer_ip}}&theme=light&kiosk"></iframe>
+<iframe src="http://{{ grafana_host }}/dashboard/db/tunnel-detail?orgId=1&var-peer_ip={{ vpn.peer_ip}}&theme=light&kiosk"></iframe>
 
 {% endblock %}
 

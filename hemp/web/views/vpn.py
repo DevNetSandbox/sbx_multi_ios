@@ -5,10 +5,14 @@ if __name__ == '__main__':
         sys.path.append(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         )
+
+
 from services import nso
+
 
 def vpn_list():
     return render_template('vpn-list.html')
+
 
 def add_vpn():
     if request.method == "POST":
@@ -24,7 +28,7 @@ def add_vpn():
         vpn_data['acl_rule'] = request.form.get("acl_rule")
         vpn_data['transform_auth'] = request.form.get("transform_auth")
         vpn_data['transform_encryption'] = request.form.get("transform_encryption")
-        resp, payload =  nso.add_vpn(**vpn_data)
+        resp, payload = nso.add_vpn(**vpn_data)
         if resp.ok:
             flash("Successfully Created VPN", 'success')
             return redirect(url_for('vpn-list'))
@@ -36,6 +40,14 @@ def add_vpn():
     else:
         return render_template('add-vpn.html')
 
+
 def vpn_detail(partner_name):
+    host = request.host
+    if ':' in host:
+        host = host.split(':')[0]
+    grafana_host = host + ":3000"
+
     data = nso.get_vpn_details(partner_name)
-    return render_template('vpn-detail.html', vpn=data)
+    return render_template('vpn-detail.html',
+                           vpn=data,
+                           grafana_host=grafana_host)
