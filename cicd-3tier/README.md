@@ -56,7 +56,7 @@ virl start test-dist2
 
 ### Initial Configuration Pushes from GitLab may fail
 
-Occasionally the intial configuration pushes from GitLab to the networks may start before the nodes are fully ready, and one or more may timeout.  This can result in the initial configuration and connectivity in the topology from not coming up automatically after running `setup`.  
+Occasionally the initial configuration pushes from GitLab to the networks may start before the nodes are fully ready, and one or more may timeout.  This can result in the initial configuration and connectivity in the topology from not coming up automatically after running `setup`.  
 
 The most common operational issue is the VPC domain not coming up correctly between the dist nodes.  Troubleshoot using CLI, but these steps tend to work.  (Maybe needed on test, prod, or both)
 
@@ -87,7 +87,7 @@ The most common operational issue is the VPC domain not coming up correctly betw
 1. If VPC is not healthy on the distribution layer, the pyATS test will fail many of the tests as they are written to expect a healthy network.  
 
 ### Web Redirect from Open Issue -> Merge Request Fails
-When creating a Merge Request from an Issue as in the following image, GitLab will mistakenly redirect you to a web url using `gitlab` as the host name, rather than the IP address of `10.10.20.20`.  
+When creating a Merge Request from an Issue as in the following image, GitLab will mistakenly redirect you to a web url using `gitlab` as the host name, rather than the IP address of `10.10.20.20`
 
 ![](../static/gitlab-issue-mergerequest.jpg)
 
@@ -98,7 +98,7 @@ When this happens, simply change the host back to `10.10.20.20` to return to the
 
 ## Verification / Troubleshooting
 
-If all goes well, you should see output similar to This
+If all goes well, you should see output similar to this
 
 ```
 [developer@devbox cicd-3tier]$./setup.sh
@@ -287,7 +287,7 @@ With the pre-requisites under control, follow these steps to setup your local de
     1. Use NCS NetSim to start a local simulation of the network including the core, distribution, and access devices.
     2. Setup a local NCS project directory within the repo
     3. Start NCS and import in the netsim simulation
-    4. Preform and initial `sync-from`
+    4. Perform an initial `sync-from`
     5. Deploy the current "Network as Code" configuration to NCS and the network devices using Ansible
 
     ```bash
@@ -369,7 +369,7 @@ With the pre-requisites under control, follow these steps to setup your local de
     localhost                  : ok=2    changed=2    unreachable=0    failed=0
     ```
 
-3. Now go ahead and open issues, create branches, make changes to the config, etc.  Then before running `git add/commit/push` you can test locally.  With `make dev-deploy`.
+3. Now go ahead and open issues, create branches, make changes to the config, etc.  Then, before running `git add/commit/push`, you can test locally with `make dev-deploy`.
 
     ```bash
     $ make dev-deploy
