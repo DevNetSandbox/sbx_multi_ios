@@ -1,18 +1,18 @@
-- name: Check Synchronization of Devices
+- name: Configurations synchronized from NSO to devices
   hosts: localhost
   connection: local
   gather_facts: no
 
   tasks:
-    - name: check-sync
+    - name: NSO sync-to action
       nso_action:
         url: "{{ nso.url }}"
         username: "{{ nso.username }}"
         password: "{{ nso.password }}"
-        path: /ncs:devices/check-sync
+        path: /ncs:devices/sync-to
         input: {}
 
-- name: Verify device configuration
+- name: Push new configurations to NSO
   hosts: all
   connection: local
   gather_facts: no
@@ -30,7 +30,7 @@
               tailf-ncs:config:
                 "{{ config }}"
 
-- name: Push Desired Configuration to Devices
+- name: Push new configuration from NSO to Devices
   hosts: localhost
   connection: local
   gather_facts: no
