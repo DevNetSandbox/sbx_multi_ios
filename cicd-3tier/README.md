@@ -86,15 +86,6 @@ The most common operational issue is the VPC domain not coming up correctly betw
 
 1. If VPC is not healthy on the distribution layer, the pyATS test will fail many of the tests as they are written to expect a healthy network.  
 
-### Web Redirect from Open Issue -> Merge Request Fails
-When creating a Merge Request from an Issue as in the following image, GitLab will mistakenly redirect you to a web url using `gitlab` as the host name, rather than the IP address of `10.10.20.20`
-
-![](../static/gitlab-issue-mergerequest.jpg)
-
-When this happens, simply change the host back to `10.10.20.20` to return to the correct page.  
-
-![](../static/gitlab-url-redirector-error.jpg)
-
 
 ## Verification / Troubleshooting
 

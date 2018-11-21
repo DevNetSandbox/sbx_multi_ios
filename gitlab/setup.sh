@@ -43,7 +43,7 @@ echo ""
 echo "Ensuring firewalld is stopped and disabled"
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
-sudo systemctl restart docker 
+sudo systemctl restart docker
 
 echo ""
 printf "Launching Gitlab CE ..."
@@ -57,6 +57,10 @@ until $(curl --output /dev/null --silent --head --fail http://10.10.20.20); do
     sleep 10
 done
 success
+
+printf "Configuring external URL for GitLab"
+docker-compose exec gitlab /bin/bash -c "echo external_url \'http://10.10.20.20\' >> /etc/gitlab/gitlab.rb"
+docker-compose exec gitlab gitlab-ctl reconfigure 2>&1 >> gitlab_setup.log
 
 printf "Registering GitLab Runner ... "
 
