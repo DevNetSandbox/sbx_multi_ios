@@ -20,7 +20,7 @@ devices:
       defaults:
         class: unicon.Unicon
       ssh:
-        ip: 172.16.30.151
+        ip: 172.16.30.171
         protocol: ssh
     custom:
       abstraction:
@@ -35,7 +35,7 @@ devices:
       defaults:
         class: unicon.Unicon
       ssh:
-        ip: 172.16.30.152
+        ip: 172.16.30.172
         protocol: ssh
     custom:
       abstraction:

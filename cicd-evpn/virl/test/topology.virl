@@ -6,7 +6,7 @@
     </extensions>
     <node name="spine1" type="SIMPLE" subtype="NX-OSv 9000" location="400,200">
         <extensions>
-            <entry key="static_ip" type="String">172.16.30.51</entry>
+            <entry key="static_ip" type="String">172.16.30.71</entry>
 
             <entry key="ansible_group" type="String">spine</entry>
             <entry key="config" type="string">! NX-OSv Config generated on 2018-05-17 14:27
@@ -100,7 +100,7 @@ interface mgmt0
     </node>
     <node name="spine2" type="SIMPLE" subtype="NX-OSv 9000" location="600,200" ipv4="192.168.0.2">
         <extensions>
-            <entry key="static_ip" type="String">172.16.30.52</entry>
+            <entry key="static_ip" type="String">172.16.30.72</entry>
             <entry key="ansible_group" type="String">spine</entry>
             <entry key="config" type="string">! NX-OSv Config generated on 2018-05-17 14:27
 ! by autonetkit_0.23.5
