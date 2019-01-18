@@ -69,10 +69,10 @@ sudo yum install -y telnet
 echo "Launching VIRL simulations (prod+test) ... "
 root_dir=$(pwd)
 cd $root_dir/virl/test
-virl up --provision > /dev/null &
+virl up --provision --wait-time 15 > /dev/null &
 TEST=$!
 cd $root_dir/virl/prod
-virl up --provision &
+virl up --provision --wait-time 15 &
 PROD=$!
 wait $TEST $PROD
 cd $root_dir
