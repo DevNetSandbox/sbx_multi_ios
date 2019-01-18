@@ -4,7 +4,7 @@ ncs --stop
 ncs-setup --reset
 ncs-netsim stop
 ncs-netsim delete-network
-rm -rf netsim inventory.yaml packages state target scripts logs ncs-cdb storedstate README.netsim README.ncs ncs.conf
+rm -rf netsim inventory.yaml state target scripts logs ncs-cdb storedstate README.netsim README.ncs ncs.conf
 rm -Rf .git
 
 cd $base_dir/virl/test/
