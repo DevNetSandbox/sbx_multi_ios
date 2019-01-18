@@ -6,14 +6,43 @@ This repository is a code base which implements a full CI/CD pipeline for networ
 can be offered via Tower/AWX, executed directly from
 other workflows, or ran manually.
 
-# Technology Stack
+
+## Prerequisites
+
+### Version Control
+
+This lab assumes you have already setup the[gitlab stack](../gitlab) on your devbox
+
+# Topology
+
+The [./virl/test/topology.virl](./virl/test/topology.virl) file provides a spine-leaf topology for use as a "test" environment
+
+The [./virl/prod/topology.virl](./virl/prod/topology.virl) file provides a spine-leaf topology for use as a "test" environment
+
+![Alt Text](https://github.com/virlfiles/spine-leaf/raw/master/topology.png)
+
+
+# Pipeline Technology Stack
 
 * Ansible (2.5 or later)
 * NSO (4.6 or later)
 * Netsim (for providing local dev enviroments)
 * Cisco VIRL (for testing "live" deployments)
-* pyATS for running acceptance tests after a deployment
-* AWX (optional for service-catalog type use cases)
+* pyATS for running acceptance tests after a deployment, as well as some other use cases
+* AWX (optional for service-catalog type use cases, TODO: not included yet)
+
+## Setup
+
+This following script should cover all the initial installation:
+
+```
+./setup.sh
+```
+
+## Getting started
+
+You should be able to see your infrastructure as code repository at http://10.10.20.20/developer/cicd-evpn
+
 
 # NSO Service Details
 
@@ -23,11 +52,11 @@ The following service models are defined in (./packages/vxlan-evpn)
   * vxlan-fabric
   * vxlan-tenant
 
-# Topology
+There are also some other sample service packages
 
-The [./topology.virl](topology.virl) file provides a spine-leaf topology for use with Cisco VIRL
+* pyats-integration - use pyats for network verifications directly via NSO CLI, API, etc
+* webex-teams - get notified of network changes in webex teams
 
-![Alt Text](https://github.com/virlfiles/spine-leaf/raw/master/topology.png)
 
 
 # Catalog
