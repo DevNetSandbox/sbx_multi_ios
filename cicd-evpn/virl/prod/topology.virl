@@ -193,7 +193,7 @@ interface mgmt0
     </node>
     <node name="leaf1" type="SIMPLE" subtype="NX-OSv 9000" location="200,400">
         <extensions>
-            <entry key="static_ip" type="String">172.16.30.162</entry>
+            <entry key="static_ip" type="String">172.16.30.161</entry>
             <entry key="ansible_group" type="String">leaf</entry>
             <entry key="config" type="string">! NX-OSv Config generated on 2018-05-17 14:27
 ! by autonetkit_0.23.5
