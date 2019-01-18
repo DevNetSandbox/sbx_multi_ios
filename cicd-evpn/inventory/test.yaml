@@ -13,11 +13,11 @@ all:
 
         spine1:
           nso_device_name: test-spine1
-          oob_mgmt_ip: 172.16.30.171
+          oob_mgmt_ip: 172.16.30.71
 
         spine2:
           nso_device_name: test-spine2
-          oob_mgmt_ip: 172.16.30.172
+          oob_mgmt_ip: 172.16.30.72
 
     leaf:
       hosts:
@@ -35,5 +35,5 @@ all:
           oob_mgmt_ip: 172.16.30.61
 
         leaf4:
-          nso_device_name: test-leaf2
+          nso_device_name: test-leaf4
           oob_mgmt_ip: 172.16.30.62

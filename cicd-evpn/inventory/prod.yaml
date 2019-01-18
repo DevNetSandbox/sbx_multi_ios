@@ -13,27 +13,27 @@ all:
 
         spine1:
           nso_device_name: spine1
-          oob_mgmt_ip: 172.16.30.71
+          oob_mgmt_ip: 172.16.30.171
 
         spine2:
           nso_device_name: spine2
-          oob_mgmt_ip: 172.16.30.72
+          oob_mgmt_ip: 172.16.30.172
 
     leaf:
       hosts:
 
         leaf1:
           nso_device_name: leaf1
-          oob_mgmt_ip: 172.16.30.61
+          oob_mgmt_ip: 172.16.30.161
 
         leaf2:
           nso_device_name: leaf2
-          oob_mgmt_ip: 172.16.30.62
+          oob_mgmt_ip: 172.16.30.162
 
         leaf3:
           nso_device_name: leaf3
-          oob_mgmt_ip: 172.16.30.61
+          oob_mgmt_ip: 172.16.30.161
 
         leaf4:
-          nso_device_name: leaf2
-          oob_mgmt_ip: 172.16.30.62
+          nso_device_name: leaf4
+          oob_mgmt_ip: 172.16.30.162
