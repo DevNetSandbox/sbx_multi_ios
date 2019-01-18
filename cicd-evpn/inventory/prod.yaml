@@ -1,0 +1,39 @@
+
+all:
+  vars:
+    nso:
+      ip: 10.10.20.20
+      url: http://10.10.20.20:8080/jsonrpc
+      username: admin
+      password: admin
+
+  children:
+    spine:
+      hosts:
+
+        spine1:
+          nso_device_name: spine1
+          oob_mgmt_ip: 172.16.30.51
+
+        spine2:
+          nso_device_name: spine2
+          oob_mgmt_ip: 172.16.30.52
+
+    leaf:
+      hosts:
+
+        leaf1:
+          nso_device_name: leaf1
+          oob_mgmt_ip: 172.16.30.61
+
+        leaf2:
+          nso_device_name: leaf2
+          oob_mgmt_ip: 172.16.30.62
+
+        leaf3:
+          nso_device_name: leaf3
+          oob_mgmt_ip: 172.16.30.61
+
+        leaf4:
+          nso_device_name: leaf2
+          oob_mgmt_ip: 172.16.30.62

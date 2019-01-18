@@ -1,0 +1,73 @@
+module vxlan-common {
+
+  namespace "http://example.com/vxlan-common";
+  prefix vxlan-common;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+
+
+  import tailf-common {
+    prefix tailf;
+  }
+
+  grouping common-param {
+    leaf group-range {
+      type inet:ipv4-prefix;
+      mandatory true;
+    }
+    leaf ssm-list {
+      type inet:ipv4-prefix;
+      mandatory true;
+    }
+
+    leaf as-number {
+      type uint16;
+      mandatory true;
+    }
+
+    leaf pim-ip {
+      mandatory true;
+      type inet:ipv4-address;
+    }
+
+    // TODO: BETTER NAMES
+    leaf loopback0 {
+        mandatory true;
+        type inet:ipv4-address;
+    }
+
+    leaf loopback1 {
+        mandatory true;
+        type inet:ipv4-address;
+    }
+
+    // The links to spines and which interfaces
+    list links {
+      // TODO: leafref
+      // TODO: Make sure if is unique
+      key node;
+      leaf node {
+        type string;
+      }
+
+      leaf if {
+        // TODO: Format check
+        mandatory true;
+        type string;
+      }
+
+      leaf ip-address {
+        // MY ip-address on the interface
+        type tailf:ipv4-address-and-prefix-length;
+        mandatory true;
+      }
+
+      leaf router-id {
+        mandatory true;
+        type inet:ipv4-address;
+      }
+    }    
+  }
+}

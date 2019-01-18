@@ -1,0 +1,82 @@
+- name: Synchronization of Devices
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: NSO sync-to action
+      nso_action:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        path: /ncs:devices/sync-to
+        input: {}
+
+- name: Verify device configuration
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Device configuration
+      nso_config:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        data:
+          tailf-ncs:devices:
+            device:
+            - name: "{{ inventory_hostname }}"
+              tailf-ncs:config:
+                "{{ config }}"
+
+- name: Ensure Base Fabric Configuration
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Load Fabric Config from Source YAML
+      include_vars:
+        file: fabrics/fabric1.yaml
+        name: fabric1
+    - name: Send config to NSO
+      nso_config:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        data:
+          "{{ fabric1 }}"
+
+- name: Ensure Tenant Configuration
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Loading Tenant Definitions from source YAML
+      with_fileglob:
+        - "tenants/*.yaml"
+      include_vars:
+        file: "{{ item }}"
+        name: tenants
+
+    - name: Pushing Tenant configuration to NSO
+      with_dict: "{{ tenants }}"
+      loop_control:
+        label: "{{ item.key }}"
+      nso_config:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        data:
+          vxlan-tenant:vxlan-tenant:
+            "{{ item.value }}"
+
+    - name: NSO sync-to action
+      nso_action:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        path: /ncs:devices/sync-to
+        input: {}

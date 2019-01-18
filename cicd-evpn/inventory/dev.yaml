@@ -1,0 +1,13 @@
+all:
+  vars:
+    nso:
+      url: http://localhost:8080/jsonrpc
+      username: admin
+      password: admin
+  hosts:
+    leaf1: null
+    leaf2: null
+    leaf3: null
+    leaf4: null
+    spine1: null
+    spine2: null

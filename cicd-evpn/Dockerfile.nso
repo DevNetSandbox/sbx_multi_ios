@@ -1,0 +1,34 @@
+FROM ubuntu:latest
+
+# build with --build-arg NSOVER=4.7
+ARG NSOVER
+
+# Copy NSO install bin file
+COPY nso-$NSOVER.linux.x86_64.installer.bin /usr/src/nso
+
+# install apt package dependencies
+RUN apt-get update;\
+    apt-get install -y \
+      curl psmisc openssh-client xsltproc ant libxml2-utils default-jre-headless make python3 python3-pip; \
+    apt-get -y clean autoclean;\
+    apt-get -y autoremove
+
+# perform nso local install
+RUN chmod +x /usr/src/nso; \
+    /usr/src/nso --local-install /root/nso; \
+    echo '. ~/nso/ncsrc' >> /root/.bashrc
+
+# cleanup
+RUN rm -rf /tmp/* /var/tmp/* /var/lib/{apt,dpkg,cache,log}/
+
+# install python dependencies
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install -r /tmp/requirements.txt
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+EXPOSE 8080 830 2022 2023 4569
+
+WORKDIR /root/nso-project
+COPY . /root/nso-project
+
+ENTRYPOINT ["/root/nso-project/docker-run-nso.sh"]

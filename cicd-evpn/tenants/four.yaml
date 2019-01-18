@@ -1,0 +1,15 @@
+four:
+  - name: four
+    fabric: fabric1
+    segments:
+    # can have multiple segments
+      - name: test
+        network: 1.1.1.0/24
+        suppress-arp: true
+        connection:
+          - iface: 1/21
+            leaf: leaf1
+            # mode: access/trunk (default is trunk)
+          - iface: 1/21
+            leaf: leaf2
+            # mode: access/trunk (default is trunk)

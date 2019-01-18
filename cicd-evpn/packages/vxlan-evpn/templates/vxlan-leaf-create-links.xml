@@ -1,0 +1,11 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <vxlan-leaf xmlns="http://example.com/vxlan-leaf">
+    <name>{$LEAF}</name>
+     <links>
+        <node>{$SPINE}</node>
+        <if>{$IF}</if>
+        <ip-address>{$MY_IP}</ip-address>
+        <router-id>{$SPINE_ROUTERID}</router-id>
+      </links>
+  </vxlan-leaf>
+</config-template>

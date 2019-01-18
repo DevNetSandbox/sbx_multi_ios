@@ -1,0 +1,52 @@
+
+vxlan-fabric:vxlan-fabric:
+- interior-pool: 172.16.0.0/16
+  leaves:
+  - connections:
+    - interface: 1/1
+      spine: spine1
+    - interface: 1/2
+      spine: spine2
+    device: leaf1
+  - connections:
+    - interface: 1/1
+      spine: spine1
+    - interface: 1/2
+      spine: spine2
+    device: leaf2
+  - connections:
+    - interface: 1/1
+      spine: spine1
+    - interface: 1/2
+      spine: spine2
+    device: leaf3
+  - connections:
+    - interface: 1/1
+      spine: spine1
+    - interface: 1/2
+      spine: spine2
+    device: leaf4
+  loopback-pool: 10.2.1.0/24
+  name: fabric1
+  pim-pool: 100.2.1.0/24
+  spines:
+  - connections:
+    - interface: 1/1
+      leaf: leaf1
+    - interface: 1/2
+      leaf: leaf2
+    - interface: 1/3
+      leaf: leaf3
+    - interface: 1/4
+      leaf: leaf4
+    device: spine1
+  - connections:
+    - interface: 1/1
+      leaf: leaf1
+    - interface: 1/2
+      leaf: leaf2
+    - interface: 1/3
+      leaf: leaf3
+    - interface: 1/4
+      leaf: leaf4
+    device: spine2

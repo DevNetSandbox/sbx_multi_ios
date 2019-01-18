@@ -1,0 +1,15 @@
+tenant_name:
+  - name: tenant_name
+    fabric: fabric1
+    segments:
+    # can have multiple segments
+      - name: segment_name
+        network: 1.1.1.0/24
+        suppress-arp: true
+        connection:
+          - iface: MOD/PORT
+            leaf: LEAF_NAME
+            # mode: access/trunk (default is trunk)
+          - iface: MOD/PORT
+            leaf: LEAF_NAME
+            # mode: access/trunk (default is trunk)

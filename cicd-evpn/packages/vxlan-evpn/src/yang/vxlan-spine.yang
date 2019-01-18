@@ -1,0 +1,62 @@
+module vxlan-spine {
+
+  namespace "http://example.com/vxlan-spine";
+  prefix vxlan-spine;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import vxlan-common {
+    prefix vxcom;
+  }
+
+  description
+    "Bla bla...";
+
+  revision 2016-01-01 {
+    description
+      "Initial revision.";
+  }
+
+
+
+  list vxlan-spine {
+    description "This is an RFS skeleton service";
+
+    key name;
+    leaf name {
+      tailf:info "Unique service id";
+      tailf:cli-allow-range;
+      type string;
+    }
+
+    uses ncs:service-data;
+    ncs:servicepoint vxlan-evpn-spine;
+
+    leaf device {
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+    }
+
+    uses vxcom:common-param;
+
+    list spines {
+      key name;
+      leaf name {
+        type string;
+      }
+
+      leaf router-id {
+        mandatory true;
+        type inet:ipv4-address;
+      }
+    }
+  }
+}

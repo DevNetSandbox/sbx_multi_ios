@@ -1,0 +1,23 @@
+1. Adjust Permissions
+
+`sudo chmod -R a+r /opt/nso47`
+
+
+2. load-path change in /opt/nso47/etc/ncs/ncs.conf (copy from /opt/nso45)
+
+```
+<load-path>
+  <dir>./packages</dir>
+  <dir>${NCS_DIR}/etc/ncs</dir>
+  <dir>${NCS_DIR}/etc/ncs/snmp</dir>
+</load-path>
+```
+
+```
+<load-path>
+   <dir>./packages</dir>
+   <dir>/opt/nso/packages/neds/</dir>
+   <dir>${NCS_DIR}/etc/ncs</dir>
+   <dir>${NCS_DIR}/etc/ncs/snmp</dir>
+ </load-path>
+```

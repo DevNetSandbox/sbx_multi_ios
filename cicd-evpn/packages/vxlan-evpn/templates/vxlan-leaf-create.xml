@@ -1,0 +1,12 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <vxlan-leaf xmlns="http://example.com/vxlan-leaf">
+    <name>{$LEAF}</name>
+    <device>{$LEAF}</device>
+    <pim-ip>{$PIM_IP}</pim-ip>
+    <loopback0>{$LOOPBACK0}</loopback0>
+    <loopback1>{$LOOPBACK1}</loopback1> 
+    <group-range>{./group-range}</group-range>
+    <ssm-list>{./ssm-range}</ssm-list>
+    <as-number>{./as-number}</as-number>
+  </vxlan-leaf>    
+</config-template>

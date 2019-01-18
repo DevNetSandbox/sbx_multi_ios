@@ -1,0 +1,39 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{/device}</name>
+      <config>
+       <ip xmlns="http://tail-f.com/ned/cisco-nx">
+         <pim>
+ <?foreach {/spines/router-id}?>
+           <anycast-rp>
+             <address>{$PIM_IP}</address>
+             <rp>{.}</rp>
+           </anycast-rp>
+ <?end?>
+         </pim>
+       </ip>
+       <router xmlns="http://tail-f.com/ned/cisco-nx">
+        <bgp>
+           <id>{$AS_NUMBER}</id>
+            <template>
+              <peer>
+                <name>VTEP-PEERS</name>
+                <address-family>
+                  <proto>ipv4</proto>
+                  <type>unicast</type>
+                  <route-reflector-client/>
+                </address-family>
+                <address-family>
+                  <proto>l2vpn</proto>
+                  <type>evpn</type>
+                  <route-reflector-client/>
+                </address-family>
+            </peer>
+          </template>
+        </bgp>
+      </router>
+     </config>
+   </device>
+ </devices>
+</config-template>

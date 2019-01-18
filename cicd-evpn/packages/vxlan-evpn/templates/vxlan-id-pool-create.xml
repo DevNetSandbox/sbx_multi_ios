@@ -1,0 +1,11 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+    <resource-pools xmlns="http://tail-f.com/pkg/resource-allocator">
+        <id-pool xmlns="http://tail-f.com/pkg/id-allocator">
+            <name>{$POOL_NAME}</name>
+            <range>
+                <start>{$START}</start>
+                <end>{$END}</end>
+            </range>
+        </id-pool>
+    </resource-pools>
+</config-template>

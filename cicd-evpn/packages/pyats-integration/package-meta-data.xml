@@ -1,0 +1,13 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>pyats-integration</name>
+  <package-version>1.0</package-version>
+  <description>Use pyATS to verify operational data</description>
+  <ncs-min-version>4.6</ncs-min-version>
+
+  <component>
+    <name>main</name>
+    <application>
+      <python-class-name>pyats_integration.main.Main</python-class-name>
+    </application>
+  </component>
+</ncs-package>

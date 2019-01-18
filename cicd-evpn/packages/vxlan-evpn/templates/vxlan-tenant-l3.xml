@@ -1,0 +1,69 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+    <devices xmlns="http://tail-f.com/ns/ncs">
+        <device>
+            <name>{$LEAF}</name>
+            <config>
+                <vlan xmlns="http://tail-f.com/ned/cisco-nx">
+                    <vlan-list>
+                        <id>{$VLAN_ID}</id>
+                        <vn-segment>{$VNI_ID}</vn-segment>
+                    </vlan-list>
+                </vlan>
+                <vrf xmlns="http://tail-f.com/ned/cisco-nx">
+                    <context>
+                        <id>{$VRF}</id>
+                        <vni>{$VNI_ID}</vni>
+                        <rd>auto</rd>
+                        <address-family>
+                            <ipv4>
+                                <unicast>
+                                    <route-target>
+                                        <method>both</method>
+                                        <asn>auto</asn>
+                                        <target-evpn>evpn</target-evpn>
+                                    </route-target>
+                                </unicast>
+                            </ipv4>
+                        </address-family>
+                    </context>
+                </vrf>
+                <interface xmlns="http://tail-f.com/ned/cisco-nx">
+                    <Vlan>
+                        <name>{$VLAN_ID}</name>
+                        <vrf>
+                            <member>{$VRF}</member>
+                        </vrf>
+                        <ip>
+                            <forward/>
+                        </ip>
+                    </Vlan>
+                    <nve>
+                        <name>1</name>
+                        <member>
+                            <vni>
+                                <id>{$VNI_ID}</id>
+                                <associate-vrf/>
+                            </vni>
+                        </member>
+                    </nve>
+                </interface>
+                <router xmlns="http://tail-f.com/ned/cisco-nx">
+                    <bgp>
+                        <id>{$BGP_AS}</id>
+                        <vrf>
+                            <name>{$VRF}</name>
+                            <address-family>
+                                <proto>ipv4</proto>
+                                <type>unicast</type>
+                                <advertise>
+                                    <l2vpn>evpn</l2vpn>
+                                </advertise>
+                            </address-family>
+                        </vrf>
+                    </bgp>
+                </router>
+            </config>
+
+        </device>
+    </devices>
+</config-template>

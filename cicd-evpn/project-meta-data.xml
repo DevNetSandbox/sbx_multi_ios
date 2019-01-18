@@ -1,0 +1,23 @@
+<project-meta-data xmlns="http://tail-f.com/ns/ncs-project">
+  <name>cicd-evpn</name>
+  <project-version>1.0</project-version>
+  <description>A VXLAN EVPN fabric, as code.</description>
+
+
+  <package>
+    <name>cisco-nx</name>
+    <url>http://opk-nso/ncs-pkgs/ncs-4.6-cisco-nx-5.1.3.tar.gz</url>
+  </package>
+
+  <package>
+    <name>resource-manager</name>
+    <url>http://opk-nso/ncs-pkgs/ncs-4.6-resource-manager-3.3.0.tar.gz</url>
+  </package>
+
+  <package>
+    <name>vxlan-evpn</name>
+    <local/>
+  </package>
+
+
+</project-meta-data>

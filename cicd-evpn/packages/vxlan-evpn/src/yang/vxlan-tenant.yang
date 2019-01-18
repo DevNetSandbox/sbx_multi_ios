@@ -1,0 +1,110 @@
+module vxlan-tenant {
+
+  namespace "http://example.com/vxlan-tenant";
+  prefix vxlan-tenant;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import vxlan-fabric {
+    prefix vxlan-fabric;
+  }
+
+  list vxlan-tenant {
+    key name;
+    // TODO: Forbid - in names
+    leaf name {
+      tailf:info "Unique service id";
+      tailf:cli-allow-range;
+      type string;
+    }
+
+    leaf fabric {
+      type leafref {
+        path "/vxlan-fabric:vxlan-fabric/vxlan-fabric:name";
+      }
+      mandatory true;
+    }
+
+    // TODO: Name, call them VNIs?
+    list segments {
+      key name;
+
+      leaf name {
+        // Not used for anything?
+        type string;
+      }
+
+      leaf vni-id {
+        type uint32;
+        config false;
+        tailf:cdb-oper {
+          tailf:persistent true;
+        }
+      }
+
+      leaf vlan-id {
+        type uint32;
+        config false;
+        tailf:cdb-oper {
+          tailf:persistent true;
+        }
+      }
+
+      leaf network {
+        type inet:ipv4-prefix;
+        mandatory true;
+      }
+
+      leaf suppress-arp {
+        type boolean;
+        default true;
+      }
+
+      list connection {
+        key "leaf iface";
+        tailf:cli-suppress-mode;
+
+        leaf leaf {
+          tailf:cli-drop-node-name;
+          type leafref {
+            path "/vxlan-fabric:vxlan-fabric[vxlan-fabric:name=current()/../../../fabric]/vxlan-fabric:leaves/vxlan-fabric:device";
+          }
+        }
+
+        leaf iface {
+          tailf:cli-drop-node-name;
+          type string;
+          // TODO: Consistency check & format
+        }
+
+        // If the interface is in access, no other connection in any tenant using the same fabric may use the interface
+        // Forbidden cases:
+        //   1. Different fabric, any segment, any connection
+        //   2. Same fabric, different segment, any connection
+        must "mode = 'trunk' or
+              ((count(/vxlan-tenant:vxlan-tenant[name!=current()/../../name][fabric=current()/../../fabric]/segments/connection[leaf=current()/leaf][iface=current()/iface]) = 0)
+          and  (count(/vxlan-tenant:vxlan-tenant[name=current()/../../name][fabric=current()/../../fabric]/segments[name!=current()/../name]/connection[leaf=current()/leaf][iface=current()/iface]) = 0))";
+
+        leaf mode {
+          type enumeration {
+            enum trunk;
+            enum access;
+          }
+          default trunk;
+        }
+      }
+    }
+
+    uses ncs:service-data;
+    ncs:servicepoint vxlan-evpn-tenant;
+
+
+  }
+}

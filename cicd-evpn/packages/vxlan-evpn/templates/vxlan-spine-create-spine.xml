@@ -1,0 +1,9 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <vxlan-spine xmlns="http://example.com/vxlan-spine">
+    <name>{$SPINE}</name>
+      <spines>
+        <name>{$OTHER_SPINE}</name>
+        <router-id>{$OTHER_ROUTERID}</router-id>
+      </spines>
+  </vxlan-spine>
+</config-template>

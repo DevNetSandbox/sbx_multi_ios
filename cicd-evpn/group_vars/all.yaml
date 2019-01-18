@@ -1,0 +1,11 @@
+config:
+  tailf-ned-cisco-nx:hostname: "{{ nso_device_name}}"
+  tailf-ned-cisco-nx:interface:
+    mgmt:
+    - description: OOB Management
+      ip:
+        address:
+          ipaddr: "{{ oob_mgmt_ip }}/24"
+      name: 0
+      vrf:
+        member: management

@@ -1,0 +1,17 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>vxlan-evpn</name>
+  <package-version>1.0</package-version>
+  <description>Generated Python package</description>
+  <ncs-min-version>4.6</ncs-min-version>
+
+  <required-package>
+    <name>resource-manager</name>
+  </required-package>
+
+  <component>
+    <name>main</name>
+    <application>
+      <python-class-name>vxlan_evpn.main.Main</python-class-name>
+    </application>
+  </component>
+</ncs-package>

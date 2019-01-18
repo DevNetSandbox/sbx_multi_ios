@@ -1,0 +1,34 @@
+module webex-teams {
+
+  namespace "http://example.com/webex-teams";
+  prefix webex-teams;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "Bla bla...";
+
+  revision 2016-01-01 {
+    description
+      "Initial revision.";
+  }
+  container webex-teams {
+    leaf room-id {
+      type string;
+    }
+    leaf api-token {
+      type string;
+    }
+    leaf keypath {
+      type string;
+    }
+  }
+}

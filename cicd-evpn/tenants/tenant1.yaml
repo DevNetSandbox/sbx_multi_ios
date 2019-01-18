@@ -1,0 +1,30 @@
+tenant1:
+  - name: tenant1
+    fabric: fabric1
+    segments:
+      - connection:
+        - iface: 1/21
+          leaf: leaf1
+        - iface: 1/21
+          leaf: leaf2
+        name: Seg1
+        network: 10.0.11.0/24
+        suppress-arp: true
+      - connection:
+        - iface: 1/21
+          leaf: leaf2
+        - iface: 1/21
+          leaf: leaf1
+        name: Seg2
+        network: 10.0.12.0/24
+        suppress-arp: false
+      - name: servers
+        network: 192.168.1.0/24
+        suppress-arp: true
+        connection:
+          - iface: 1/5
+            leaf: leaf1
+            mode: access
+          - iface: 1/5
+            leaf: leaf3
+            mode: access

@@ -1,0 +1,18 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>     
+      <name>{/device}</name>
+      <config>
+        <feature xmlns="http://tail-f.com/ned/cisco-nx">
+         <vn-segment-vlan-based/>
+         <interface-vlan/>
+       </feature>       
+       <interface xmlns="http://tail-f.com/ned/cisco-nx">
+         <Vlan>
+           <name>1</name>
+         </Vlan>
+       </interface>   
+     </config>
+   </device>
+ </devices>
+</config-template>

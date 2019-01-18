@@ -1,0 +1,80 @@
+module pyats-integration {
+
+  namespace "http://example.com/pyats-integration";
+  prefix pyats-integration;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "Bla bla...";
+
+  revision 2016-01-01 {
+    description
+      "Initial revision.";
+  }
+
+
+  container pyats {
+
+    container testbed {
+      tailf:info "TODO - allow testbed configuration";
+      leaf filename {
+        type string;
+      }
+    }
+
+
+    container triggers {
+      tailf:info "Execute pyATS/Genie Triggers";
+      tailf:action trigger {
+        tailf:actionpoint run-trigger-action;
+        input {
+          leaf name {
+            tailf:info "trigger name to execute";
+            type string;
+          }
+        }
+        output {
+          leaf trigger_result {
+            type string;
+          }
+        }
+      }
+    }
+
+    container verifications {
+      tailf:info "Execute pyATS/Genie Verifications";
+
+      tailf:action bgp {
+        tailf:info "checks that all bgp neighbors are established";
+        tailf:actionpoint check-bgp-action;
+        output {
+          leaf test_results {
+            type string;
+          }
+        }
+      }
+
+      tailf:action crc {
+        tailf:info "checks no interfaces have CRC errors";
+        tailf:actionpoint check-crc-action;
+        output {
+          leaf test_results {
+            type string;
+          }
+        }
+      }
+
+    }
+  }
+
+
+}

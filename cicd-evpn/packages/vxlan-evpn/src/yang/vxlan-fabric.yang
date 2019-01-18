@@ -1,0 +1,126 @@
+module vxlan-fabric {
+
+  namespace "http://example.com/vxlan-fabric";
+  prefix vxlan-fabric;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  list vxlan-fabric {
+    key name;
+    // TODO: Forbid - in names
+    leaf name {
+      tailf:info "Unique service id";
+      tailf:cli-allow-range;
+      type string;
+    }
+
+    tailf:action verify {
+      tailf:actionpoint vxlan-fabric-verify;
+      output {
+        leaf result {
+          type string;
+        }
+        leaf ready {
+          type boolean;
+        }
+      }
+    }
+    uses ncs:service-data;
+    ncs:servicepoint vxlan-evpn-fabric;
+
+    leaf pim-pool {
+      description
+        "This pool is used to pull the rendevouz address for PIM as well as the loopback1 addresses";
+      type inet:ipv4-prefix;
+      mandatory true;
+    }
+
+    leaf loopback-pool {
+      description
+        "This pool is used to pull the loopback0 addresses";
+      type inet:ipv4-prefix;
+      mandatory true;
+    }
+
+
+    leaf interior-pool {
+      description
+        "This pool is used to pull the /30s needed between spine/leaf links";
+      type inet:ipv4-prefix;
+      mandatory true;
+    }
+
+
+    leaf ssm-range {
+      type inet:ipv4-prefix;
+      default "232.0.0.0/8";
+    }
+
+    leaf group-range {
+      type inet:ipv4-prefix;
+      default "224.0.0.0/4";
+    }
+
+    leaf as-number {
+      type uint16;
+      default 65001;
+    }
+
+    list spines {
+      ordered-by user;
+
+      key device;
+      leaf device {
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+
+      // TODO: FULL MESH CHECK
+      list connections {
+        key leaf;
+        leaf leaf {
+          type leafref {
+            path "../../../leaves/device";
+          }
+        }
+        leaf interface {
+          type string;
+          // TODO: FORMAT CONTROL
+        }
+      }
+
+    }
+
+    list leaves {
+      key device;
+      leaf device {
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+      //TODO: Uniqueness of devices, in all these lists.
+      list connections {
+        key spine;
+        leaf spine {
+          type leafref {
+            path "../../../spines/device";
+          }
+        }
+        leaf interface {
+          type string;
+          // TODO: FORMAT CONTROL
+        }
+      }
+    }
+
+  }
+}

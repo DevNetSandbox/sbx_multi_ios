@@ -1,0 +1,185 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{/device}</name>
+      <config>
+       <hostname xmlns="http://tail-f.com/ned/cisco-nx">{$HOSTNAME}</hostname>
+       <feature xmlns="http://tail-f.com/ned/cisco-nx">
+         <bgp/>
+         <nv>
+           <overlay/>
+         </nv>
+         <nxapi/>
+         <ospf/>
+         <pim/>
+         <telnet/>
+       </feature>
+       <nv xmlns="http://tail-f.com/ned/cisco-nx">
+         <overlay>
+           <evpn/>
+         </overlay>
+       </nv>
+       <ip xmlns="http://tail-f.com/ned/cisco-nx">
+         <pim>
+           <rp-address>
+             <ip-address>{$PIM_IP}</ip-address>
+             <group-list>
+               <group-range-prefix>{$GROUP_RANGE}</group-range-prefix>
+             </group-list>
+           </rp-address>
+           <ssm>
+             <range>
+               <list-of-group>{$SSM_LIST}</list-of-group>
+             </range>
+           </ssm>
+         </pim>
+         <domain-lookup>true</domain-lookup>
+       </ip>
+       <hardware xmlns="http://tail-f.com/ned/cisco-nx">
+         <forwarding>
+           <unicast>
+             <trace/>
+           </unicast>
+         </forwarding>
+       </hardware>
+       <vdc xmlns="http://tail-f.com/ned/cisco-nx">
+         <vdc-list>
+           <name>{$HOSTNAME}</name>
+           <id>1</id>
+           <limit-resource>
+             <vlan>
+               <minimum>16</minimum>
+               <maximum>4094</maximum>
+             </vlan>
+             <vrf>
+               <minimum>2</minimum>
+               <maximum>4096</maximum>
+             </vrf>
+             <port-channel>
+               <minimum>0</minimum>
+               <maximum>511</maximum>
+             </port-channel>
+             <u4route-mem>
+               <minimum>96</minimum>
+               <maximum>96</maximum>
+             </u4route-mem>
+             <u6route-mem>
+               <minimum>24</minimum>
+               <maximum>24</maximum>
+             </u6route-mem>
+             <m4route-mem>
+               <minimum>58</minimum>
+               <maximum>58</maximum>
+             </m4route-mem>
+             <m6route-mem>
+               <minimum>8</minimum>
+               <maximum>8</maximum>
+             </m6route-mem>
+           </limit-resource>
+         </vdc-list>
+       </vdc>
+       <interface xmlns="http://tail-f.com/ned/cisco-nx">
+ <?foreach {/links/if}?>
+        <Ethernet>
+         <name>{.}</name>
+         <enable>
+           <switchport>false</switchport>
+         </enable>
+         <description>to {./node}</description>
+         <ip>
+           <address>
+             <ipaddr>{./ip-address}</ipaddr>
+           </address>
+           <ospf>
+             <network>point-to-point</network>
+           </ospf>
+           <router>
+             <ospf>
+               <name>Underlay</name>
+               <area>0.0.0.0</area>
+             </ospf>
+           </router>
+           <pim>
+             <sparse-mode/>
+           </pim>
+         </ip>
+         <mtu>9216</mtu>
+       </Ethernet>
+<?end?>
+       <loopback>
+         <name>0</name>
+         <ip>
+           <address>
+             <ipaddr>{$LOOPBACK0_IP}/32</ipaddr>
+           </address>
+           <router>
+             <ospf>
+               <name>Underlay</name>
+               <area>0.0.0.0</area>
+             </ospf>
+           </router>
+         </ip>
+       </loopback>
+       <loopback>
+         <name>1</name>
+         <ip>
+           <address>
+             <ipaddr>{$LOOPBACK1_IP}/32</ipaddr>
+           </address>
+           <router>
+             <ospf>
+               <name>Underlay</name>
+               <area>0.0.0.0</area>
+             </ospf>
+           </router>
+         </ip>
+       </loopback>
+     </interface>
+     <line xmlns="http://tail-f.com/ned/cisco-nx">
+       <console/>
+       <vty/>
+     </line>
+     <router xmlns="http://tail-f.com/ned/cisco-nx">
+         <bgp>
+           <id>{$AS_NUMBER}</id>
+           <router-id>{$LOOPBACK0_IP}</router-id>
+            <template>
+              <peer>
+                <name>VTEP-PEERS</name>
+                <update-source>loopback0</update-source>
+                <address-family>
+                  <proto>ipv4</proto>
+                  <type>unicast</type>
+                  <send-community>
+                    <attr>both</attr>
+                  </send-community>
+                </address-family>
+                <address-family>
+                  <proto>l2vpn</proto>
+                  <type>evpn</type>
+                  <send-community>
+                    <attr>both</attr>
+                  </send-community>
+                </address-family>
+                <remote-as>{$AS_NUMBER}</remote-as>
+              </peer>
+            </template>
+
+ <?foreach {/links/router-id}?>
+           <neighbor>
+             <id>{../router-id}</id>
+             <inherit>
+               <peer>VTEP-PEERS</peer>
+             </inherit>
+           </neighbor>
+<?end?>
+         </bgp>
+         <ospf>
+           <id>Underlay</id>
+           <router-id>{$LOOPBACK0_IP} </router-id>
+         </ospf>
+       </router>
+     </config>
+   </device>
+ </devices>
+</config-template>

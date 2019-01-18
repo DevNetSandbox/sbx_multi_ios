@@ -1,0 +1,54 @@
+- name: Provision Tenant
+# ===============
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  # https://docs.ansible.com/ansible/2.6/user_guide/playbooks_prompts.html
+  # Prompts for individual vars_prompt variables will
+  # be skipped for any variable that is already defined
+  # through the command line --extra-vars option,
+  # or when running from a non-interactive session
+  # (such as cron or Ansible Tower)
+  vars_prompt:
+    - name: tenant_name
+      prompt: "Tenant Name: "
+      private: no
+    - name: network_cidr
+      prompt: "Enter network CIDR e.g 10.10.10.0/24: "
+      private: no
+    - name: segment_name
+      prompt: "Enter Segment Name: "
+      private: no
+    - name: suppress_arp
+      prompt: "Enable ARP supression (true/false): "
+      private: no
+
+  tasks:
+
+    - name: Pushing Tenant configuration to NSO
+      nso_config:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        data:
+          vxlan-tenant:vxlan-tenant:
+            - name: "{{ tenant_name }}"
+              fabric: fabric1
+              segments:
+              - connection:
+                - iface: 1/10
+                  leaf: leaf1
+                - iface: 1/10
+                  leaf: leaf2
+                name: "{{ segment_name }}"
+                network: "{{ network_cidr }}"
+                suppress-arp: "{{ suppress_arp | default('false') }}"
+
+
+    - name: Pushing Required Device Changes
+      nso_action:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        path: /ncs:devices/sync-to
+        input: {}

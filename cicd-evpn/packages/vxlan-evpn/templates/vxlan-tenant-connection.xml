@@ -1,0 +1,89 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+    <devices xmlns="http://tail-f.com/ns/ncs">
+        <device>
+            <name>{$LEAF}</name>
+            <config>
+                <fabric xmlns="http://tail-f.com/ned/cisco-nx">
+                    <forwarding>
+                        <anycast-gateway-mac>1234.5678.9000</anycast-gateway-mac>
+                    </forwarding>
+                </fabric>
+                <vlan xmlns="http://tail-f.com/ned/cisco-nx">
+                    <vlan-list>
+                        <id>{$VLAN_ID}</id>
+                        <vn-segment>{$VNI_ID}</vn-segment>
+                    </vlan-list>
+                </vlan>
+                <evpn xmlns="http://tail-f.com/ned/cisco-nx">
+                    <vni>
+                        <id>{$VNI_ID}</id>
+                        <l2/>
+                        <rd>auto</rd>
+                        <route-target>
+                            <method>import</method>
+                            <rt>auto</rt>
+                        </route-target>
+                        <route-target>
+                            <method>export</method>
+                            <rt>auto</rt>
+                        </route-target>
+                    </vni>
+                </evpn>
+                <interface xmlns="http://tail-f.com/ned/cisco-nx">
+                    <Vlan>
+                        <name>{$VLAN_ID}</name>
+                        <vrf>
+                            <member>{$VRF}</member>
+                        </vrf>
+                        <ip>
+                            <address>
+                                <ipaddr>{$GATEWAY}</ipaddr>
+                            </address>
+                        </ip>
+                        <fabric>
+                            <forwarding>
+                                <mode>anycast-gateway</mode>
+                            </forwarding>
+                        </fabric>
+                    </Vlan>
+                    <nve>
+                        <name>{$NVE_ID}</name>
+                        <host-reachability>
+                            <protocol>bgp</protocol>
+                        </host-reachability>
+                        <member>
+                            <vni>
+                                <id>{$VNI_ID}</id>
+                                <mcast-group>{$MCAST_GROUP}</mcast-group>
+<?if {$SUPPRESS_ARP}?>
+                                <suppress-arp/>
+<?end?>
+                            </vni>
+                        </member>
+                        <source-interface>loopback0</source-interface>
+                    </nve>
+                    <Ethernet>
+                        <name>{$IF}</name>
+                        <switchport>
+<?if {$TRUNK}?>
+                            <mode>trunk</mode>
+                            <trunk>
+                                <allowed>
+                                    <vlan>
+                                        <ids>{$VLAN_ID}</ids>
+                                    </vlan>
+                                </allowed>
+                            </trunk>
+<?else?>
+                            <mode>access</mode>
+                            <access>
+                                <vlan>{$VLAN_ID}</vlan>
+                            </access>
+<?end?>
+                       </switchport>
+                    </Ethernet>
+                </interface>
+            </config>
+        </device>
+    </devices>
+</config-template>
