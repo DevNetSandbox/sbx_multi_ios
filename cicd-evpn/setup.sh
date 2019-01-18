@@ -1,6 +1,6 @@
 # update symlink to desired nso version
-rm /opt/nso
-ln -s /opt/nso47 /opt/nso
+sudo rm /opt/nso
+sudo ln -s /opt/nso47 /opt/nso
 source /opt/nso47/ncsrc
 
 # create virtualenv
