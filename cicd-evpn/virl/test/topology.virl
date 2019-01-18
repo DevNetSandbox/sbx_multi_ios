@@ -15,8 +15,8 @@
 version 6.2(1)
 license grace-period
 !
-hostname spine1
-vdc spine1 id 1
+hostname test-spine1
+vdc test-spine1 id 1
   limit-resource vlan minimum 16 maximum 4094
   limit-resource vrf minimum 2 maximum 4096
   limit-resource port-channel minimum 0 maximum 768
@@ -58,25 +58,25 @@ vrf context management
 hardware forwarding unicast trace
 
 interface Ethernet1/1
-  description to leaf1
+  description to test-leaf1
   no switchport
   mac-address fa16.3e00.0004
   no shutdown
 
 interface Ethernet1/2
-  description to leaf2
+  description to test-leaf2
   no switchport
   mac-address fa16.3e00.0005
   no shutdown
 
 interface Ethernet1/3
-  description to leaf3
+  description to test-leaf3
   no switchport
   mac-address fa16.3e00.0006
   no shutdown
 
 interface Ethernet1/4
-  description to leaf4
+  description to test-leaf4
   no switchport
   mac-address fa16.3e00.0007
   no shutdown
@@ -108,8 +108,8 @@ interface mgmt0
 version 6.2(1)
 license grace-period
 !
-hostname spine2
-vdc spine2 id 1
+hostname test-spine2
+vdc test-spine2 id 1
   limit-resource vlan minimum 16 maximum 4094
   limit-resource vrf minimum 2 maximum 4096
   limit-resource port-channel minimum 0 maximum 768
@@ -151,25 +151,25 @@ vrf context management
 hardware forwarding unicast trace
 
 interface Ethernet1/1
-  description to leaf1
+  description to test-leaf1
   no switchport
   mac-address fa16.3e00.0009
   no shutdown
 
 interface Ethernet1/2
-  description to leaf2
+  description to test-leaf2
   no switchport
   mac-address fa16.3e00.000a
   no shutdown
 
 interface Ethernet1/3
-  description to leaf3
+  description to test-leaf3
   no switchport
   mac-address fa16.3e00.000b
   no shutdown
 
 interface Ethernet1/4
-  description to leaf4
+  description to test-leaf4
   no switchport
   mac-address fa16.3e00.000c
   no shutdown
@@ -201,8 +201,8 @@ interface mgmt0
 version 6.2(1)
 license grace-period
 !
-hostname leaf1
-vdc leaf1 id 1
+hostname test-leaf1
+vdc test-leaf1 id 1
   limit-resource vlan minimum 16 maximum 4094
   limit-resource vrf minimum 2 maximum 4096
   limit-resource port-channel minimum 0 maximum 768
@@ -244,13 +244,13 @@ vrf context management
 hardware forwarding unicast trace
 
 interface Ethernet1/1
-  description to spine1
+  description to test-spine1
   no switchport
   mac-address fa16.3e00.0001
   no shutdown
 
 interface Ethernet1/2
-  description to spine2
+  description to test-spine2
   no switchport
   mac-address fa16.3e00.0002
   no shutdown
@@ -284,8 +284,8 @@ interface mgmt0
 version 6.2(1)
 license grace-period
 !
-hostname leaf2
-vdc leaf2 id 1
+hostname test-leaf2
+vdc test-leaf2 id 1
   limit-resource vlan minimum 16 maximum 4094
   limit-resource vrf minimum 2 maximum 4096
   limit-resource port-channel minimum 0 maximum 768
@@ -327,13 +327,13 @@ vrf context management
 hardware forwarding unicast trace
 
 interface Ethernet1/1
-  description to spine1
+  description to test-spine1
   no switchport
   mac-address fa16.3e00.000e
   no shutdown
 
 interface Ethernet1/2
-  description to spine2
+  description to test-spine2
   no switchport
   mac-address fa16.3e00.000f
   no shutdown
@@ -367,8 +367,8 @@ interface mgmt0
 version 6.2(1)
 license grace-period
 !
-hostname leaf3
-vdc leaf3 id 1
+hostname test-leaf3
+vdc test-leaf3 id 1
   limit-resource vlan minimum 16 maximum 4094
   limit-resource vrf minimum 2 maximum 4096
   limit-resource port-channel minimum 0 maximum 768
@@ -410,13 +410,13 @@ vrf context management
 hardware forwarding unicast trace
 
 interface Ethernet1/1
-  description to spine1
+  description to test-spine1
   no switchport
   mac-address fa16.3e00.0011
   no shutdown
 
 interface Ethernet1/2
-  description to spine2
+  description to test-spine2
   no switchport
   mac-address fa16.3e00.0012
   no shutdown
@@ -449,8 +449,8 @@ interface mgmt0
 version 6.2(1)
 license grace-period
 !
-hostname leaf4
-vdc leaf4 id 1
+hostname test-leaf4
+vdc test-leaf4 id 1
   limit-resource vlan minimum 16 maximum 4094
   limit-resource vrf minimum 2 maximum 4096
   limit-resource port-channel minimum 0 maximum 768
@@ -492,13 +492,13 @@ vrf context management
 hardware forwarding unicast trace
 
 interface Ethernet1/1
-  description to spine1
+  description to test-spine1
   no switchport
   mac-address fa16.3e00.0014
   no shutdown
 
 interface Ethernet1/2
-  description to spine2
+  description to test-spine2
   no switchport
   mac-address fa16.3e00.0015
   no shutdown
