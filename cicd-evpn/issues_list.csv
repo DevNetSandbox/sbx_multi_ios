@@ -1,0 +1,10 @@
+Research EVPN Fabric,Investigate moving to EVPN Fabric,Research
+Implement OSPF Authentication,Increase security by implementing OSPF Authentication,"Enhancement,Security"
+Update SNMP Community Strings,Set to NetDevOpsRocks,"Security,Change"
+Send Syslogs to ELK,Across all systems,"Change,Enhancement"
+Add Tenant for Cameras,ip range 10.1.1.0/24,Change
+Add Tenant for Door Locks,ip range 10.1.2.0/24,Change
+Add Tenant for Motion Detectors,ip range 10.1.3.0/24,Change
+Add Tenant for Speakers,ip range 10.1.4.0/24,Change
+Add Tenant for Audio Sensors,ip range 10.1.5.0/24,Change
+Add Tenant for Drone Security,ip range 10.1.6.0/24,Change
