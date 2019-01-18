@@ -1,7 +1,17 @@
+
 # update symlink to desired nso version
 sudo rm /opt/nso
 sudo ln -s /opt/nso47 /opt/nso
-source /opt/nso47/ncsrc
+source /opt/nso/ncsrc
+
+# workaround - sbx needs updating
+cur_dir=$(pwd)
+sudo mv /opt/nso/packages/ncs-4.6-resource-manager-project-3.3.0/packages/*.tar.gz \
+        /opt/nso/packages/services/
+cd /opt/nso/packages/services/
+sudo tar zxvf ncs-4.6-resource-manager-3.3.0.tar.gz
+sudo rm *.tar.gz
+cd $cur_dir
 
 # create virtualenv
 virtualenv -p /usr/local/bin/python3.6 venv
@@ -67,7 +77,7 @@ wait $TEST $PROD
 cd $root_dir
 
 echo "Launching NSO ... "
-ncs-setup --dest .
+ncs-setup --dest . --package ${NCS_DIR}/packages/services/resource-manager --package cisco-nx
 ncs
 
 
