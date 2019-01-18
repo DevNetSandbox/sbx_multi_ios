@@ -6,7 +6,7 @@ source /opt/nso/ncsrc
 
 # workaround - sbx needs updating
 cur_dir=$(pwd)
-sudo mv /opt/nso/packages/ncs-4.6-resource-manager-project-3.3.0/packages/*.tar.gz \
+sudo mv /opt/nso/packages/services/ncs-4.6-resource-manager-project-3.3.0/packages/*.tar.gz \
         /opt/nso/packages/services/
 cd /opt/nso/packages/services/
 sudo tar zxvf ncs-4.6-resource-manager-3.3.0.tar.gz
