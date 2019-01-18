@@ -4,7 +4,7 @@
         <entry key="management_network" type="String">flat</entry>
         <entry key="management_lxc" type="Boolean">false</entry>
     </extensions>
-    <node name="spine1" type="SIMPLE" subtype="NX-OSv 9000" location="400,200">
+    <node name="test-spine1" type="SIMPLE" subtype="NX-OSv 9000" location="400,200">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.71</entry>
 
@@ -98,7 +98,7 @@ interface mgmt0
         <interface id="2" name="Ethernet1/3" ipv4="10.0.0.18" netPrefixLenV4="30"/>
         <interface id="3" name="Ethernet1/4" ipv4="10.0.0.22" netPrefixLenV4="30"/>
     </node>
-    <node name="spine2" type="SIMPLE" subtype="NX-OSv 9000" location="600,200" ipv4="192.168.0.2">
+    <node name="test-spine2" type="SIMPLE" subtype="NX-OSv 9000" location="600,200" ipv4="192.168.0.2">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.72</entry>
             <entry key="ansible_group" type="String">spine</entry>
@@ -191,7 +191,7 @@ interface mgmt0
         <interface id="2" name="Ethernet1/3" ipv4="10.0.0.30" netPrefixLenV4="30"/>
         <interface id="3" name="Ethernet1/4" ipv4="10.0.0.34" netPrefixLenV4="30"/>
     </node>
-    <node name="leaf1" type="SIMPLE" subtype="NX-OSv 9000" location="200,400">
+    <node name="test-leaf1" type="SIMPLE" subtype="NX-OSv 9000" location="200,400">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.61</entry>
             <entry key="ansible_group" type="String">leaf</entry>
@@ -274,7 +274,7 @@ interface mgmt0
         <interface id="3" name="Ethernet1/4"/>
         <interface id="4" name="Ethernet1/5"/>
     </node>
-    <node name="leaf2" type="SIMPLE" subtype="NX-OSv 9000" location="400,400">
+    <node name="test-leaf2" type="SIMPLE" subtype="NX-OSv 9000" location="400,400">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.62</entry>
             <entry key="ansible_group" type="String">leaf</entry>
@@ -357,7 +357,7 @@ interface mgmt0
         <interface id="3" name="Ethernet1/4"/>
         <interface id="4" name="Ethernet1/5"/>
     </node>
-    <node name="leaf3" type="SIMPLE" subtype="NX-OSv 9000" location="600,400">
+    <node name="test-leaf3" type="SIMPLE" subtype="NX-OSv 9000" location="600,400">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.63</entry>
             <entry key="ansible_group" type="String">leaf</entry>
@@ -439,7 +439,7 @@ interface mgmt0
         <interface id="3" name="Ethernet1/4"/>
         <interface id="4" name="Ethernet1/5"/>
     </node>
-    <node name="leaf4" type="SIMPLE" subtype="NX-OSv 9000" location="800,400">
+    <node name="test-leaf4" type="SIMPLE" subtype="NX-OSv 9000" location="800,400">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.64</entry>
             <entry key="ansible_group" type="String">leaf</entry>
@@ -521,7 +521,7 @@ interface mgmt0
         <interface id="3" name="Ethernet1/4"/>
         <interface id="4" name="Ethernet1/5"/>
     </node>
-    <node name="server1" type="SIMPLE" subtype="server" location="200,500">
+    <node name="test-server1" type="SIMPLE" subtype="server" location="200,500">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.81</entry>
             <entry key="config" type="string">#cloud-config
@@ -583,7 +583,7 @@ write_files:
         </extensions>
         <interface id="0" name="eth1" ipv4="10.0.0.6" netPrefixLenV4="30"/>
     </node>
-    <node name="server2" type="SIMPLE" subtype="server" location="400,500">
+    <node name="test-server2" type="SIMPLE" subtype="server" location="400,500">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.82</entry>
             <entry key="config" type="string">#cloud-config
@@ -646,7 +646,7 @@ write_files:
         </extensions>
         <interface id="0" name="eth1" ipv4="10.0.0.42" netPrefixLenV4="30"/>
     </node>
-    <node name="server3" type="SIMPLE" subtype="server" location="600,500">
+    <node name="test-server3" type="SIMPLE" subtype="server" location="600,500">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.83</entry>
             <entry key="config" type="string">#cloud-config
@@ -708,7 +708,7 @@ write_files:
         </extensions>
         <interface id="0" name="eth1" ipv4="10.0.0.54" netPrefixLenV4="30"/>
     </node>
-    <node name="server4" type="SIMPLE" subtype="server" location="800,500">
+    <node name="test-server4" type="SIMPLE" subtype="server" location="800,500">
         <extensions>
             <entry key="static_ip" type="String">172.16.30.84</entry>
 
