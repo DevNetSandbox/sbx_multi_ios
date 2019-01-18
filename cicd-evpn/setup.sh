@@ -87,9 +87,9 @@ cd $root_dir/virl/test
 virl generate nso 2>&1
 
 
-# echo "Importing Prod network to NSO"
-# cd $root_dir/virl/prod
-# virl generate nso 2>&1
+echo "Importing Prod network to NSO"
+cd $root_dir/virl/prod
+virl generate nso 2>&1
 
 echo "Performing initial sync of devices..."
 echo "devices sync-from" | ncs_cli -u admin -C
