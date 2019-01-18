@@ -523,6 +523,7 @@ interface mgmt0
     </node>
     <node name="server1" type="SIMPLE" subtype="server" location="200,500">
         <extensions>
+            <entry key="static_ip" type="String">172.16.30.81</entry>
             <entry key="config" type="string">#cloud-config
 bootcmd:
 - ln -s -t /etc/rc.d /etc/rc.local
@@ -584,6 +585,7 @@ write_files:
     </node>
     <node name="server2" type="SIMPLE" subtype="server" location="400,500">
         <extensions>
+            <entry key="static_ip" type="String">172.16.30.82</entry>
             <entry key="config" type="string">#cloud-config
 bootcmd:
 - ln -s -t /etc/rc.d /etc/rc.local
@@ -646,6 +648,7 @@ write_files:
     </node>
     <node name="server3" type="SIMPLE" subtype="server" location="600,500">
         <extensions>
+            <entry key="static_ip" type="String">172.16.30.83</entry>
             <entry key="config" type="string">#cloud-config
 bootcmd:
 - ln -s -t /etc/rc.d /etc/rc.local
@@ -707,6 +710,8 @@ write_files:
     </node>
     <node name="server4" type="SIMPLE" subtype="server" location="800,500">
         <extensions>
+            <entry key="static_ip" type="String">172.16.30.84</entry>
+
             <entry key="config" type="string">#cloud-config
 bootcmd:
 - ln -s -t /etc/rc.d /etc/rc.local
