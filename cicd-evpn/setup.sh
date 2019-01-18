@@ -11,6 +11,7 @@ sudo mv /opt/nso/packages/services/ncs-4.6-resource-manager-project-3.3.0/packag
 cd /opt/nso/packages/services/
 sudo tar zxvf ncs-4.6-resource-manager-3.3.0.tar.gz
 sudo rm *.tar.gz
+sudo rm -rf /opt/nso/packages/services/ncs-4.6-resource-manager-project-3.3.0/
 cd $cur_dir
 
 # create virtualenv
