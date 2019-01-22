@@ -77,9 +77,20 @@ PROD=$!
 wait $TEST $PROD
 cd $root_dir
 
-echo "Launching NSO ... "
+echo "Launching Test NSO ... "
+cp -R packages/ nso/test/
+cd nso/test
 ncs-setup --dest . --package ${NCS_DIR}/packages/services/resource-manager --package cisco-nx
 ncs
+cd $root_dir
+
+
+echo "Launching Prod NSO ... "
+cp -R packages/ nso/prod/
+cd nso/prod
+ncs-setup --dest . --package ${NCS_DIR}/packages/services/resource-manager --package cisco-nx
+ncs
+cd $root_dir
 
 
 echo "Importing Test network to NSO .. "

@@ -21,8 +21,10 @@ README.netsim
 agentStore
 logs/
 ncs-cdb/
-ncs.conf
 netsim/
+ncs.conf
+!nso/test/ncs.conf
+!nso/prod/ncs.conf
 packages/cisco*
 state.yml
 state/
