@@ -7,7 +7,7 @@ Sample code, examples, and resources for use with the [DevNet Multi-IOS Sandbox]
 ### Reserve a sandbox lab.
 
 You can reserve a sandbox lab [here.](https://devnetsandbox.cisco.com/RM/Diagram/Index/6b023525-4e7f-4755-81ae-05ac500d464a?diagramType=Topology) During the reservation, you can select "None" for
-simulation, as we will be launching the required toplogies as part of the setup.
+simulation, as we will be launching the required topologies as part of the setup.
 
 It takes about 15 minutes to spin up the VIRL servers and your devbox.  Hang tight and do some emails.
 
