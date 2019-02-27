@@ -6,6 +6,7 @@ echo "Installing Dependencies"
 sudo yum install -y telnet
 python3.6 -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
 
 echo "Launching VIRL simulation ... "
 root_dir=$(pwd)
