@@ -22,3 +22,18 @@ echo ""
 echo "Running Ansible Playbook"
 echo "==========================="
 ansible-playbook -i inventories/sandbox site.yaml
+
+echo ""
+echo "Generating pyATS testbed"
+echo "==========================="
+cd virl/sandbox
+virl generate pyats ansible -o ../../tests/sandbox_ansible_testbed.yaml
+cd ../..
+
+
+echo ""
+echo "Execute pyATS tests"
+echo "==========================="
+cd tests/
+easypy eigrp_neighbor_check.py -html_logs . -testbed_file sandbox_ansible_testbed.yaml --device headend1 --nbr-count 2
+easypy eigrp_neighbor_check.py -html_logs . -testbed_file sandbox_ansible_testbed.yaml --device headend2 --nbr-count 2

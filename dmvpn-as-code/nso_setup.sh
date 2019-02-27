@@ -52,3 +52,19 @@ ansible-playbook dmvpn30-playbook.yaml
 echo "Deploying DMVPN dmvpn40 via Python + Ansible"
 echo "=========================="
 python dmvpn40-deploy.py
+cd ../..
+
+echo ""
+echo "Generating pyATS testbed"
+echo "==========================="
+cd virl/sandbox
+virl generate pyats nso -o ../../tests/sandbox_nso_testbed.yaml
+cd ../..
+
+
+echo ""
+echo "Execute pyATS tests"
+echo "==========================="
+cd tests/
+easypy eigrp_neighbor_check.py -html_logs . -testbed_file sandbox_nso_testbed.yaml --device headend1 --nbr-count 2
+easypy eigrp_neighbor_check.py -html_logs . -testbed_file sandbox_nso_testbed.yaml --device headend2 --nbr-count 2
