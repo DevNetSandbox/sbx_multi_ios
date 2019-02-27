@@ -14,6 +14,15 @@ And what better way of understanding the real benefits of NetDevOps than buildin
 * Define and run the required tests set and passing criteria, both in testing and production, before accepting a change as successful
 * Automatically rollback any proposed configuration that does not pass the tests set
 
+These are the building blocks we will use to provide such a comprehensive demonstration:
+
+* [GitLab](https://about.gitlab.com/): Version Control Server (VCS) with integration capabilities to provide automated pipelines 
+* [Cisco Network Services Orchestrator](https://developer.cisco.com/site/nso/): formerly Tail-f, it provides end-to-end automation to design and deliver services much faster
+* [pyATS](https://developer.cisco.com/pyats/): automation tool to perform stateful validation of network devices operational status with reusable test cases
+* [VIRL](http://virl.cisco.com/): network modelling and simulation environment
+* [Ansible](https://www.ansible.com/): simple automation
+
+
 ### <a name='Bookasandbox'></a>Book a sandbox
 
 The first thing you will need is a [sandbox](https://developer.cisco.com/site/sandbox/): an environment where you have all the required platforms and elements that you will need for your demo. In our case we need a _big_ server to run VIRL simulations for all network devices we will discuss later, and another server to run our VCS, NSO netsim, etc.
