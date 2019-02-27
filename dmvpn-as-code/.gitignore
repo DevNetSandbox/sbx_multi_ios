@@ -12,6 +12,12 @@ original_configs/
 # VIRL stuff
 .virl/
 
+# pyATS stuff
+archive/
+runinfo/
+TaskLog.html
+sandbox_testbed.yaml
+
 # NSO stuff
 ncs-cdb/
 logs/
