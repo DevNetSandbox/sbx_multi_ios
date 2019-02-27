@@ -23,7 +23,7 @@ if [ "$HOSTNAME" = devbox ]; then
 fi
 
 # make sure dependencies are installed and virtualenv is activated
-./env_activate.sh
+source env_activate.sh
 
 echo "Launching VIRL Simulation"
 echo "=========================="
