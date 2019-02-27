@@ -10,7 +10,7 @@ virl up --provision
 
 echo "Launching NSO ... "
 cd nso
-ncs-setup --dest .
+ncs-setup --dest . --package cisco-ios
 cd packages/vpn/src
 make clean all
 cd $root_dir/nso
