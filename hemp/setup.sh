@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
+echo "Installing Dependencies"
+
 # installing telnet if not present
 sudo yum install -y telnet
+python3.6 -m venv venv
+source venv/bin/activate
 
 echo "Launching VIRL simulation ... "
 root_dir=$(pwd)
@@ -33,3 +37,6 @@ docker-compose up -d
 
 echo "Services Summary"
 docker-compose ps
+
+echo "Deploying Sample VPNs"
+ansible-playbook -i inventory.yaml site.yaml
