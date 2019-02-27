@@ -18,8 +18,9 @@ This proof of concept demonstrates how this is accomplished using three distinct
 approaches.
 
 1. Ansible - using Ansible playbooks/roles to provision devices.  This proof of concept deploys `dmvpn1` and `dmvpn2` a.k.a `Tunnel1` and `Tunnel2` interfaces
-2. NSO - using Cisco Network Services Orchestrator to provision devices
-3. Better Together - uses a combination of NSO and Ansible to provision
+2. Better Together - uses a combination of NSO and Ansible to provision. This proof of concept
+deploys `dmvpn30` and `dmvpn40` a.k.a `Tunnel30` and `Tunnel40`
+3. NSO  - Deploys `dmvpn10` and `dmvpn20` a.k.a `Tunnel10` and `Tunnel20`
 
 
 
@@ -90,8 +91,8 @@ The high level steps that are being performed here are
 
   * Launch simulated network instance using Cisco VIRL
   * Launches an instance of NSO on the devbox
-  * Deploys a DMVPN [cloud30](./samples/nso/cloud30.yaml) using an [ansible playbook](./samples/nso/cloud30-playbook.yaml)
-  * Deploys a DMVPN [cloud40](./samples/nso/cloud40.yaml) by using NSO's nortbound REST API and a simple [python script](./samples/nso/deploy-cloud40.py)
+  * Deploys a DMVPN [dmvpn30](./samples/nso/dmvpn30.yaml) using an [ansible playbook](./samples/nso/dmvpn30-playbook.yaml)
+  * Deploys a DMVPN [cloud40](./samples/nso/dmvpn40.yaml) by using NSO's nortbound REST API and a simple [python script](./samples/nso/dmvpn40-deploy.py)
 
 At the end of this process you should be able to login to the various topologies to explore the configurations further.
 
