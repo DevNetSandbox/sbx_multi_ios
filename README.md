@@ -6,7 +6,7 @@ Sample code, examples, and resources for use with the [DevNet Multi-IOS Sandbox]
 
 ### Reserve a sandbox lab
 
-You can reserve a sandbox lab [here.](https://devnetsandbox.cisco.com/RM/Diagram/Index/6b023525-4e7f-4755-81ae-05ac500d464a?diagramType=Topology) During the reservation, you can select "None" for
+You can reserve a sandbox lab [here](https://devnetsandbox.cisco.com/RM/Diagram/Index/6b023525-4e7f-4755-81ae-05ac500d464a?diagramType=Topology). During the reservation, you can select "None" for
 simulation, as we will be launching the required topologies as part of the setup.
 
 It takes about 15 minutes to spin up the VIRL servers and your devbox.  Hang tight and do some emails.
@@ -16,7 +16,7 @@ It takes about 15 minutes to spin up the VIRL servers and your devbox.  Hang tig
 
 # Setup
 
-Here's a video overview of the process...from here feel free to press fast forward in the middle....
+Here's a video overview of the process... from here feel free to press fast forward in the middle...
 
 [![asciicast](https://asciinema.org/a/5OZEo29CwO2PiWhV7T1nW1QgF.png)](https://asciinema.org/a/5OZEo29CwO2PiWhV7T1nW1QgF)
 
@@ -26,7 +26,7 @@ Here's a video overview of the process...from here feel free to press fast forwa
 ### Step 1. Connect to devbox
 
 After your reservation is complete you will receive and email with credential to
-connect to the sandbox via VPN.  Once connected.  you can ssh to the devbox using the following credentials. `developer/C1sco12345`
+connect to the sandbox via VPN.  Once connected you can ssh to the devbox using the following credentials: `developer/C1sco12345`
 
     ssh developer@10.10.20.20
 
