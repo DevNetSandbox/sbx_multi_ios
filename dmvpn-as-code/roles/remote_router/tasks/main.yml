@@ -1,0 +1,15 @@
+---
+
+- name: "Applying Remote IOS Template"
+  tags:
+    - golden_config
+  ios_config:
+    provider: "{{ cli }}"
+    src: "remote_common.j2"
+
+- name: "Configure Remote Tunnels"
+  tags:
+    - dmvpn
+  ios_config:
+    provider: "{{ cli }}"
+    src: "remote_tunnels.j2"

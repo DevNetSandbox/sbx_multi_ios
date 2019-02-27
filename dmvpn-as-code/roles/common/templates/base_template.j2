@@ -1,0 +1,47 @@
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+service sequence-numbers
+
+hostname {{ inventory_hostname }}
+!
+license accept end user agreement
+!
+no aaa new-model
+!
+clock timezone CST -6 0
+clock summer-time CDT recurring
+!
+ntp server vrf Mgmt-intf {{ ntp_server }}
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+
+logging snmp-authfail
+logging queue-limit 100
+logging buffered 1000000
+
+enable password {{ enable_password }}
+enable secret {{ enable_secret }}
+
+ip classless
+ip subnet-zero
+no ip domain-lookup
+
+ip ssh server algorithm authentication password
+
+
+username {{ username }} secret {{ password }}
+line vty 0 4
+ transport input ssh telnet
+ password {{ vty_password }}
+ login local
+line con 0
+ password cisco
+!
+cdp run
+!
+!

@@ -1,0 +1,4 @@
+router eigrp {{ eigrp.as }}
+ {% for network in eigrp.networks %}
+ network {{network.network}} {{ network.mask }}
+{% endfor %}

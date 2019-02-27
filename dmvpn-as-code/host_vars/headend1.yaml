@@ -1,0 +1,18 @@
+public_interface:
+  name: GigabitEthernet2
+  ip: 172.16.0.10
+  mask: 255.255.255.252
+  vrf: Internet
+  gateway: 172.16.0.9
+
+Tunnel1:
+  ip: 10.1.1.1
+  mask: 255.255.255.0
+  source_interface: GigabitEthernet2
+  vrf: Internet
+
+Tunnel2:
+  ip: 10.2.2.1
+  mask: 255.255.255.0
+  source_interface: GigabitEthernet2
+  vrf: Internet

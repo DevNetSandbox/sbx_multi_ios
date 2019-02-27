@@ -1,0 +1,178 @@
+testbed:
+
+  name: test_default_0BcxCU
+
+  tacacs:
+      username: "%ENV{PYATS_USERNAME}"
+  passwords:
+      tacacs: "%ENV{PYATS_PASSWORD}"
+      enable: "%ENV{PYATS_AUTH_PASS}"
+      line: "%ENV{PYATS_PASSWORD}"
+
+devices:
+
+  headend1:
+    alias: headend1
+    os: iosxe
+    type: CSR1000v
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      console:
+        ip: 10.94.241.194
+        protocol: telnet
+        port: 17020
+    custom:
+      abstraction:
+        order: [os, type]
+
+  remote3:
+    alias: remote3
+    os: iosxe
+    type: CSR1000v
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      console:
+        ip: 10.94.241.194
+        protocol: telnet
+        port: 17026
+    custom:
+      abstraction:
+        order: [os, type]
+
+
+
+  headend2:
+    alias: headend2
+    os: iosxe
+    type: CSR1000v
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      console:
+        ip: 10.94.241.194
+        protocol: telnet
+        port: 17022
+    custom:
+      abstraction:
+        order: [os, type]
+
+
+  internet:
+    alias: internet
+    os: iosxe
+    type: CSR1000v
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      console:
+        ip: 10.94.241.194
+        protocol: telnet
+        port: 17024
+    custom:
+      abstraction:
+        order: [os, type]
+
+  remote4:
+    alias: remote4
+    os: iosxe
+    type: CSR1000v
+    connections:
+
+      defaults:
+        class: unicon.Unicon
+      console:
+        ip: 10.94.241.194
+        protocol: telnet
+        port: 17028
+    custom:
+      abstraction:
+        order: [os, type]
+
+topology:
+  headend1:
+    interfaces:
+      GigabitEthernet3:
+        ipv4: 172.16.0.30/30
+        link: headend1-to-host1
+        type: ethernet
+      GigabitEthernet2:
+        ipv4: 172.16.0.10/30
+        link: headend1-to-internet
+        type: ethernet
+      GigabitEthernet1:
+        ipv4: 10.94.241.240/27
+        link: flat
+        type: ethernet
+  remote3:
+    interfaces:
+      GigabitEthernet3:
+        ipv4: 172.16.0.38/30
+        link: host3-to-remote3
+        type: ethernet
+      GigabitEthernet2:
+        ipv4: 172.16.0.18/30
+        link: internet-to-remote3
+        type: ethernet
+      GigabitEthernet1:
+        ipv4: 10.94.241.248/27
+        link: flat
+        type: ethernet
+  headend2:
+    interfaces:
+      GigabitEthernet3:
+        ipv4: 172.16.0.34/30
+        link: headend2-to-host2
+        type: ethernet
+      GigabitEthernet2:
+        ipv4: 172.16.0.14/30
+        link: headend2-to-internet
+        type: ethernet
+      GigabitEthernet1:
+        ipv4: 10.94.241.242/27
+        link: flat
+        type: ethernet
+  internet:
+    interfaces:
+      GigabitEthernet1:
+        ipv4: 10.94.241.247/27
+        link: flat
+        type: ethernet
+      GigabitEthernet3:
+        ipv4: 172.16.0.9/30
+        link: headend1-to-internet
+        type: ethernet
+      GigabitEthernet2:
+        link: internet-unconnected#0
+        type: ethernet
+      GigabitEthernet5:
+        ipv4: 172.16.0.17/30
+        link: internet-to-remote3
+        type: ethernet
+      GigabitEthernet4:
+        ipv4: 172.16.0.13/30
+        link: headend2-to-internet
+        type: ethernet
+      GigabitEthernet6:
+        ipv4: 172.16.0.21/30
+        link: internet-to-remote4
+        type: ethernet
+  remote4:
+    interfaces:
+      GigabitEthernet3:
+        ipv4: 172.16.0.42/30
+        link: host4-to-remote4
+        type: ethernet
+      GigabitEthernet2:
+        ipv4: 172.16.0.22/30
+        link: internet-to-remote4
+        type: ethernet
+      GigabitEthernet1:
+        ipv4: 10.94.241.249/27
+        link: flat
+        type: ethernet
