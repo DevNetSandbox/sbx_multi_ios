@@ -16,6 +16,9 @@ if [ "$HOSTNAME" = devbox ]; then
   cd $cur_dir
 fi
 
+# make sure dependencies are installed and virtualenv is activated
+./env_activate.sh
+
 echo "Launching VIRL Simulation"
 echo "=========================="
 cd virl/sandbox

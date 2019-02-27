@@ -1,3 +1,6 @@
+# make sure dependencies are installed and virtualenv is activated
+./env_activate.sh
+
 # simulate our target environment in VIRL
 echo "Launching VIRL Simulation"
 echo "=========================="
