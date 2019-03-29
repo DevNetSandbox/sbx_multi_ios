@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+
+  main:
+
+    image: myjenkins
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./jenkins_home:/var/jenkins_home
+    environment:
+      JAVA_OPTS: "-Djava.awt.headless=true"
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false" # Start jenkins unlocked  
+    secrets:
+      - jenkins-user
+      - jenkins-pass
+
+secrets:
+  jenkins-user:
+    external: true
+  jenkins-pass:
+    external: true
