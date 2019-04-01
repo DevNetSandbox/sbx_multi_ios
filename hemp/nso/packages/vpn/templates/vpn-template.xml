@@ -1,0 +1,56 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0" servicepoint="vpn">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <!-- Select the devices from some data structure in the service model. In this skeleton the devices are specified in a leaf-list. Select all devices in that leaf-list: -->
+      <name>{/device}</name>
+      <config>
+        <crypto xmlns="urn:ios">
+          <isakmp>
+            <policy>
+              <priority>{/sequence}</priority>
+              <encr>
+                <algorithm>{/isakmp_algo}</algorithm>
+              </encr>
+              <authentication>pre-share</authentication>
+              <group>{/isakmp_group}</group>
+            </policy>
+            <key>
+              <address>{/peer_ip}</address>
+              <keystring>{/pre_shared_key}</keystring>
+            </key>
+          </isakmp>
+          <ipsec>
+            <transform-set>
+              <name>{/partner_name}_transform</name>
+              <transform2>{/transform_encryption}</transform2>
+              <transform3>{/transform_auth}</transform3>
+            </transform-set>
+          </ipsec>
+          <map>
+            <name>VPN</name>
+            <seq-list>
+              <id>{/sequence}</id>
+              <policy>ipsec-isakmp</policy>
+              <description>{/partner_name}</description>
+              <set>
+                <transform-set>{/partner_name}_transform</transform-set>
+                <peer>{/peer_ip}</peer>
+              </set>
+              <match>
+                <address>{/acl_number}</address>
+              </match>
+            </seq-list>
+          </map>
+        </crypto>
+        <access-list xmlns="urn:ios">
+          <access-list>
+            <id>{/acl_number}</id>
+            <rule>
+              <rule>{/acl_rule}</rule>
+            </rule>
+          </access-list>
+        </access-list>
+      </config>
+    </device>
+  </devices>
+</config-template>

@@ -1,0 +1,71 @@
+{% extends 'base_layout.html' %}
+{% set active_sidebar = "device-list" %}
+{% block extra_js %}
+<script src="/static/js/vpn-detail.js"></script>
+{% endblock %}
+{% block mainpanel %}
+<h1>Tunnel Operations</h1>
+<div class="container">
+  <div class="row">
+    <button id=check-sync class="btn"
+      onclick="check_sync('/nso{{ vpn.operations['check-sync'] }}')"
+      class="btn">Check Sync
+    </button>
+    <button id=redeploy-button class="btn"
+      onclick="redeploy('/nso{{ vpn.operations['reactive-re-deploy'] }}')"
+      class="btn">Reactive Re-Deploy
+    </button>
+    <button id=undeploy-button class="btn btn--negative"
+      onclick="undeploy('/nso{{ vpn.operations['un-deploy'] }}')"
+      class="btn">Undeploy
+    </button>
+
+  </div>
+</div>
+<p>
+<h1>Tunnel Configuration</h1>
+<div class="container">
+
+
+<table class="table table--nostripes">
+         <tbody>
+           <tr>
+             <td><b>Partner Name</b></td>
+             <td>{{ vpn.partner_name }}</td>
+             <td><b>Peer IP Address</b></td>
+             <td>{{ vpn.peer_ip }}</td>
+
+           </tr>
+           <tr>
+             <td><b>ISAKMP Encryption</b></td>
+             <td>{{ vpn.isakmp_algo }}</td>
+             <td><b>ISAKMP Group</b></td>
+             <td>{{ vpn.isakmp_group }}</td>
+
+           </tr>
+           <tr>
+             <td><b>Device</b></td>
+             <td>{{ vpn.device.0 }}</td>
+             <td><b>Crypto Map Sequence</b></td>
+             <td>{{ vpn.sequence }}</td>
+           </tr>
+           <tr>
+             <td><b>IPSec Authentication</b></td>
+             <td>{{ vpn.transform_auth }}</td>
+             <td><b>IPSec Encryption</b></td>
+             <td>{{ vpn.transform_encryption }}</td>
+           </tr>
+         </tbody>
+       </table>
+
+
+
+
+</div>
+<h1>Tunnel Metrics</h1>
+<iframe src="http://{{ grafana_host }}/dashboard/db/tunnel-detail?orgId=1&var-peer_ip={{ vpn.peer_ip}}&theme=light&kiosk"></iframe>
+
+{% endblock %}
+
+<!-- disable footer for this page  -->
+{% block footer %}{% endblock %}

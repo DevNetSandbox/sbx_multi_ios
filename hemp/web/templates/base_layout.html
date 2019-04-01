@@ -1,0 +1,95 @@
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Head End Management Portal</title>
+        <link rel="stylesheet" href="/static/css/cui-standard.min.css">
+        <link rel="stylesheet" href="/static/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/static/css/cui-standard.min.css">
+        <link rel="stylesheet" href="/static/css/next.css">
+        {% block extra_css %}
+        {% endblock %}
+        <script src="/static/js/jquery-3.2.1.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/jquery.dataTables.min.js"></script>
+        <script src="/static/js/dataTables.bootstrap4.min.js"></script>
+        <script src="/static/js/next.js"></script>
+        <script src="/static/js/app.js"></script>
+        {% block extra_js %}
+        {% endblock %}
+    </head>
+    <body class="cui">
+        <div class="content-fluid">
+
+
+          {% set sidebar = [
+              ('vpn-list', 'Configure VPN connections'),
+              ('monitoring', 'Monitor VPN connections'),
+              ('patterns', 'Pattern Library')
+            ]
+          %}
+
+          <div id="appSidebar" class="sidebar" >
+              <div class="sidebar__header">
+                  <div class="sidebar__header-title">HEMP</div>
+              </div>
+              <ul>
+                 {% for (id, caption) in sidebar %}
+                     {% if id == active_sidebar %}
+                        <li class="sidebar__item sidebar__item--selected">
+                     {% else %}
+                        <li class="sidebar__item">
+                      {% endif %}
+                            <a href="{{ url_for(id) }}">{{ caption }}</a>
+                        </li>
+                 {% endfor %}
+              </ul>
+          </div>
+
+
+
+
+            <main>
+                    {% block header %}
+                    {% include 'header.html' %}
+                    {% endblock %}
+
+                    <!-- flash messages if sent -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                      {% if messages %}
+                        {% for category, message in messages %}
+                          <div class="row">
+                            {% if category == 'success' %}
+                              <div class="alert alert--success">
+                                <div class="alert__icon icon-check"></div>
+                                <div class="alert__message">{{ message }} </div>
+                                <div class="alert__close icon-close"></div>
+                              </div>
+                            {% else %}
+                              <div class="alert alert--danger">
+                                <div class="alert__icon icon-error"></div>
+                                <div class="alert__message">{{ message }}</div>
+                                <div class="alert__close icon-close"></div>
+                              </div>
+                            {% endif %}
+                          </div>
+
+                        {% endfor %}
+
+                      {% endif %}
+                    {% endwith %}
+
+
+                    {% block mainpanel %}
+                    {% endblock %}
+
+                    {% block footer %}
+                    {% include 'footer.html' %}
+                    {% endblock %}
+            </main>
+        </div>
+    </body>
+</html>

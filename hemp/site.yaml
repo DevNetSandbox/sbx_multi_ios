@@ -1,0 +1,58 @@
+
+---
+- name: Push Desired Configuration to Devices
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+    - name: NSO sync-to action
+      nso_action:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        path: /ncs:devices/sync-to
+        input: {}
+
+- name: Ensure VPN Configuration
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Loading Partner VPN Definitions from source YAML
+      with_fileglob:
+        - "partners/*.yaml"
+      include_vars:
+        file: "{{ item }}"
+        name: partners
+
+
+    - name: Pushing Partner VPN configuration to NSO
+      with_dict: "{{ partners }}"
+      loop_control:
+        label: "{{ item.key }}"
+      nso_config:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        data:
+          vpn:vpn:
+            "{{ item.value }}"
+
+
+- name: Push Desired Configuration to Devices
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+    - name: NSO sync-to action
+      nso_action:
+        url: "{{ nso.url }}"
+        username: "{{ nso.username }}"
+        password: "{{ nso.password }}"
+        path: /ncs:devices/sync-to
+        input: {}
