@@ -14,7 +14,8 @@ services:
       - GITLAB_ROOT_PASSWORD=C1sco12345
       - GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN=sandboxrunners
       - GITLAB_HOST=http://10.10.20.20
-      - GITLAB_OMNIBUS_CONFIG="external_url 'http://10.10.20.20/'"
+    extra_hosts:
+      gitlab: 10.10.20.20
 
   runner1:
     image: gitlab/gitlab-runner

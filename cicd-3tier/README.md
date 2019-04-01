@@ -17,9 +17,9 @@ The network topology for both test and prod is provided by virl as defined in [.
 
 ![pipeline](./static/pipeline.png "CICD Pipeline")
 
-## setup
+## Setup
 
-This following script should cover all the initial installation
+This following script should cover all the initial installation:
 
 ```
 ./setup.sh
@@ -31,12 +31,12 @@ This following script should cover all the initial installation
 You should be able to see your infrastructure as code repository at http://10.10.20.20/developer/cicd-3tier
 
 
-## Known Issues
+## Known issues
 
 ### VIRL node boot error
 
 Occasionally, a node may not boot up correctly and you will see an error similar to
-this
+this:
 
 ```
 sync-result {
@@ -56,7 +56,7 @@ virl start test-dist2
 
 ### Initial Configuration Pushes from GitLab may fail
 
-Occasionally the intial configuration pushes from GitLab to the networks may start before the nodes are fully ready, and one or more may timeout.  This can result in the initial configuration and connectivity in the topology from not coming up automatically after running `setup`.  
+Occasionally the initial configuration pushes from GitLab to the networks may start before the nodes are fully ready, and one or more may timeout.  This can result in the initial configuration and connectivity in the topology from not coming up automatically after running `setup`.  
 
 The most common operational issue is the VPC domain not coming up correctly between the dist nodes.  Troubleshoot using CLI, but these steps tend to work.  (Maybe needed on test, prod, or both)
 
@@ -77,7 +77,7 @@ The most common operational issue is the VPC domain not coming up correctly betw
     no shut
     ```
 
-1. Once `show vpc` shows adjaceny healthy on both dist switches, bring up the link to access1
+1. Once `show vpc` shows adjacency healthy on both dist switches, bring up the link to access1
 
     ```
     int po11
@@ -86,19 +86,10 @@ The most common operational issue is the VPC domain not coming up correctly betw
 
 1. If VPC is not healthy on the distribution layer, the pyATS test will fail many of the tests as they are written to expect a healthy network.  
 
-### Web Redirect from Open Issue -> Merge Request Fails
-When creating a Merge Request from an Issue as in the following image, GitLab will mistakenly redirect you to a web url using `gitlab` as the host name, rather than the IP address of `10.10.20.20`.  
-
-![](../static/gitlab-issue-mergerequest.jpg)
-
-When this happens, simply change the host back to `10.10.20.20` to return to the correct page.  
-
-![](../static/gitlab-url-redirector-error.jpg)
-
 
 ## Verification / Troubleshooting
 
-If all goes well, you should see output similar to This
+If all goes well, you should see output similar to this
 
 ```
 [developer@devbox cicd-3tier]$./setup.sh
@@ -249,7 +240,7 @@ Here is a list of all the running nodes
 ```
 
 # Setting up a Local Development Environment
-To experience and demonstrate the full NetDevOps configuration pipeline, you may want to setup a local development environment where you can test proposed configuration changes before committing and pushing them to GitLab for the full test builds to occur.  To complete this step you will need to have a few local prerequisites setup on your local workstation.  
+To experience and demonstrate the full NetDevOps configuration pipeline, you may want to setup a local development environment where you can test proposed configuration changes before committing and pushing them to GitLab for the full test builds to occur.  To complete this step you will need to have a few local pre-requisites setup on your local workstation.  
 
 ## Local Development Environment Prerequisites
 ### Network Service Orchestrator
@@ -285,10 +276,10 @@ With the pre-requisites under control, follow these steps to setup your local de
 
 2. To simplify the setup and management of the local environment, a `Makefile` is included in the repository.  Simply `make dev` to do the following. (To see the exact commands being executed for each of these steps, just take a look at the contents of [`Makefile`](Makefile))
     1. Use NCS NetSim to start a local simulation of the network including the core, distribution, and access devices.
-    2. Setup a local NCS project directory within the repo
-    3. Start NCS and import in the netsim simulation
-    4. Preform and initial `sync-from`
-    5. Deploy the current "Network as Code" configuration to NCS and the network devices using Ansible
+    2. Setup a local NCS project directory within the repo.
+    3. Start NCS and import in the netsim simulation.
+    4. Perform an initial `sync-from`.
+    5. Deploy the current "Network as Code" configuration to NCS and the network devices using Ansible.
 
     ```bash
     # Sample output
@@ -369,7 +360,7 @@ With the pre-requisites under control, follow these steps to setup your local de
     localhost                  : ok=2    changed=2    unreachable=0    failed=0
     ```
 
-3. Now go ahead and open issues, create branches, make changes to the config, etc.  Then before running `git add/commit/push` you can test locally.  With `make dev-deploy`.
+3. Now go ahead and open issues, create branches, make changes to the config, etc.  Then, before running `git add/commit/push`, you can test locally with `make dev-deploy`.
 
     ```bash
     $ make dev-deploy
@@ -413,7 +404,7 @@ With the pre-requisites under control, follow these steps to setup your local de
         ansible-playbook -i inventory/dev.yaml site.yaml
         ```
 
-## Cleaning Up the Local Dev Envrionment
+## Cleaning Up the Local Dev Environment
 When you are ready to shutdown the local dev environment, simply `make clean` to shut down netsim and NSO and erase their remnants.  
 
 ```bash

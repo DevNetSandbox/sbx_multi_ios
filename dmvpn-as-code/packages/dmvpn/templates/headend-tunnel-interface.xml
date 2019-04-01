@@ -1,0 +1,72 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <!--
+          Select the devices from some data structure in the service
+          model. In this skeleton the devices are specified in a leaf-list.
+          Select all devices in that leaf-list:
+      -->
+      <name>{/primary_headend/device}</name>
+      <config>
+        <ip xmlns="urn:ios">
+          <vrf>
+            <name>{/primary_headend/vrf}</name>
+          </vrf>
+        </ip>
+        <interface xmlns="urn:ios">
+        <Tunnel>
+          <name>{/tunnel_number}</name>
+          <description>{$TUNNEL_IF_DESCRIPTION}</description>
+          <bandwidth>
+            <kilobits>1000000</kilobits>
+          </bandwidth>
+          <ip>
+            <address>
+              <primary>
+                <address>{$TUNNEL_IP}</address>
+                <mask>{$TUNNEL_MASK}</mask>
+              </primary>
+            </address>
+            <split-horizon-eigrp>
+              <split-horizon>
+                <eigrp>
+                  <no-list>
+                    <as-no>{/eigrp_process}</as-no>
+                  </no-list>
+                </eigrp>
+              </split-horizon>
+            </split-horizon-eigrp>
+            <redirects>false</redirects>
+            <nhrp>
+              <authentication>{/nhrp_authentication_key}</authentication>
+              <network-id>1</network-id>
+              <holdtime>300</holdtime>
+            </nhrp>
+            <tcp>
+              <adjust-mss>1360</adjust-mss>
+            </tcp>
+            <mtu>1400</mtu>
+          </ip>
+          <tunnel>
+            <source>{$SOURCE_INTERFACE}</source>
+            <mode>
+              <gre>
+                <multipoint>
+                </multipoint>
+              </gre>
+            </mode>
+            <key>{/tunnel_key}</key>
+            <vrf>{/primary_headend/vrf}</vrf>
+            <protection>
+              <ipsec>
+                <profile>vpnprofile</profile>
+                <shared/>
+              </ipsec>
+            </protection>
+          </tunnel>
+        </Tunnel>
+        </interface>
+      </config>
+    </device>
+  </devices>
+</config-template>

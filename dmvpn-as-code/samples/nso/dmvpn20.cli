@@ -1,0 +1,25 @@
+! stage this for netsim
+devices device headend1
+ config
+  ios:interface GigabitEthernet2
+   no switchport
+   ip address 172.16.0.10 255.255.255.252
+   no shutdown
+  exit
+
+dmvpn dmvpn20
+ psk                     cisco20
+ lan-pool                10.20.0.0/16
+ tunnel-pool             192.168.20.0/24
+ tunnel_key              20
+ tunnel_number           20
+ nhrp_authentication_key cisco20
+ eigrp_process           100
+ primary_headend device headend2
+ primary_headend public-interface type GigabitEthernet
+ primary_headend public-interface number 2
+ remotes remote3
+ !
+ remotes remote4
+ !
+!

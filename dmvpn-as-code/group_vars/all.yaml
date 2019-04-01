@@ -1,0 +1,62 @@
+---
+provider:
+  host: "{{ ansible_host  }}"
+
+ansible_python_interpreter: "/usr/bin/env python"
+
+
+snmp_ro: netdevops_ro_another
+snmp_rw: netdevops_rw_another
+
+ntp_server: 10.81.254.202
+
+name_server: 4.4.4.4
+domain_name: acme.com
+
+eigrp:
+  as: 100
+  networks:
+    - network: 10.1.1.0
+      mask: 0.0.0.255
+    - network: 10.2.2.0
+      mask: 0.0.0.255
+
+#
+ipsec:
+  key: cisco
+dmvpn1:
+  # headend1
+  primary_headend_public_ip: 172.16.0.10
+  primary_headend_public_mask: 255.255.255.252
+  primary_headend_tunnel_ip: 10.1.1.1
+  primary_headend_tunnel_mask: 255.255.255.0
+
+  # headend2
+  secondary_headend_public_ip: 172.16.0.14
+  secondary_headend_public_mask: 255.255.255.252
+  secondary_headend_tunnel_ip: 10.1.1.2
+  secondary_headend_tunnel_mask: 255.255.255.0
+
+  nhrp_network_id: 1
+  nhrp_authentication_key: cisco
+  nhrp_holdtime: 300
+  tunnel_key: 1234
+
+dmvpn2:
+  # headend2
+  primary_headend_public_ip: 172.16.0.14
+  primary_headend_public_mask: 255.255.255.252
+  primary_headend_tunnel_ip: 10.2.2.2
+  primary_headend_tunnel_mask: 255.255.255.0
+
+
+  # headend1
+  secondary_headend_public_ip: 172.16.0.10
+  secondary_headend_public_mask: 255.255.255.252
+  secondary_headend_tunnel_ip: 10.2.2.1
+  secondary_headend_tunnel_mask: 255.255.255.0
+
+  nhrp_network_id: 2
+  nhrp_authentication_key: cisco
+  nhrp_holdtime: 300
+  tunnel_key: 5678

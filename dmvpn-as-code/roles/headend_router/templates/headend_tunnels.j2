@@ -1,0 +1,35 @@
+interface Tunnel1
+ no shutdown
+ description T0 DWVPN mtu 1400 mss 1360
+ bandwidth 1000000
+ ip address {{ Tunnel1.ip }} {{ Tunnel1.mask}}
+ no ip redirects
+ ip mtu 1400
+ no ip split-horizon eigrp 100
+ ip nhrp authentication cisco
+ ip nhrp network-id {{ dmvpn1.nhrp_network_id }}
+ ip nhrp holdtime {{ dmvpn1.nhrp_holdtime }}
+ ip tcp adjust-mss 1360
+ tunnel source {{ Tunnel1.source_interface }}
+ tunnel mode gre multipoint
+ tunnel key {{ dmvpn1.tunnel_key }}
+ tunnel vrf {{ Tunnel1.vrf }}
+ tunnel protection ipsec profile vpnprofile shared
+!
+interface Tunnel2
+ no shutdown
+ description T0 DWVPN mtu 1400 mss 1360
+ bandwidth 1000000
+ ip address {{ Tunnel2.ip }} {{ Tunnel2.mask}}
+ no ip redirects
+ ip mtu 1400
+ no ip split-horizon eigrp 100
+ ip nhrp authentication {{ dmvpn2.nhrp_authentication_key}}
+ ip nhrp network-id {{ dmvpn2.nhrp_network_id }}
+ ip nhrp holdtime {{ dmvpn2.nhrp_holdtime }}
+ ip tcp adjust-mss 1360
+ tunnel source {{ Tunnel2.source_interface }}
+ tunnel mode gre multipoint
+ tunnel key {{ dmvpn2.tunnel_key }}
+ tunnel vrf Internet
+ tunnel protection ipsec profile vpnprofile shared

@@ -1,0 +1,9 @@
+Tunnel1:
+  ip: 10.1.1.4
+  mask: 255.255.255.0
+  source_interface: GigabitEthernet2
+
+Tunnel2:
+  ip: 10.2.2.4
+  mask: 255.255.255.0
+  source_interface: GigabitEthernet2

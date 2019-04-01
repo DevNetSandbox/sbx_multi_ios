@@ -1,0 +1,24 @@
+crypto keyring Internet
+  pre-shared-key address 0.0.0.0 0.0.0.0 key {{ ipsec.key }}
+!
+!
+!
+!
+!
+crypto isakmp policy 10
+ encr aes 256
+ authentication pre-share
+ group 2
+crypto isakmp invalid-spi-recovery
+crypto isakmp keepalive 45
+crypto isakmp nat keepalive 45
+crypto isakmp aggressive-mode disable
+!
+crypto ipsec security-association replay window-size 512
+!
+crypto ipsec transform-set outbound esp-aes 256 esp-sha-hmac
+ mode transport
+!
+!
+crypto ipsec profile vpnprofile
+ set transform-set outbound

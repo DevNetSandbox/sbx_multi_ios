@@ -1,0 +1,6 @@
+interface {{ public_interface.name }}
+ description outside interface for encrypted traffic
+ ip vrf forwarding {{ public_interface.vrf }}
+ ip address {{ public_interface.ip}} {{ public_interface.mask }}
+
+ip route vrf {{ public_interface.vrf }} 0.0.0.0 0.0.0.0 {{ public_interface.gateway }}
