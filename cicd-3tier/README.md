@@ -77,7 +77,7 @@ The most common operational issue is the VPC domain not coming up correctly betw
     no shut
     ```
 
-1. Once `show vpc` shows adjaceny healthy on both dist switches, bring up the link to access1
+1. Once `show vpc` shows adjacency healthy on both dist switches, bring up the link to access1
 
     ```
     int po11
