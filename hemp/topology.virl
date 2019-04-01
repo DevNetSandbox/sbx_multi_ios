@@ -180,7 +180,7 @@ ip sla 2
 ip sla schedule 2 life forever start-time now
 
 ip sla 3
- icmp-echo 192.168.2.1 source-ip 192.168.0.1
+ icmp-echo 192.168.3.1 source-ip 192.168.0.1
  frequency 10
  request-data-size 500
 ip sla schedule 3 life forever start-time now
