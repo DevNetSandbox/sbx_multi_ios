@@ -1,0 +1,36 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{$DEVICE}</name>
+      <config>
+        <interface xmlns="urn:ios">
+          <GigabitEthernet>
+            <name>3</name>
+            <description>Remote LAN interface</description>
+            <negotiation>
+              <auto>true</auto>
+            </negotiation>
+            <cdp>
+              <enable>true</enable>
+            </cdp>
+            <mop>
+              <xenabled>false</xenabled>
+              <sysid>false</sysid>
+            </mop>
+            <ip>
+              <address>
+                <primary>
+                  <address>{$LAN_IP}</address>
+                  <mask>{$LAN_MASK}</mask>
+                </primary>
+              </address>
+              <ospf>
+                <cost>1</cost>
+              </ospf>
+            </ip>
+          </GigabitEthernet>
+        </interface>
+      </config>
+    </device>
+  </devices>
+</config-template>

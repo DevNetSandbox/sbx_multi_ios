@@ -1,0 +1,38 @@
+#
+# The 'lux' test tool can be obtained from:
+#
+#   https://github.com/hawk/lux.git
+#
+[global target_dir=../../../../../..]
+
+[shell top]
+    !make stop build
+    !echo ==$$?==
+    ?==0==
+    ?SH-PROMPT:
+
+    !rm ${target_dir}/ncs-cdb/*
+    ?SH-PROMPT:
+    !cp pyvm.xml ${target_dir}/ncs-cdb/.
+    ?SH-PROMPT:
+
+    !make start
+    !echo ==$$?==
+    ?==0==
+    ?SH-PROMPT:
+
+[shell cli]
+    [progress \nVerify that the action code works...\n]
+    !make cli
+    ?.*#
+    !action double number 21
+    ?result 42
+    ?.*#
+    [progress \nVerify that the action code works...ok\n]
+
+
+[cleanup]
+    !make stop
+    !echo ==$$?==
+    ?==0==
+    ?SH-PROMPT:
