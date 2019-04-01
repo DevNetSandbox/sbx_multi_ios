@@ -21,6 +21,7 @@ if [ "$HOSTNAME" = devbox ]; then
   # it's keeping up to date
   sudo pip uninstall ansible
 
+
 fi
 
 # make sure dependencies are installed and virtualenv is activated
