@@ -1,0 +1,54 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <vpn xmlns="http://com/example/vpn">
+    <partner_name>partner1</partner_name>
+    <device>headend</device>
+    <sequence>101</sequence>
+    <peer_ip>172.16.252.1</peer_ip>
+    <isakmp_algo>3des</isakmp_algo>
+    <isakmp_group>2</isakmp_group>
+    <pre_shared_key>cisco</pre_shared_key>
+    <acl_number>100</acl_number>
+    <acl_rule>permit ip 192.168.0.0 0.0.0.255 192.168.1.0 0.0.0.255</acl_rule>
+    <transform_encryption>esp-3des</transform_encryption>
+    <transform_auth>esp-md5-hmac</transform_auth>
+  </vpn>
+  <vpn xmlns="http://com/example/vpn">
+    <partner_name>partner2</partner_name>
+    <device>headend</device>
+    <sequence>102</sequence>
+    <peer_ip>172.16.252.2</peer_ip>
+    <isakmp_algo>3des</isakmp_algo>
+    <isakmp_group>2</isakmp_group>
+    <pre_shared_key>cisco</pre_shared_key>
+    <acl_number>102</acl_number>
+    <acl_rule>permit ip 192.168.0.0 0.0.0.255 192.168.2.0 0.0.0.255</acl_rule>
+    <transform_encryption>esp-3des</transform_encryption>
+    <transform_auth>esp-md5-hmac</transform_auth>
+  </vpn>
+  <vpn xmlns="http://com/example/vpn">
+    <partner_name>partner3</partner_name>
+    <device>headend</device>
+    <sequence>103</sequence>
+    <peer_ip>172.16.252.3</peer_ip>
+    <isakmp_algo>3des</isakmp_algo>
+    <isakmp_group>2</isakmp_group>
+    <pre_shared_key>cisco</pre_shared_key>
+    <acl_number>103</acl_number>
+    <acl_rule>permit ip 192.168.0.0 0.0.0.255 192.168.3.0 0.0.0.255</acl_rule>
+    <transform_encryption>esp-3des</transform_encryption>
+    <transform_auth>esp-md5-hmac</transform_auth>
+  </vpn>
+  <vpn xmlns="http://com/example/vpn">
+    <partner_name>partner4</partner_name>
+    <device>headend</device>
+    <sequence>104</sequence>
+    <peer_ip>172.16.252.4</peer_ip>
+    <isakmp_algo>3des</isakmp_algo>
+    <isakmp_group>2</isakmp_group>
+    <pre_shared_key>cisco</pre_shared_key>
+    <acl_number>104</acl_number>
+    <acl_rule>permit ip 192.168.0.0 0.0.0.255 192.168.4.0 0.0.0.255</acl_rule>
+    <transform_encryption>esp-3des</transform_encryption>
+    <transform_auth>esp-md5-hmac</transform_auth>
+  </vpn>
+</config>

@@ -1,0 +1,13 @@
+partner1:
+  - partner_name: partner1
+    device:
+      - headend
+    sequence: 101
+    peer_ip: 172.16.252.1
+    isakmp_algo: 3des
+    isakmp_group: 2
+    pre_shared_key: cisco
+    transform_encryption: esp-3des
+    transform_auth: esp-md5-hmac
+    acl_number: "101"
+    acl_rule: "permit ip 192.168.0.0 0.0.0.255 192.168.1.0 0.0.0.255"

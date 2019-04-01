@@ -1,0 +1,13 @@
+<vpn xmlns="http://com/example/vpn" xmlns:y="http://tail-f.com/ns/rest"  xmlns:vpn="http://com/example/vpn">
+    <partner_name>{{ partner_name}}</partner_name>
+    <device>headend</device>
+    <sequence>{{ sequence }}</sequence>
+    <peer_ip>{{ peer_ip }}</peer_ip>
+    <isakmp_algo>{{ isakmp_algo }}</isakmp_algo>
+    <isakmp_group>{{ isakmp_group }}</isakmp_group>
+    <pre_shared_key>{{ pre_shared_key }}</pre_shared_key>
+    <acl_number>{{ acl_number }}</acl_number>
+    <acl_rule>{{ acl_rule }}</acl_rule>
+    <transform_encryption>{{ transform_encryption}}</transform_encryption>
+    <transform_auth>{{ transform_auth }}</transform_auth>
+</vpn>
