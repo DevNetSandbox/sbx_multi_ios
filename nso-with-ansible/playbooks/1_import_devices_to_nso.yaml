@@ -6,7 +6,7 @@
 
   tasks:
 
-    - name: Create Device Group
+    - name: Create Devices
       nso_config:
         url: "http://localhost:8080/jsonrpc"
         username: "admin"
@@ -50,3 +50,17 @@
                   protocol: telnet
               state:
                 admin-state: unlocked
+
+    - name: Create Device Group
+      nso_config:
+        url: "http://localhost:8080/jsonrpc"
+        username: "admin"
+        password: "admin"
+        data:
+          tailf-ncs:devices:
+            device-group:
+              - name: all-devices
+                device-name:
+                  - nx
+                  - xe
+                  - xr
