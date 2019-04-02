@@ -19,7 +19,7 @@ if [ "$HOSTNAME" = devbox ]; then
 
   # if we are going to maintain ansible in the python system install we need to make sure
   # it's keeping up to date
-  sudo pip uninstall ansible
+  sudo pip uninstall -y ansible
 
 
 fi
