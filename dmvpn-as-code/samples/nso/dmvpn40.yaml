@@ -1,0 +1,17 @@
+dmvpn:dmvpn:
+  - name: dmvpn40
+    lan-pool: 10.40.0.0/16
+    tunnel-pool: 192.168.40.0/24
+    tunnel_key: 40
+    tunnel_number: 40
+    nhrp_authentication_key: cisco101
+    psk: cisco10
+    eigrp_process: 100
+    primary_headend:
+      device: headend2
+      public-interface:
+        type: GigabitEthernet
+        number: 2
+    remotes:
+      - device: remote3
+      - device: remote4

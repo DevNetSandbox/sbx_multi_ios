@@ -1,0 +1,43 @@
+---
+
+- name: "Applying Common IOS Template"
+  tags:
+    - golden_config
+  ios_config:
+    provider: "{{ cli }}"
+    src: "base_template.j2"
+
+- name: "Configure DNS"
+  tags:
+    - golden_config
+    - dns
+  ios_config:
+    provider: "{{ cli }}"
+    src: "dns_template.j2"
+
+- name: Configure banner from file
+  tags:
+    - golden_config
+    - banner
+  ios_banner:
+    banner:  motd
+    text: "{{ lookup('file', './configs/banner_motd') }}"
+    state: present
+
+
+- name: "Configure SNMP"
+  tags:
+    - golden_config
+    - snmp
+  ios_config:
+    provider: "{{ cli }}"
+    src: "snmp_template.j2"
+
+
+- name: "Base EIGRP Configuration"
+  tags:
+    - routing
+    - eigrp
+  ios_config:
+    provider: "{{ cli }}"
+    src: "eigrp_template.j2"

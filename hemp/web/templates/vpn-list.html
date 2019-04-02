@@ -1,0 +1,34 @@
+{% extends 'base_layout.html' %}
+{% set active_sidebar = "device-list" %}
+
+{% block mainpanel %}
+<div style="padding-top:20px" class="container">
+
+   <div><a href="{{ url_for('add-vpn') }}"><button class="btn btn--success">Add VPN</button></a></div>
+  <hr>
+  <div class="responsive-table">
+      <table id="device-datatable" class="table table--bordered">
+          <thead>
+              <tr>
+
+                  <th>Partner Name</th>
+                  <th>Peer IP</th>
+                  <th>Encryption</th>
+                  <th>Authentication</th>
+                  <th>Crypto map seq</th>
+
+              </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+      </table>
+  </div>
+</div>
+
+<!-- table data will be populated dynamically by jquery/datatables -->
+<script src="/static/js/vpn-table.js"></script>
+{% endblock %}
+
+<!-- disable footer for this page  -->
+{% block footer %}{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base_layout.html' %}
+{% block mainpanel %}
+<div class="alert alert--danger-alt">
+    <div class="alert__icon icon-error"></div>
+    <div class="alert__message">
+      Error:
+    {{ response.json()['errors']['error'][0]['error-message'] }}
+</div>
+    <!-- <div class="alert__close icon-close"></div> -->
+</div>
+<h1>The following XML was generated for the service</h1>
+<hr>
+<pre>
+  {{ vpn_data }}
+</pre>
+<p>
+  <h1>What now???</h1>
+</p>
+<p>
+  <h3>Unfortunately, you'll have to <a href="{{ url_for('add-vpn') }}">start over</a> for now...
+    The error message above should provide some details about what went wrong, maybe you had a typo?</h3>
+</p>
+  <h1>Report an Issue</h1>
+  <h3>If you are unable to resolve your issue with the info provided you can raise an issue on github <a href="https://github.com/kecorbin/hemp">here</a>
+  include the message above in your issue and we'll get it resolved in a jiffy!</h3>
+</p>
+{% endblock %}
+{% block footer %}
+{% endblock %}

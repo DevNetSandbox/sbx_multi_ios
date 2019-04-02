@@ -1,0 +1,9 @@
+---
+# AAA config vars
+username: cisco
+password: cisco
+
+
+vty_password: cisco
+enable_password: cisco
+enable_secret: cisco

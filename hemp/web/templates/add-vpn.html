@@ -1,0 +1,186 @@
+{% extends 'base_layout.html' %} {% set active_sidebar = "device-list" %} {% block extra_js %}
+<script src="/static/js/jquery.steps.min.js"></script>
+{% endblock %} {% block extra_css %}
+<link rel="stylesheet" href="/static/css/jquery.steps.css"> {% endblock %}
+
+{% block mainpanel %}
+<div class="container" id="setup-wizard-container">
+
+
+  <form action="#" method="POST" id="setup-wizard">
+
+    <h3>Welcome</h3>
+    <section>
+      Welcome to the VPN Setup Wizard! The wizard will guide you through the setup of an extranet VPN.
+    </section>
+
+    <h3>Partner Information</h3>
+    <section>
+
+      <div class="form-group">
+        <div class="form-group__text">
+          <input name="partner_name" id="partner_name" type="text">
+          <label for="partner_name">Partner Name</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-group__text">
+          <input name="peer_ip" id="peer_ip" type="text">
+          <label for="peer_ip">Peer Address</label>
+        </div>
+      </div>
+
+    </section>
+
+    <h3>Select Traffic to Encrypt</h3>
+    <section>
+      <p>Here we define the proxy ACL's that will be used in the crypto map</p>
+
+          <strong>Examples:</strong>
+          <p>
+          permit ip host 1.1.1.1 host 2.2.2.2
+        </p>
+      <div class="form-group">
+        <div class="form-group__text">
+          <input name="acl_number" id="acl_number" type="text">
+          <label for="acl_number">ACL Number</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group__text">
+          <input name="acl_rule" id="acl_rule" type="text">
+          <label for="acl_rule">ACL Rule</label>
+        </div>
+      </div>
+
+    </section>
+
+
+    <h3>ISAKMP Configuration</h3>
+    <section>
+
+      <div class="form-group">
+        <div class="form-group__text">
+          <input name="sequence" id="sequence" type="number">
+          <label for="sequence">Seq Number</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group__text select">
+          <select class="form-control for-control-lg" name="isakmp_algo">
+                          <option value="0" selected>Select an Option</option>
+                          <option value="aes">AES</option>
+                          <option value="3des">3DES</option>
+                          <option value="des">DES</option>
+                      </select>
+          <label for="isakmp_algo">ISAKMP Encryption</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group__text select">
+          <select name="isakmp_group">
+                          <option value="0" selected>Select an Option</option>
+                          <option value="1">Group1</option>
+                          <option value="2">Group2</option>
+
+                      </select>
+          <label for="isakmp_algo">ISAKMP Group</label>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <div class="form-group__text select">
+          <select name="isakmp_auth">
+                          <option value="0" selected>Select an Option</option>
+                          <option value="pre-shared-key">pre-shared-key</option>
+                      </select>
+          <label for="isakmp_auth">ISAKMP Authentication</label>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <div class="form-group__text">
+          <input name="pre_shared_key" id="pre_shared_key" type="password">
+          <label for="pre_shared_key">Key</label>
+        </div>
+      </div>
+
+    </section>
+
+
+    <h3>IPSEC Configuration</h3>
+    <section>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="form-group__text select">
+            <select name="transform_encryption">
+                          <option value="0" selected>Select an Option</option>
+                          <option value="esp-aes">ESP-AES</option>
+                          <option value="esp-3des">ESP-3DES</option>
+                          <option value="esp-des">ESP-DES</option>
+                      </select>
+            <label for="transform_encryption">IPSec Encryption</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="form-group__text select">
+            <select name="transform_auth">
+                          <option value="0" selected>Select an Option</option>
+                          <option value="esp-md5-hmac">esp-md5-hmac</option>
+                          <option value="esp-sha-hmac">esp-sha-hmac</option>
+
+                      </select>
+            <label for="transform_auth">IPSec Authentication</label>
+          </div>
+        </div>
+      </div>
+      </form>
+    </section>
+
+  <!-- <button type="submit" class="btn btn--primary">Submit</button> -->-->
+
+</div>
+
+<!--this div used for indicating a waiting response-->
+<div style="display: none;" id="loading" class="outer">
+    <div class="middle">
+        <div class="inner">
+            <br><br><br><br>
+
+            <div id="loading-dots" class="loading-dots loading-dots--success">
+              <p><h1>Please wait while we configure your vpn for you...</h1></p>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+  $("#setup-wizard").steps({
+    headerTag: "h3",
+    bodyTag: "section",
+    transitionEffect: "slideLeft",
+    stepsOrientation: "vertical",
+    onFinished: function (event, currentIndex) {
+      var form = $(this);
+      // Submit form input
+      form.submit();
+      $('#setup-wizard-container').hide();
+      $('#loading').show();
+    }
+  });
+
+</script>
+
+{% endblock %}
+
+<!-- disable footer for this page  -->
+{% block footer %}{% endblock %}

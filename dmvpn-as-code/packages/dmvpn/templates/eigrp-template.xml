@@ -1,0 +1,24 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{$DEVICE}</name>
+        <config>
+        <router xmlns="urn:ios">
+        <eigrp>
+          <as-no>{/eigrp_process}</as-no>
+          <network>
+            <ip>{$TUNNEL_NETWORK}</ip>
+            <mask>{$TUNNEL_WILDCARD_MASK}</mask>
+          </network>
+          <?if {$IS_REMOTE='true'} ?>
+          <network>
+            <ip>{$LAN_NETWORK}</ip>
+            <mask>{$LAN_WILDCARD_MASK}</mask>
+          </network>
+          <?end?>
+        </eigrp>
+        </router>
+        </config>
+    </device>
+  </devices>
+</config-template>

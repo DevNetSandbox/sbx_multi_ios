@@ -1,0 +1,11 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+ <resource-pools xmlns="http://tail-f.com/pkg/resource-allocator">
+   <ip-address-pool xmlns="http://tail-f.com/pkg/ipaddress-allocator">
+    <name>{$POOL_NAME}</name>
+     <subnet>
+       <address>{$PREFIX}</address>
+       <cidrmask>{$PREFIX_LEN}</cidrmask>
+     </subnet>
+   </ip-address-pool>
+ </resource-pools>
+</config-template>
