@@ -30,7 +30,7 @@ source env_activate.sh
 echo "Launching VIRL Simulation"
 echo "=========================="
 cd virl/sandbox
-virl up -e nso --provision
+virl up -e nso --provision --wait-time 15
 virl nodes nso
 cd ../..
 

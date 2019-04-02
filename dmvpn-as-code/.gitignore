@@ -21,6 +21,9 @@ sandbox_testbed.yaml
 # NSO stuff
 ncs-cdb/
 logs/
+agentStore
+ncs.conf
+state.yml
 
 packages/cisco*
 packages/resource*

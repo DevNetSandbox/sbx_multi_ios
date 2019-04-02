@@ -39,6 +39,8 @@ The high level steps that are being performed here are
   * Launch simulated network instance using Cisco VIRL
   * Generates an Ansible inventory based on the running Simulation
   * Executes the [main playbook](./site.yaml) which contains [roles](./roles) which define the tasks, configuration templates, and logic applied to [headened routers](./roles/headend_router) and [remote routers](./roles/remote_router)
+  * Executes a pyATS [job](tests/eigrp_neighbor_check) which validates that each headend device
+    has EIGRP neighbors established with the remote routers
 
 At the end of this process you should be able to login to the various topologies to explore the configurations further.
 
@@ -93,6 +95,9 @@ The high level steps that are being performed here are
   * Launches an instance of NSO on the devbox
   * Deploys a DMVPN [dmvpn30](./samples/nso/dmvpn30.yaml) using an [ansible playbook](./samples/nso/dmvpn30-playbook.yaml)
   * Deploys a DMVPN [cloud40](./samples/nso/dmvpn40.yaml) by using NSO's nortbound REST API and a simple [python script](./samples/nso/dmvpn40-deploy.py)
+  * Executes a pyATS [job](tests/eigrp_neighbor_check) which validates that each headend device
+    has EIGRP neighbors established with the remote routers
+
 
 At the end of this process you should be able to login to the various topologies to explore the configurations further.
 
