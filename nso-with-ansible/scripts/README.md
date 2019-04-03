@@ -3,7 +3,7 @@
 
 Plug in play scripting allows you to quickly add functionality/workflow to NSO
 
-This repo contains a couple samples of how to use them
+This directory contains a couple samples of how to use them
 
 * command scripts - are used to add commands into NSO.
 * post-commit scripts - scripts that execute after every commit
