@@ -1,21 +1,3 @@
-Skip to content
-
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
-
-@kecorbin Sign out
-4
-9 7 DevNetSandbox/sbx_multi_ios
- Code  Issues 6  Pull requests 3  Projects 0  Wiki  Insights
-sbx_multi_ios/dmvpn-as-code/.gitignore
-@kecorbin kecorbin update tests
-ffc80b2 29 days ago
-128 lines (103 sloc)  1.41 KB
-
 # Ansible Stuff
 *.retry
 
@@ -37,12 +19,15 @@ TaskLog.html
 sandbox_testbed.yaml
 
 # NSO stuff
+*.ccl
 ncs-cdb/
 logs/
-
+netsim/
 packages/cisco*
 packages/resource*
+agentStore
 state/
+state.yml
 README.ncs
 README.netsim
 
@@ -142,16 +127,3 @@ venv.bak/
 /site
 
 # mypy
-.mypy_cache/
-© 2019 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
