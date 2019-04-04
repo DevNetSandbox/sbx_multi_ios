@@ -1,0 +1,90 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <template>
+      <name>snmp_standard</name>
+      <config>
+        <!-- IOS -->
+        <ip xmlns="urn:ios">
+          <access-list>
+            <standard>
+              <std-named-acl tags="replace">
+                <name>SNMP_ACL</name>
+                <std-access-list-rule>
+                  <rule>permit 10.0.0.0 0.255.255.255</rule>
+                </std-access-list-rule>
+              </std-named-acl>
+            </standard>
+          </access-list>
+        </ip>
+        <snmp-server xmlns="urn:ios" tags="replace">
+          <community>
+            <name>{$READONLY}</name>
+            <RO/>
+            <access-list-name>SNMP_ACL</access-list-name>
+          </community>
+          <community>
+            <name>{$READWRITE}</name>
+            <RW/>
+            <access-list-name>SNMP_ACL</access-list-name>
+          </community>
+        </snmp-server>
+
+        <!-- IOS-XR -->
+        <ipv4 xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <access-list>
+            <named-acl tags="replace">
+              <name>SNMP_ACL</name>
+              <rule>
+                <id>10</id>
+                <line>permit ipv4 10.0.0.0 0.255.255.255 any</line>
+              </rule>
+            </named-acl>
+          </access-list>
+        </ipv4>
+        <snmp-server xmlns="http://tail-f.com/ned/cisco-ios-xr" tags="replace">
+          <community>
+            <name>{$READONLY}</name>
+            <RO/>
+            <access-list>SNMP_ACL</access-list>
+          </community>
+          <community>
+            <name>{$READWRITE}</name>
+            <RW/>
+            <access-list>SNMP_ACL</access-list>
+          </community>
+        </snmp-server>
+
+        <!-- NX-OS -->
+        <ip xmlns="http://tail-f.com/ned/cisco-nx">
+          <access-list>
+            <list-name tags="replace">
+              <id>SNMP_ACL</id>
+              <sequence>
+                <id>10</id>
+                <action>permit</action>
+                <protocol>ip</protocol>
+                <source>
+                  <address>10.0.0.0</address>
+                  <source-mask>0.255.255.255</source-mask>
+                </source>
+                <any/>
+              </sequence>
+            </list-name>
+          </access-list>
+        </ip>
+        <snmp-server xmlns="http://tail-f.com/ned/cisco-nx" tags="replace">
+          <community>
+            <snmp-community-string>{$READONLY}</snmp-community-string>
+            <group>network-operator</group>
+            <use-ipv4acl>SNMP_ACL</use-ipv4acl>
+          </community>
+          <community>
+            <snmp-community-string>{$READWRITE}</snmp-community-string>
+            <group>network-admin</group>
+            <use-ipv4acl>SNMP_ACL</use-ipv4acl>
+          </community>
+        </snmp-server>
+      </config>
+    </template>
+  </devices>
+</config>

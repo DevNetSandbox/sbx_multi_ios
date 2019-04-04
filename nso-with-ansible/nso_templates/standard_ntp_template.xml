@@ -1,0 +1,41 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <template>
+      <name>ntp_standard</name>
+      <config>
+        <ntp xmlns="urn:ios" tags="replace">
+          <source>
+            <Loopback>0</Loopback>
+          </source>
+          <server>
+            <peer-list>
+              <name>129.56.15.32</name>
+            </peer-list>
+            <peer-list>
+              <name>132.163.95.5</name>
+            </peer-list>
+          </server>
+        </ntp>
+        <ntp xmlns="http://tail-f.com/ned/cisco-nx" tags=" replace ">
+          <server>
+            <id>129.56.15.32</id>
+          </server>
+          <server>
+            <id>132.163.95.5</id>
+          </server>
+          <source-interface>Loopback0</source-interface>
+        </ntp>
+        <ntp xmlns="http://tail-f.com/ned/cisco-ios-xr" tags="replace">
+          <server>
+            <server-list>
+              <name>132.163.96.5</name>
+            </server-list>
+            <server-list>
+              <name>129.6.15.32</name>
+            </server-list>
+          </server>
+        </ntp>
+      </config>
+    </template>
+  </devices>
+</config>

@@ -1,0 +1,26 @@
+devices device xe
+ address   <XE DEVICE IP>
+ ssh host-key-verification none
+ authgroup virl
+ device-type cli ned-id cisco-ios
+ device-type cli protocol telnet
+ port 23
+ state admin-state unlocked
+
+devices device nx
+address   <NX DEVICE IP>
+ssh host-key-verification none
+authgroup virl
+device-type cli ned-id cisco-nx
+device-type cli protocol telnet
+port 23
+state admin-state unlocked
+
+devices device xr
+ address   <XR DEVICE IP>
+ ssh host-key-verification none
+ authgroup virl
+ device-type cli ned-id cisco-ios-xr
+ device-type cli protocol telnet
+ port 23
+ state admin-state unlocked

@@ -1,0 +1,3 @@
+devices authgroups group virl
+ default-map remote-name cisco
+ default-map remote-password cisco
