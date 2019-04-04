@@ -1,0 +1,17 @@
+all:
+  children:
+    routers:
+      hosts:
+
+        xe:
+          ansible_host: <XE DEVICE IP>
+          ansible_network_os: ios
+
+        xr:
+          ansible_host: <XR DEVICE IP>
+          ansible_network_os: iosxr
+  switches:
+     hosts:
+      nx:
+        ansible_host: <NX DEVICE IP>
+        ansible_network_os: nxos
