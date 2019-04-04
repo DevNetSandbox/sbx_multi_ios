@@ -1,9 +1,8 @@
-clean: clean-netsim clean-nso
+clean: clean-netsim clean-nso clean-virl
 
 clean-virl:
 	-@virl down
 	-@rm -Rf .virl/
-	-@rm topology.virl
 
 clean-netsim:
 	-@echo "Stopping All Netsim Instances..."
@@ -31,3 +30,9 @@ nso:
 	ncsc -c packages/pipe-yaml/yaml-c.cli -o packages/yaml-c.ccl
 	ncs-setup --dest . --package cisco-ios --package cisco-iosxr --package cisco-nx
 	export PATH=$$PATH:packages/pipe-yaml; echo $$PATH; ncs
+
+test: clean-netsim clean-nso virl nso virl
+
+virl: nso
+	@virl up --provision
+	virl generate nso --syncfrom
