@@ -19,6 +19,7 @@ dev: deps netsim nso
 
 deps:
 	python3.6 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
+	./lab_prep.sh
 
 netsim:
 	-@ncs-netsim --dir netsim create-device cisco-ios xe
@@ -31,7 +32,7 @@ nso:
 	ncs-setup --dest . --package cisco-ios --package cisco-iosxr --package cisco-nx
 	export PATH=$$PATH:packages/pipe-yaml; echo $$PATH; ncs
 
-test: clean-netsim clean-nso virl nso virl
+test: clean-netsim clean-nso deps virl nso virl
 
 virl: nso
 	@virl up --provision
