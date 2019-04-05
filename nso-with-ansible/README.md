@@ -6,8 +6,8 @@
 - [Pre-reqs](#pre-reqs)
 - [Lab Setup (~10 min)](#lab-setup-10-min)
 - [Ansible Walkthrough](#ansible-walkthrough)
-	- [Ansible Inventory](#ansible-inventory)
-	- [Device Groups](#device-groups)
+	- [Inventory](#inventory)
+		- [Device Groups](#device-groups)
 	- [Device Operations](#device-operations)
 	- [Playbooks](#playbooks)
 		- [NTP Configuration](#ntp-configuration)
@@ -108,20 +108,36 @@ we will be using the [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx)
 At this point we have a running VIRL simulation, NSO installed and running, and we're ready to get started.
 
 # Ansible Walkthrough
-## Ansible Inventory
-## Device Groups
+
+## Inventory
+
+Ansible works against multiple systems in your infrastructure at the same time. It does this by selecting portions of systems listed in Ansible’s inventory, which defaults to being saved in the location /etc/ansible/hosts. You can specify a different inventory file using the -i <path> option on the command line.
+
+Not only is this inventory configurable, but you can also use multiple inventory files at the same time and pull inventory from dynamic services (like NSO) or different file formats (YAML, ini, etc)
+
+For detailed information on Ansible Inventory see [here](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html)
+
+For our purposes we will use `virlutils` to generate an inventory suitable for our running simulation.
+
+```
+virl generate ansible
+```
+
+### Device Groups
 
 ## Device Operations
+
+Ansible uses modules to configure devices, these modules allow various operational/configuration commands to be running.  In the following example we will use the [./ansible_playbooks](./ansible_playbooks/enable_ssh.yaml) playbook to enable SSH on the device `xr`
+```
 cd ansible_playbooks
-ansible-playbook -i <your inventory file> change_ntp_servers.yaml
+ansible-playbook -i default_inventory.yaml enable_ssh.yaml
 
-
-Enable SSH on IOS-XR here
+```
 ## Playbooks
 
 ```
 cd ansible_playbooks
-ansible-playbook -i <your inventory file> change_ntp_servers.yaml
+ansible-playbook -i default_inventory.yaml change_ntp_servers.yaml
 ```
 
 ### NTP Configuration
