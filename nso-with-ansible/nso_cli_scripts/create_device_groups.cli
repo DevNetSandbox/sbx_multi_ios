@@ -1,0 +1,9 @@
+devices device-group routers
+ device-name [ xe xr ]
+!
+devices device-group switches
+ device-name [ nx ]
+!
+devices device-group all
+ device-group [ routers switches ]
+!

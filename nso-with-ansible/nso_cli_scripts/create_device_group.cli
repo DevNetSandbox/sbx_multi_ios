@@ -1,3 +1,0 @@
-devices device-group all
- device-name [ nx xe xr ]
-!
