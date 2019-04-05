@@ -1,1 +1,1 @@
-devices device-group all apply-template template-name ntp_standard
+devices device-group all apply-template template-name standard_ntp

@@ -1,7 +1,7 @@
 <config xmlns="http://tail-f.com/ns/config/1.0">
   <devices xmlns="http://tail-f.com/ns/ncs">
     <template>
-      <name>ntp_standard</name>
+      <name>standard_ntp</name>
       <config>
         <ntp xmlns="urn:ios" tags="replace">
           <source>
@@ -16,7 +16,7 @@
             </peer-list>
           </server>
         </ntp>
-        <ntp xmlns="http://tail-f.com/ned/cisco-nx" tags=" replace ">
+        <ntp xmlns="http://tail-f.com/ned/cisco-nx" tags="replace">
           <server>
             <id>129.56.15.32</id>
           </server>
