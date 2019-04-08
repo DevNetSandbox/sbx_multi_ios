@@ -9,29 +9,29 @@
           </source>
           <server>
             <peer-list>
-              <name>129.56.15.32</name>
+              <name>2.2.2.2</name>
             </peer-list>
             <peer-list>
-              <name>132.163.95.5</name>
+              <name>4.4.4.4</name>
             </peer-list>
           </server>
         </ntp>
         <ntp xmlns="http://tail-f.com/ned/cisco-nx" tags="replace">
           <server>
-            <id>129.56.15.32</id>
+            <id>2.2.2.2</id>
           </server>
           <server>
-            <id>132.163.95.5</id>
+            <id>4.4.4.4</id>
           </server>
           <source-interface>Loopback0</source-interface>
         </ntp>
         <ntp xmlns="http://tail-f.com/ned/cisco-ios-xr" tags="replace">
           <server>
             <server-list>
-              <name>132.163.96.5</name>
+              <name>2.2.2.2</name>
             </server-list>
             <server-list>
-              <name>129.6.15.32</name>
+              <name>4.4.4.4</name>
             </server-list>
           </server>
         </ntp>

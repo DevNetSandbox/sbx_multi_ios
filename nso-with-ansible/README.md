@@ -137,7 +137,7 @@ ansible-playbook -i default_inventory.yaml enable_ssh.yaml
 
 ```
 cd ansible_playbooks
-ansible-playbook -i default_inventory.yaml change_ntp_servers.yaml
+ansible-playbook -i default_inventory.yaml configure_ntp.yaml
 ```
 
 ### NTP Configuration
