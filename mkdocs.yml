@@ -1,0 +1,24 @@
+site_name: NetDevOps Sandbox Labs
+site_description: a description
+repo_name: GitHub
+repo_url: https://github.com/chapeter/sbx_multi_ios
+docs_dir: docs/
+
+theme:
+  name: 'material'
+
+nav:
+  - Overview: index.md
+  - Labs:
+    - Sandbox Setup: labs/sandbox-setup.md
+    - NSO with Ansible: labs/nso-with-ansible.md
+    - Telemetry with PIG: labs/telemetry-with-pig.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - codehilite
+
+plugins:
+  - search
