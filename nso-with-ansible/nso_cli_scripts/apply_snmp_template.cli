@@ -1,0 +1,5 @@
+devices device-group all \
+  apply-template \
+    template-name standard_snmp \
+    variable { name READONLY value 'private' } \
+    variable { name READWRITE value 'reallyprivate' }

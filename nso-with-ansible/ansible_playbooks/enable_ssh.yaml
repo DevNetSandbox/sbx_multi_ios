@@ -1,0 +1,17 @@
+---
+
+- hosts: xr
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Generate SSH Key
+      telnet:
+        user: "{{ lookup('env','ANSIBLE_NET_PASSWORD') }}"
+        password: "{{ lookup('env','ANSIBLE_NET_USERNAME') }}"
+        login_prompt: "Username: "
+        prompts:
+          - "[>|#]"
+          - ": "
+        command:
+          - crypto key generate rsa
+          - "2048"

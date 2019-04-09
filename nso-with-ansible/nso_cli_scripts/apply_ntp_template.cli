@@ -1,0 +1,1 @@
+devices device-group all apply-template template-name standard_ntp

@@ -1,0 +1,4 @@
+Value SERVER (\S+)
+
+Start
+  ^ntp server ${SERVER} -> Record
