@@ -43,7 +43,7 @@ we will be using the [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx)
   * **Note:** all steps completed from the devbox (TODO: do we need local?)
 
 
-  1. ssh to devbox `ssh developer@10.10.20.20`
+  1. ssh to devbox `ssh developer@10.10.20.20` (password C1sco12345)
 
   2. Clone required code
 
@@ -52,15 +52,20 @@ we will be using the [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx)
   cd sbx_multi_ios/nso-with-ansible
   ```
 
-  3. Install Dependencies
+  <!-- 3. Prep the sandbox:
+```
+./lab_prep.sh
+``` -->
+
+  <!-- 3. Install Dependencies (TODO: Combine 3a and 3b?)
 
   ```
   python3.6 -m venv venv
   source venv/bin/activate
   pip install -r requirements.txt
-  ```
+  ``` -->
 
-  4. Launch demo environment
+  4. Launch demo environment (!!!NOTE This may take some time as we are installing some new NSO stuff as well as ansible etc.)
 
   ```
   make test
@@ -117,33 +122,94 @@ Not only is this inventory configurable, but you can also use multiple inventory
 
 For detailed information on Ansible Inventory see [here](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html)
 
-For our purposes we will use `virlutils` to generate an inventory suitable for our running simulation.
+For our purposes we will use `virlutils` to generate an inventory suitable for our running simulation, and then move it to our ```ansible_playbooks``` directory
 
 ```
 virl generate ansible
+mv default_inventory ansible_playbooks/
 ```
 
 ### Device Groups
 
 ## Device Operations
 
-Ansible uses modules to configure devices, these modules allow various operational/configuration commands to be running.  In the following example we will use the [./ansible_playbooks](./ansible_playbooks/enable_ssh.yaml) playbook to enable SSH on the device `xr`
-```
-cd ansible_playbooks
-ansible-playbook -i default_inventory.yaml enable_ssh.yaml
-
-```
 ## Playbooks
 
+Ansible uses modules to configure devices, these modules allow various operational/configuration commands to be running.  In the following example we will use the [./ansible_playbooks/enable_ssh.yaml](./ansible_playbooks/enable_ssh.yaml) playbook to enable SSH on the device `xr`
 ```
-cd ansible_playbooks
-ansible-playbook -i default_inventory.yaml configure_ntp.yaml
+# (venv) [developer@devbox nso-with-ansible]$cd ansible_playbooks/
+# (venv) [developer@devbox ansible_playbooks]$ansible-playbook -i default_inventory.yaml enable_ssh.yaml
 ```
+
+
+
 
 ### NTP Configuration
 
-#
+```
+# (venv) [developer@devbox ansible_playbooks]$ansible-playbook -i default_inventory.yaml configure_ntp.yaml
 
+PLAY [all] ******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Get current NTP servers] **********************************************************************************************************************************************************************************************************************************************************************************************************************************************
+ok: [xe]
+ok: [nx]
+ok: [xr]
+
+
+TASK [set_fact] *************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+ok: [nx]
+ok: [xr]
+ok: [xe]
+
+TASK [debug] ****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+ok: [xe] => {
+    "actual_ntp_servers": []
+}
+ok: [nx] => {
+    "actual_ntp_servers": []
+}
+ok: [xr] => {
+    "actual_ntp_servers": []
+}
+
+TASK [debug] ****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+ok: [xe] => {
+    "msg": "Add the following: 1.1.1.1,3.3.3.3"
+}
+ok: [nx] => {
+    "msg": "Add the following: 1.1.1.1,3.3.3.3"
+}
+ok: [xr] => {
+    "msg": "Add the following: 1.1.1.1,3.3.3.3"
+}
+
+TASK [debug] ****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+ok: [nx] => {
+    "msg": "Remove the following: "
+}
+ok: [xe] => {
+    "msg": "Remove the following: "
+}
+ok: [xr] => {
+    "msg": "Remove the following: "
+}
+
+TASK [Add the new servers] **************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+changed: [xe] => (item=1.1.1.1)
+changed: [nx] => (item=1.1.1.1)
+changed: [xe] => (item=3.3.3.3)
+changed: [xr] => (item=1.1.1.1)
+changed: [nx] => (item=3.3.3.3)
+changed: [xr] => (item=3.3.3.3)
+
+TASK [Remove old servers] ***************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+
+PLAY RECAP ******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+nx                         : ok=6    changed=1    unreachable=0    failed=0
+xe                         : ok=6    changed=1    unreachable=0    failed=0
+xr                         : ok=6    changed=1    unreachable=0    failed=0
+```
 
 # NSO Walkthrough
 
@@ -153,10 +219,17 @@ We will start out by using the CLI of NSO.  The CLI provides a great starting po
 To the NSO CLI can be accessed via the following command from the NSO server (devbox)
 
 ```
-ncs_cli -u admin
+# (venv) [developer@devbox ansible_playbooks]$cd ..
+# (venv) [developer@devbox nso-with-ansible]$ncs_cli -u admin -C
 ```
 
-## Importing devices into NSO
+## Importing devices into NSO  
+
+(TODO: [chapeter] I'm not following what we are doing here.  I'll come back to this after I do it a 2nd time.   Perhaps its a load by hand vs script?  On board with that idea if its what it is.
+
+Steps:
+1 - GET XE device ip from virlutils, note it then do this.
+)
 
 During the initial setup, the VIRL devices were  imported into NSO.  In doing so, we've already introduced you to one of the features of NSO, which is it's northbound REST API, but we will get to that in a second.
 
@@ -233,12 +306,12 @@ Some important notes about device groups.
 The [nso_cli_scripts/create_device_groups.cli](./nso_cli_scripts/create_device_groups.cli) script creates a groups `routers`, `switches`, and `all`
 
 ```
-admin@ncs# config t
+# admin@ncs# config t
 Entering configuration mode terminal
-admin@ncs(config)# load merge nso_cli_scripts/create_device_groups.cli
+# admin@ncs(config)# load merge nso_cli_scripts/create_device_groups.cli
 Loading.
 53 bytes parsed in 0.12 sec (423 bytes/sec)
-admin@ncs(config-device-group-all)# commit dry-run
+# admin@ncs(config-device-group-all)# commit dry-run
 cli {
     local-node {
         data  devices {
@@ -254,13 +327,14 @@ cli {
               }
     }
 }
-admin@ncs(config)# commit
+# admin@ncs(config)# commit
 ```
 
 The configuration can also be reviewed by running the following command.
 
 ```
-admin@ncs# show running-config devices device-group
+# admin@ncs(config)# exit
+# admin@ncs# show running-config devices device-group
 devices device-group all
  device-group [ routers switches ]
 !
@@ -276,6 +350,7 @@ Or converted into structured data via the CLI, this is especially useful for gen
 
 As XML
 ```
+# admin@ncs# show running-config devices device-group | display xml
 <config xmlns="http://tail-f.com/ns/config/1.0">
   <devices xmlns="http://tail-f.com/ns/ncs">
   <device-group>
@@ -298,7 +373,7 @@ As XML
 
 As JSON
 ```
-admin@ncs# show running-config devices device-group | display json
+# admin@ncs# show running-config devices device-group | display json
 {
   "data": {
     "tailf-ncs:devices": {
@@ -326,7 +401,7 @@ You can even generate your own `pipeCmds` as demonstrated using the [pipe-yaml](
 This is super useful when integrating with Ansible!
 
 ```
-admin@ncs# show running-config devices device-group | display json | yaml
+# admin@ncs# show running-config devices device-group | display json | yaml
 data:
   tailf-ncs:devices:
     device-group:
@@ -353,7 +428,7 @@ As with configuration these operations can be triggered via CLI or API.
 
 via CLI
 ```
-admin@ncs# devices device-group all sync-from
+# admin@ncs# devices device-group all sync-from
 sync-result {
     device nx
     result true
@@ -368,7 +443,7 @@ sync-result {
 }
 ```
 
-or via API
+or via API (TODO: [chapeter] - should we add a postman button on this?)
 
 ```
 curl -X POST -u admin:admin http://localhost:8080/api/running/devices/device-group/all/_operations/sync-from
@@ -399,10 +474,13 @@ Each template node e.g `ntp` can contain a list of configuration for each device
 These template files can be easily created based off existing devices using the conversion mechanisms outlined earlier. e.g `show running-config devices device nx config nx:ntp | display xml`
 
 ```
-admin@ncs(config)# load merge nso_templates/standard_ntp_template.xml
+# admin@ncs# config t
+# admin@ncs(config)# load merge nso_templates/standard_ntp_template.xml
 Loading.
 1.13 KiB parsed in 0.04 sec (25.22 KiB/sec)
-admin@ncs(config)# commit
+# admin@ncs(config)# commit
+Commit complete.
+# admin@ncs(config)#
 ```
 
 ### Compliance Reporting
@@ -410,13 +488,17 @@ admin@ncs(config)# commit
 Compliance Reports can be created to audit device configurations against the template contents. These reports can executed via CLI, or API and the results can be output in text, XML, or HTML formats. For convenience these reports are also hosted on the NSO web server so that they can be linked to from other systems.
 
 ```
-admin@ncs(config)# compliance reports report ntp_audit compare-template standard_ntp all
-admin@ncs(config-compare-template-standard_ntp/all)# commit
+# admin@ncs(config)# compliance reports report ntp_audit compare-template standard_ntp all
+# admin@ncs(config-compare-template-standard_ntp/all)# commit
 Commit complete.
 ```
 
 ```
-admin@ncs# compliance reports report ntp_audit run outformat html
+# admin@ncs(config-compare-template-standard_ntp/all)# exit
+# admin@ncs(config-report-ntp_audit)# exit
+# admin@ncs(config)# exit
+# admin@ncs#
+# admin@ncs# compliance reports report ntp_audit run outformat html
 id 2
 compliance-status violations
 info Checking 3 devices and no services
@@ -425,14 +507,16 @@ location http://localhost:8080/compliance-reports/report_2_admin_1_2019-4-4T23:5
 
 You can use the provided URL to access the report.
 
-**NOTE:** you may need to change localhost to 10.10.20.20 to view this URL
+(TODO: **NOTE:**  you may need to change localhost to 10.10.20.20 to view this URL - user: admin password: admin)
 
 ### Applying Templates
 
 Templates can applied via CLI or API.
 
 ```
-admin@ncs(config)# devices device-group all apply-template template-name standard_ntp
+# admin@ncs# config t
+Entering configuration mode terminal
+# admin@ncs(config)# devices device-group all apply-template template-name standard_ntp
 apply-template-result {
     device nx
     result ok
@@ -445,13 +529,12 @@ apply-template-result {
     device xr
     result ok
 }
-admin@ncs(config)# commit dry-run
+# admin@ncs(config)# commit dry-run
 
 <any required changes as computed by NSO will be displayed here>
 
-admin@ncs(config)#
-admin@ncs(config)# commit
-
+# admin@ncs(config)#
+# admin@ncs(config)# commit
 ```
 
 ### Transactions, Rollbacks
@@ -460,15 +543,24 @@ As was mentioned earlier, everything in NSO is a transaction, and in addition to
 
 
 ```
-admin@ncs(config)# rollback configuration
-admin@ncs(config)# commit dry-run
+# admin@ncs(config)# rollback configuration
+# admin@ncs(config)# commit dry-run
 
 < automatically generated backout configuration >
 
-admin@ncs(config)#
+# admin@ncs(config)#
 ```
 
 After loading the rollback configuration, another commit (which could subsequently be rolled back as well) is performed.
+
+
+At this point we can exit NSO:
+```
+# admin@ncs(config)# exit
+Uncommitted changes found, commit them? [yes/no/CANCEL] no
+Commit complete.
+# admin@ncs# exit
+```
 
 # NSO with Ansible Walkthrough
 
@@ -481,17 +573,24 @@ As highlighted earlier, NSO provides nortbound API's for use with integrating wi
 
 
 ```
-cd ansible_playbooks
-ansible-playbook sync_from_devices.yaml
-(venv) [developer@devbox ansible_playbooks]$ansible-playbook sync_from_devices.yaml
+# (venv) [developer@devbox nso-with-ansible]$cd ansible_playbooks/
+# venv) [developer@devbox ansible_playbooks]$ansible-playbook sync_from_devices.yaml
+ [WARNING]: Unable to parse /etc/ansible/hosts as an inventory source
 
-PLAY [Synchronization of Devices] ************************************************************************************
+ [WARNING]: No inventory was parsed, only implicit localhost is available
 
-TASK [NSO sync-from action] ******************************************************************************************
+ [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+
+PLAY [Synchronization of Devices] *********************************************************************
+
+
+TASK [NSO sync-from action] *********************************************************************
 changed: [localhost]
 
-PLAY RECAP ***********************************************************************************************************
+PLAY RECAP *********************************************************************
 localhost                  : ok=1    changed=1    unreachable=0    failed=0
+
 ```
 
 

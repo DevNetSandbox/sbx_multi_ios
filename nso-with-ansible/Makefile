@@ -18,8 +18,8 @@ clean-nso:
 dev: deps netsim nso
 
 deps:
-	python3.6 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
-	./lab_prep.sh
+	./lab_prep.sh && python3.6 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
+
 
 netsim:
 	-@ncs-netsim --dir netsim create-device cisco-ios xe
