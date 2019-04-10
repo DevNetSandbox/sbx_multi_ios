@@ -15,16 +15,18 @@ We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  H
 
 !!! info "All steps presented in this guide are written to be completed from the devbox"
 
+1. ssh to devbox `ssh developer@10.10.20.20` (password C1sco12345)
 
-  1. ssh to devbox `ssh developer@10.10.20.20` (password C1sco12345)
-
-  2. Clone required code
+2. Clone required code
   ```
   git clone https://github.com/DevNetSandbox/sbx_multi_ios
   cd sbx_multi_ios/nso-with-ansible
   ```
 
-  3. Launch demo environment (!!!NOTE This may take some time as we are installing some new NSO stuff as well as ansible etc.)
+3. Launch demo environment
+
+!!! info "This may take some time as we are installing some new NSO stuff as well as ansible etc.)"
+
   ```
   make test
   ```
@@ -313,8 +315,8 @@ show running-config devices device-group
 
 ???+ example "Output"
     ```
-    # admin@ncs(config)# exit
-    # admin@ncs# show running-config devices device-group
+    admin@ncs(config)# exit
+    admin@ncs# show running-config devices device-group
     devices device-group all
      device-group [ routers switches ]
     !
@@ -328,7 +330,7 @@ show running-config devices device-group
 
 Or converted into structured data via the CLI, this is especially useful for generating API payloads
 
-???+ example "As XML"
+!!! example "As XML"
     ```xml
     admin@ncs# show running-config devices device-group | display xml
     <config xmlns="http://tail-f.com/ns/config/1.0">
@@ -352,7 +354,7 @@ Or converted into structured data via the CLI, this is especially useful for gen
     ```
 
 
-???+ example "As JSON"
+!!! example "As JSON"
     ```json
     admin@ncs# show running-config devices device-group | display json
     {
@@ -377,22 +379,24 @@ Or converted into structured data via the CLI, this is especially useful for gen
     }
     ```
 
-You can even generate your own `pipeCmds` as demonstrated using the [pipe-yaml](./pipe-yaml) package that's included in this repo.
+You can even generate your own `pipeCmds` as demonstrated using the [pipe-yaml](https://github.com/DevNetSandbox/sbx_multi_ios/tree/master/nso-with-ansible/packages/pipe-yaml) package that's included in this repo.
 
 This is super useful when integrating with Ansible!
 
-```
-# admin@ncs# show running-config devices device-group | display json | yaml
-data:
-  tailf-ncs:devices:
-    device-group:
-    - device-group: [routers, switches]
-      name: all
-    - device-name: [xe, xr]
-      name: routers
-    - device-name: [nx]
-      name: switches
-```
+!!! example "Example of using pipe-yaml"
+    ```
+    admin@ncs# show running-config devices device-group | display json | yaml
+    data:
+      tailf-ncs:devices:
+        device-group:
+        - device-group: [routers, switches]
+          name: all
+        - device-name: [xe, xr]
+          name: routers
+        - device-name: [nx]
+          name: switches
+    ```
+
 ### Device Operations
 
 NSO supports several important operations for reconciling the configuration present in the configuration database (CDB), and the configuration present on the devices. These operations can be applied to all devices, a particular device-group, or a single device.
@@ -407,30 +411,30 @@ NSO supports several important operations for reconciling the configuration pres
 
 As with configuration these operations can be triggered via CLI or API.
 
-via CLI
-```
-# admin@ncs# devices device-group all sync-from
-sync-result {
-    device nx
-    result true
-}
-sync-result {
-    device xe
-    result true
-}
-sync-result {
-    device xr
-    result true
-}
-```
+!!! example "via CLI"
+    ```
+    admin@ncs# devices device-group all sync-from
+    sync-result {
+        device nx
+        result true
+    }
+    sync-result {
+        device xe
+        result true
+    }
+    sync-result {
+        device xr
+        result true
+    }
+    ```
 
-or via API (TODO: [chapeter] - should we add a postman button on this?)
+!!! example "via API"
+    ```
+    curl -X POST -u admin:admin http://localhost:8080/api/running/devices/device-group/all/_operations/sync-from
+    ```
 
-```
-curl -X POST -u admin:admin http://localhost:8080/api/running/devices/device-group/all/_operations/sync-from
-```
-
-**IMPORTANT NOTE**: notice the consistency between the CLI operation and the API.  This is because both of them are merely representations of the configuration stored in the CDB.
+!!! important "Important"
+    Notice the consistency between the CLI operation and the API.  This is because both of them are merely representations of the configuration stored in the CDB.
 
 ### Device Templates
 
@@ -440,7 +444,55 @@ The following steps will load some device configuration templates.
 
 #### Creating Templates
 
-Apply the [nso_templates/standard_ntp_template.xml](./nso_templates/standard_ntp_template.xml) file via load merge.
+!!! bug "TODO"
+    Is this step correct, because we also have applying the template step below
+Apply the `nso_templates/standard_ntp_template.xml` file via load merge.
+
+Lets take a look at the `nso_templates/standard_ntp_template`:
+??? example "standard_ntp_template.xml"
+    ```xml
+    <config xmlns="http://tail-f.com/ns/config/1.0">
+      <devices xmlns="http://tail-f.com/ns/ncs">
+        <template>
+          <name>standard_ntp</name>
+          <config>
+            <ntp xmlns="urn:ios" tags="replace">
+              <source>
+                <Loopback>0</Loopback>
+              </source>
+              <server>
+                <peer-list>
+                  <name>2.2.2.2</name>
+                </peer-list>
+                <peer-list>
+                  <name>4.4.4.4</name>
+                </peer-list>
+              </server>
+            </ntp>
+            <ntp xmlns="http://tail-f.com/ned/cisco-nx" tags="replace">
+              <server>
+                <id>2.2.2.2</id>
+              </server>
+              <server>
+                <id>4.4.4.4</id>
+              </server>
+              <source-interface>Loopback0</source-interface>
+            </ntp>
+            <ntp xmlns="http://tail-f.com/ned/cisco-ios-xr" tags="replace">
+              <server>
+                <server-list>
+                  <name>2.2.2.2</name>
+                </server-list>
+                <server-list>
+                  <name>4.4.4.4</name>
+                </server-list>
+              </server>
+            </ntp>
+          </config>
+        </template>
+      </devices>
+    </config>
+    ```
 
 Each template node e.g `ntp` can contain a list of configuration for each device-type (NED) that which NSO manages.  When templates are applied, NSO automatically handles the logic of applying the appropriate configuration based on the device type. Additionally, `tags` can be added to templates. A tag is inherited to its sub-nodes until a new tag is introduced.
 
@@ -454,83 +506,118 @@ Each template node e.g `ntp` can contain a list of configuration for each device
 
 These template files can be easily created based off existing devices using the conversion mechanisms outlined earlier. e.g `show running-config devices device nx config nx:ntp | display xml`
 
+!!! bug "TODO"
+    Get output of `show running-config devices device nx config nx:ntp | display xml`
+
+
+Let's go ahead and apply the `standard_ntp_template.xml`.
 ```
-# admin@ncs# config t
-# admin@ncs(config)# load merge nso_templates/standard_ntp_template.xml
-Loading.
-1.13 KiB parsed in 0.04 sec (25.22 KiB/sec)
-# admin@ncs(config)# commit
-Commit complete.
-# admin@ncs(config)#
+conf t
+load merge nso_templates/standard_ntp_template.xml
+commit
 ```
+
+??? example "Output from merge"
+      ```
+      admin@ncs# config t
+      admin@ncs(config)# load merge nso_templates/standard_ntp_template.xml
+      Loading.
+      1.13 KiB parsed in 0.04 sec (25.22 KiB/sec)
+      admin@ncs(config)# commit
+      Commit complete.
+      admin@ncs(config)#
+      ```
 
 #### Compliance Reporting
 
 Compliance Reports can be created to audit device configurations against the template contents. These reports can executed via CLI, or API and the results can be output in text, XML, or HTML formats. For convenience these reports are also hosted on the NSO web server so that they can be linked to from other systems.
 
-```
-# admin@ncs(config)# compliance reports report ntp_audit compare-template standard_ntp all
-# admin@ncs(config-compare-template-standard_ntp/all)# commit
-Commit complete.
-```
+!!! bug "TODO"
+    Write a little about what this report is doing and what we are doing in this step
 
 ```
-# admin@ncs(config-compare-template-standard_ntp/all)# exit
-# admin@ncs(config-report-ntp_audit)# exit
-# admin@ncs(config)# exit
-# admin@ncs#
-# admin@ncs# compliance reports report ntp_audit run outformat html
-id 2
-compliance-status violations
-info Checking 3 devices and no services
-location http://localhost:8080/compliance-reports/report_2_admin_1_2019-4-4T23:54:29:0.html
+compliance reports report ntp_audit compare-template standard_ntp all
+commit
+end
 ```
+
+??? example "Output"
+    ```
+    admin@ncs(config)# compliance reports report ntp_audit compare-template standard_ntp all
+    admin@ncs(config-compare-template-standard_ntp/all)# commit
+    Commit complete.
+    admin@ncs(config-compare-template-standard_ntp/all)# end
+    admin@ncs#
+    ```
+
+`compliance reports report ntp_audit run outformat html`
+
+!!! example "Output"
+    ```
+    admin@ncs# compliance reports report ntp_audit run outformat html
+    id 2
+    compliance-status violations
+    info Checking 3 devices and no services
+    location http://localhost:8080/compliance-reports/report_2_admin_1_2019-4-4T23:54:29:0.html
+    ```
 
 You can use the provided URL to access the report.
 
-(TODO: **NOTE:**  you may need to change localhost to 10.10.20.20 to view this URL - user: admin password: admin)
+!!! important "Important"
+    You need to change localhost to 10.10.20.20 to view this URL
+
+    **Credentials:**
+
+    user: admin
+
+    password: admin
 
 #### Applying Templates
 
-Templates can applied via CLI or API.
+As with configurations and operations, Templates can be triggered via CLI or API.
 
-```
-# admin@ncs# config t
-Entering configuration mode terminal
-# admin@ncs(config)# devices device-group all apply-template template-name standard_ntp
-apply-template-result {
-    device nx
-    result ok
-}
-apply-template-result {
-    device xe
-    result ok
-}
-apply-template-result {
-    device xr
-    result ok
-}
-# admin@ncs(config)# commit dry-run
+!!! example "via CLI"
+    ```
+    # admin@ncs# config t
+    Entering configuration mode terminal
+    # admin@ncs(config)# devices device-group all apply-template template-name standard_ntp
+    apply-template-result {
+        device nx
+        result ok
+    }
+    apply-template-result {
+        device xe
+        result ok
+    }
+    apply-template-result {
+        device xr
+        result ok
+    }
+    # admin@ncs(config)# commit dry-run
 
-<any required changes as computed by NSO will be displayed here>
+    <any required changes as computed by NSO will be displayed here>
 
-# admin@ncs(config)#
-# admin@ncs(config)# commit
-```
+    # admin@ncs(config)#
+    # admin@ncs(config)# commit
+    ```
+
+!!! bug "TODO"
+    Need to have example of doing this via API
 
 #### Transactions, Rollbacks
 
-As was mentioned earlier, everything in NSO is a transaction, and in addition to being `atomic` They also give the ability `rollback` any configuration that was changed during that transaction.
+As was mentioned earlier, everything in NSO is a transaction, and in addition to being `atomic`. They also give the ability `rollback` any configuration that was changed during that transaction.
 
+Lets look at a rollback
+!!! example "Example Rollback"
+    ```
+    admin@ncs(config)# rollback configuration
+    admin@ncs(config)# commit dry-run
 
-```
-# admin@ncs(config)# rollback configuration
-# admin@ncs(config)# commit dry-run
+    < automatically generated backout configuration >
 
-< automatically generated backout configuration >
-
-# admin@ncs(config)#
-```
+    admin@ncs(config)#end
+    ```
 
 After loading the rollback configuration, another commit (which could subsequently be rolled back as well) is performed.
 
@@ -552,30 +639,62 @@ As highlighted earlier, NSO provides nortbound API's for use with integrating wi
 * Ansible can provide workflow to multi step operations.
 * NSO can compute required changes on the fly and provide compliance reporting.
 
+!!! bug "TODO"
+    Talk about what the playbook is doing
 
+We will be using `ansible_playbooks/sync_from_devices.yaml`.  We'll run this locally on the devbox running NSO, so we do not need to feed in an inventory file.
+
+??? abstract "sync_from_devices.yaml"
+    ```
+    - name: Synchronization of Devices
+      hosts: localhost
+      connection: local
+      gather_facts: no
+
+      tasks:
+        - name: NSO sync-from action
+          nso_action:
+            url: "http://localhost:8080/jsonrpc"
+            username: "admin"
+            password: "admin"
+            path: /ncs:devices/sync-from
+            input: {}
+
+    ```
 ```
-# (venv) [developer@devbox nso-with-ansible]$cd ansible_playbooks/
-# venv) [developer@devbox ansible_playbooks]$ansible-playbook sync_from_devices.yaml
- [WARNING]: Unable to parse /etc/ansible/hosts as an inventory source
-
- [WARNING]: No inventory was parsed, only implicit localhost is available
-
- [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
-
-
-PLAY [Synchronization of Devices] *********************************************************************
-
-
-TASK [NSO sync-from action] *********************************************************************
-changed: [localhost]
-
-PLAY RECAP *********************************************************************
-localhost                  : ok=1    changed=1    unreachable=0    failed=0
-
+cd ansible_playbooks/
+ansible-playbook sync_from_devices.yaml
 ```
 
+??? example "Output"
+    ```
+    (venv) [developer@devbox nso-with-ansible]$cd ansible_playbooks/
+    venv) [developer@devbox ansible_playbooks]$ansible-playbook sync_from_devices.yaml
+     [WARNING]: Unable to parse /etc/ansible/hosts as an inventory source
+
+     [WARNING]: No inventory was parsed, only implicit localhost is available
+
+     [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
 
 
+    PLAY [Synchronization of Devices] *********************************************************************
+
+
+    TASK [NSO sync-from action] *********************************************************************
+    changed: [localhost]
+
+    PLAY RECAP *********************************************************************
+    localhost                  : ok=1    changed=1    unreachable=0    failed=0
+
+    ```
+
+!!! bug "TODO"
+    Add extra material
+
+## Wrap Up
+
+!!! bug "TODO"
+    Add content
 
 ## TODO
 
