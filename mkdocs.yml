@@ -13,6 +13,7 @@ nav:
     - Sandbox Setup: labs/sandbox-setup.md
     - NSO with Ansible: labs/nso-with-ansible.md
     - Telemetry with PIG: labs/telemetry-with-pig.md
+    - Using PYATS with Jenkins: labs/using_pyats_with_jenkins.md
 
 markdown_extensions:
   - admonition
