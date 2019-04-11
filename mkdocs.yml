@@ -1,7 +1,7 @@
 site_name: NetDevOps Sandbox Labs
 site_description: a description
 repo_name: GitHub
-repo_url: https://github.com/chapeter/sbx_multi_ios
+repo_url: https://github.com/DevNetSandbox/sbx_multi_ios
 docs_dir: docs/
 
 theme:
