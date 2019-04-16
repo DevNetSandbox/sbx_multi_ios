@@ -91,7 +91,22 @@ mv default_inventory ansible_playbooks/
 
 #### Device Groups
 
+Device groups are useful for managing a large number of devices, membership in groups can be organized in any number of ways; location, role, type, etc.
+
+!!! note
+    * A device can be a member of multiple groups
+    * Groups can contain other groups
+
+!!! bug "TODO"
+    Get an example inventory file for:
+
+    ??? example "Inventory File"
+        Place Holder
+
 ### Device Operations
+
+!!! bug "TODO"
+    @kecorbin - What were you thinking here?
 
 ### Playbooks
 
