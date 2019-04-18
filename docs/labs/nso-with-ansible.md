@@ -1,7 +1,13 @@
 # Introduction to Network Services Orchestrator (NSO) with Ansible
 
+!!! bug "TODO"
+    Once final steps are complete, re-number them ex: 1a, 1b etc, so we can call step numbers out in slides and the learn and do
+
 ## Overview
-Here is an overview
+
+!!! bug "TODO"
+    Write an Overview
+
 
 ## Topology
 We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  However in this lab the topology itself isn't very important.  We really just need management access to the devices.
@@ -30,7 +36,8 @@ We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  H
   ```
   make test
   ```
-  This step will take a few minutes while we get things setup.
+  This step will take a few minutes while we get things setup.  You can take a look at the `Makefile` while you are waiting to see what all is happening.
+
   You should see output similar to the following
 
 ??? example "Output"
@@ -70,13 +77,24 @@ We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  H
     ╘══════════╧══════════╛
     ```
 
+The last step is for us to be working in the correct virtualenv where we have the proper packages installed.
+```
+source venv/bin/activate
+```
+
+???+ example "Output"
+    ```
+    [developer@devbox nso-with-ansible]$source venv/bin/activate
+    (venv) [developer@devbox nso-with-ansible]$
+    ```
+
 At this point we have a running VIRL simulation, NSO installed and running, and we're ready to get started.
 
 ## Ansible Walkthrough
 
 ### Inventory
 
-Ansible works against multiple systems in your infrastructure at the same time. It does this by selecting portions of systems listed in Ansible’s inventory, which defaults to being saved in the location /etc/ansible/hosts. You can specify a different inventory file using the -i <path> option on the command line.
+Ansible works against multiple systems in your infrastructure at the same time. It does this by selecting portions of systems listed in Ansible’s inventory, which defaults to being saved in the location /etc/ansible/hosts. You can specify a different inventory file using the `-i <path>` option on the command line.
 
 Not only is this inventory configurable, but you can also use multiple inventory files at the same time and pull inventory from dynamic services (like NSO) or different file formats (YAML, ini, etc)
 
@@ -89,6 +107,49 @@ virl generate ansible
 mv default_inventory ansible_playbooks/
 ```
 
+??? example "Output"
+    ```
+    [developer@devbox nso-with-ansible]$virl generate ansible
+    Placing xr into ansible group routers
+    Placing nx into ansible group switches
+    Placing xe into ansible group routers
+    Writing default_inventory.yaml
+    [developer@devbox nso-with-ansible]$mv default_inventory.yaml ansible_playbooks/
+    ```
+
+Take a look at your `default_inventory.yaml` file to see how its built.
+
+??? example "Example default_inventory file"
+    ```
+    all:
+      children:
+        switches:
+          hosts:
+
+            nx:
+              ansible_host: 172.16.30.52
+              console_server: 10.10.20.160
+              console_port: 17001
+              ansible_network_os: nxos
+
+        routers:
+          hosts:
+
+            xe:
+              ansible_host: 172.16.30.53
+              console_server: 10.10.20.160
+              console_port: 17003
+              ansible_network_os: ios
+
+            xr:
+              ansible_host: 172.16.30.54
+              console_server: 10.10.20.160
+              console_port: 17005
+              ansible_network_os: iosxr
+    ```
+
+
+
 #### Device Groups
 
 Device groups are useful for managing a large number of devices, membership in groups can be organized in any number of ways; location, role, type, etc.
@@ -97,11 +158,11 @@ Device groups are useful for managing a large number of devices, membership in g
     * A device can be a member of multiple groups
     * Groups can contain other groups
 
-!!! bug "TODO"
-    Get an example inventory file for:
+Take a look at your `default_inventory.yaml`.  You can see that the generated file has 3 groups:
 
-    ??? example "Inventory File"
-        Place Holder
+* all
+* routers
+* switches
 
 ### Device Operations
 
@@ -110,7 +171,30 @@ Device groups are useful for managing a large number of devices, membership in g
 
 ### Playbooks
 
-Ansible uses modules to configure devices, these modules allow various operational/configuration commands to be running.  In the following example we will use the [./ansible_playbooks/enable_ssh.yaml](./ansible_playbooks/enable_ssh.yaml) playbook to enable SSH on the device `xr`
+Ansible uses modules to configure devices, these modules allow various operational/configuration commands to be running.  In the following example we will use the [./ansible_playbooks/enable_ssh.yaml](./ansible_playbooks/enable_ssh.yaml) playbook to enable SSH on the device `xr`.
+
+This is a very simple playbook with a single task in it.
+
+??? info "enable_ssh.yaml"
+    ```
+    ---
+
+    - hosts: xr
+      connection: local
+      gather_facts: no
+      tasks:
+        - name: Generate SSH Key
+          telnet:
+            user: "{{ lookup('env','ANSIBLE_NET_PASSWORD') }}"
+            password: "{{ lookup('env','ANSIBLE_NET_USERNAME') }}"
+            login_prompt: "Username: "
+            prompts:
+              - "[>|#]"
+              - ": "
+            command:
+              - crypto key generate rsa
+              - "2048"
+    ```
 
 ```
 cd ansible_playbooks
@@ -118,12 +202,69 @@ ansible-playbook -i default_inventory.yaml enable_ssh.yaml
 ```
 
 ??? example "Output"
-    "TODO: Grab the output and paste it here"
+    ```
+    (venv) [developer@devbox ansible_playbooks]$ansible-playbook -i default_inventory.yaml enable_ssh.yaml
+
+    PLAY [xr] ***************************************************************************************************************************
+
+    TASK [Generate SSH Key] *************************************************************************************************************
+    changed: [xr]
+
+    PLAY RECAP **************************************************************************************************************************
+    xr                         : ok=1    changed=1    unreachable=0    failed=0
+    ```
 
 
 
 
 #### NTP Configuration
+
+Next we will configure NTP on the devices.  In this example we will be setting the NTP servers to `1.1.1.1` and `3.3.3.3`.
+
+In the following examples with Ansible and NSO we will be altering the NTP configurations to demonstrate how the different tools behave.
+
+??? info "configure_ntp.yaml"
+    ```
+    ---
+
+    - hosts: all
+      connection: network_cli
+      gather_facts: no
+      vars:
+       ansible_ssh_pass: "{{ lookup('env','ANSIBLE_NET_PASSWORD') }}"
+       ansible_user: "{{ lookup('env','ANSIBLE_NET_USERNAME') }}"
+       desired_ntp_servers:
+        - 1.1.1.1
+        - 3.3.3.3
+
+      tasks:
+       - name: Get current NTP servers
+         cli_command:
+           command: show run | inc ntp
+         register: output
+
+       - set_fact:
+          actual_ntp_servers: "{{ output.stdout | parse_cli_textfsm('templates/ios-ntp.textfsm') | map(attribute='SERVER') | list }}"
+
+       - debug:
+          var: actual_ntp_servers
+
+       - debug:
+          msg: "Add the following: {{ desired_ntp_servers | difference(actual_ntp_servers) | join(',') }}"
+
+       - debug:
+          msg: "Remove the following: {{ actual_ntp_servers | difference(desired_ntp_servers) | join(',') }}"
+
+       - name: Add the new servers
+         cli_config:
+           config: ntp server {{ item }}
+         loop: "{{ desired_ntp_servers | difference(actual_ntp_servers) | default([]) }}"
+
+       - name: Remove old servers
+         cli_config:
+           config: no ntp server {{ item }}
+         loop: "{{ actual_ntp_servers | difference(desired_ntp_servers) | default([]) }}"
+    ```
 
 ```
 ansible-playbook -i default_inventory.yaml configure_ntp.yaml
@@ -195,29 +336,59 @@ ansible-playbook -i default_inventory.yaml configure_ntp.yaml
     xr                         : ok=6    changed=1    unreachable=0    failed=0
     ```
 
+??? note
+    For fun run the playbook again.  You will see that because the way the playbook was written AND how the configuration of NTP exists on the XR device, Ansible believes it needs to reconfigure the NTP servers again.
+
+    ??? example "templates/ios-ntp.textfsm"
+        ```
+        Value SERVER (\S+)
+
+        Start
+          ^ntp server ${SERVER} -> Record
+        ```
+
+    ??? example "XE Config"
+        ```
+        xe#show run | i ntp
+        ntp server 1.1.1.1
+        ntp server 3.3.3.3
+        ```
+
+    ??? example "XR Config"
+        ```
+        RP/0/0/CPU0:xr#show run | i ntp
+        Wed Apr 17 20:01:07.876 UTC
+        Building configuration...
+        ntp
+        ```
+        As you notice, the NTP server config is below the NTP parent command vs XE's which each server is prepended with NTP.
+        ```
+        RP/0/0/CPU0:xr#show run | b ntp
+        Wed Apr 17 20:01:26.114 UTC
+        Building configuration...
+        ntp
+         server 1.1.1.1
+         server 3.3.3.3
+        !
+        ```
+
+    As you see we COULD change our logic to find the NTP servers depending on the OS.
+
+
 ## NSO Walkthrough
 
 
 We will start out by using the CLI of NSO.  The CLI provides a great starting point for Network Engineers who are very comfortable with "c-style" or "j-style" command line interfaces.  This CLI represents all of the devices under management with a consistent CLI, while still providing all of the benefits of NSO in terms of transactions, rollbacks, it also provides some handy utilities for generating API payloads as you look to integrate in with other workflows.
 
-To the NSO CLI can be accessed via the following command from the NSO server (devbox)
-
-```
-cd ..
-ncs_cli -u admin -C
-```
 
 ### Importing devices into NSO  
 
-!!! bug "(TODO: [chapeter] I'm not following what we are doing here.  I'll come back to this after I do it a 2nd time.   Perhaps its a load by hand vs script?  On board with that idea if its what it is."
+!!! note
+    During the initial setup of this lab the VIRL devices were  imported into NSO.  In doing so, we've already introduced you to one of the features of NSO, which is it's northbound REST API, but we will get to that in a second.
 
-Steps:
-1 - GET XE device ip from virlutils, note it then do this.
-)
+    If you want you can skip this section and proceed to [NSO Device Groups](#nso-device-groups_1)
 
-During the initial setup, the VIRL devices were  imported into NSO.  In doing so, we've already introduced you to one of the features of NSO, which is it's northbound REST API, but we will get to that in a second.
-
-NSO maintains a configuration database (CDB) of all the devices and services that it manages. The CDB is a YANG based datastore, and is the source of truth for all things NSO(including NSO itself)  Devices can be added to NSO in a variety of ways outline below.  You can skip this section and proceed to.
+NSO maintains a configuration database (CDB) of all the devices and services that it manages. The CDB is a YANG based datastore, and is the source of truth for all things NSO(including NSO itself)  Devices can be added to NSO in a variety of ways outlined below.
 
 1. Using the NSO CLI
 2. Using NSO REST API - this approach is useful for integrating NSO into other tools, such
@@ -227,51 +398,103 @@ as CMDB/ITSM.
 NSO to perform operations.
 
 
-**Add Network Devices using the NSO CLI**
+#### Add Network Devices using the NSO CLI
 
 This approach involves using the NSO CLI, this approach should be intuitive
-for those familiar with network device CLI's
+for those familiar with network device CLI's.
 
-A device can be entered directly into the CLI as shown in the example below
+In this example we are going to add our XE device to NSO.  Before we do that we need to obtain its IP address.  In this lab the management IP addresses for our network devices are dynamically assigned so we need to use virlutils to collect it.  Follow along below:
+
+```
+virl nodes
+```
+
+???+ example "Output"
+    ```
+    (venv) [developer@devbox nso-with-ansible]$virl nodes
+    Here is a list of all the running nodes
+    ╒════════╤═════════════╤═════════╤═════════════╤════════════╤══════════════════════╤════════════════════╕
+    │ Node   │ Type        │ State   │ Reachable   │ Protocol   │ Management Address   │ External Address   │
+    ╞════════╪═════════════╪═════════╪═════════════╪════════════╪══════════════════════╪════════════════════╡
+    │ nx     │ NX-OSv 9000 │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.52         │ N/A                │
+    ├────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+    │ xe     │ CSR1000v    │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.53         │ N/A                │
+    ├────────┼─────────────┼─────────┼─────────────┼────────────┼──────────────────────┼────────────────────┤
+    │ xr     │ IOS XRv     │ ACTIVE  │ REACHABLE   │ telnet     │ 172.16.30.54         │ N/A                │
+    ╘════════╧═════════════╧═════════╧═════════════╧════════════╧══════════════════════╧════════════════════╛
+    ```
+
+As you see our XE device uses the IP `172.16.30.53`
 
 **IMPORTANT NOTE:** IP's are assigned dynamically to the VIRL nodes,
 so you need to double check these examples shown below to make sure you are using the correct IP address.  The VIRL nodes can be viewed using the `virl nodes` command.
 
-```
-admin@ncs# config t
-Entering configuration mode terminal
-admin@ncs(config)# devices device xe
-admin@ncs(config-device-xe)# address 172.16.30.61
-admin@ncs(config-device-xe)# authgroup virl
-admin@ncs(config-device-xe)# device-type cli ned-id cisco-ios
-admin@ncs(config-device-xe)# device-type cli protocol telnet
-admin@ncs(config-device-xe)# state admin-state unlocked
-```
-
-The changes made in configuration mode do not take effect immediately, instead they must be `committed` to the configuration database. Prior to committing you have a chance to preview **all** of the configuration changes that are staged for commit by performing a `commit dry-run`
+To the NSO CLI can be accessed via the following command from the NSO server (devbox)
 
 ```
-admin@ncs(config-device-xe)# commit dry-run
-cli {
-    local-node {
-        data  devices {
-             +    device xe {
-             +        address 172.16.30.61;
-             +        authgroup virl;
-             +        device-type {
-             +            cli {
-             +                ned-id cisco-ios;
-             +                protocol telnet;
-             +            }
-             +        }
-             +        state {
-             +            admin-state unlocked;
-             +        }
-             +    }
-              }
+cd ..
+ncs_cli -u admin -C
+```
+
+Now, add the device to NSO
+```
+config t
+devices device xe
+address <address>
+authgroup virl
+device-type cli ned-id cisco-ios
+device-type cli protocol telnet
+state admin-state unlocked
+```
+
+??? example "Output"
+    ```
+    (venv) [developer@devbox nso-with-ansible]$ncs_cli -u admin -C
+
+    admin connected from 192.168.92.1 using ssh on devbox
+    admin@ncs# config t
+    Entering configuration mode terminal
+    admin@ncs(config)# devices device xe
+    admin@ncs(config-device-xe)# address 172.16.30.53
+    admin@ncs(config-device-xe)# authgroup virl
+    admin@ncs(config-device-xe)# device-type cli ned-id cisco-ios
+    admin@ncs(config-device-xe)# device-type cli protocol telnet
+    admin@ncs(config-device-xe)# state admin-state unlocked
+    ```
+
+With NSO the changes made in configuration mode do not take effect immediately, instead they must be `committed` to the configuration database. Prior to committing you have a chance to preview **all** of the configuration changes that are staged for commit by performing a `commit dry-run`
+
+???+ example "Output"
+    ```
+    admin@ncs(config-device-xe)# commit dry-run
+    % No modifications to commit.
+    ```
+
+As we said before we've already imported the devices for you...so you can see even if we commit this change, nothing will actually happen.  Below is an example of what it would look like if we did not already add the device.
+
+???+ info "Example: commit dry-run"
+    ```
+    admin@ncs(config-device-xe)# commit dry-run
+    cli {
+        local-node {
+            data  devices {
+                 +    device xe {
+                 +        address 172.16.30.61;
+                 +        authgroup virl;
+                 +        device-type {
+                 +            cli {
+                 +                ned-id cisco-ios;
+                 +                protocol telnet;
+                 +            }
+                 +        }
+                 +        state {
+                 +            admin-state unlocked;
+                 +        }
+                 +    }
+                  }
+        }
     }
-}
-```
+    ```
 
 Once the commit happens, the **changes are atomic** which means that all of the changes will be made to any/all devices, or no change is made.
 
@@ -279,15 +502,36 @@ Once the commit happens, the **changes are atomic** which means that all of the 
 In addition to manually entering these CLI commands can be stored in an external script file, and `load merged` into the configuration of NSO.
 We will use the files located in the  [nso_cli_scripts](./nso_cli_scripts) directory to set some things up and save you some keystrokes.
 
-### Device Groups
+### NSO Device Groups
 
-Device groups are useful for managing a large number of devices, membership in groups can be organized in any number of ways; location, role, type, etc.
+Like Ansible inventory files, NSO can also leverage device groups.  Device groups are useful for managing a large number of devices, membership in groups can be organized in any number of ways; location, role, type, etc.
 
 !!! note classes
     * A device can be a member of multiple groups.
     * Groups can contain other groups
 
 The ```nso_cli_scripts/create_device_groups.cli``` script creates groups `routers`, `switches`, and `all`.  It then adds `xe` and `xr` to the `routers` group; `nx` to the `switches` group; groups `router` and `switches` to the `all` group.
+
+
+??? info "nso_cli_scripts/create_device_groups.cli"
+    devices device-group routers
+     device-name [ xe xr ]
+    !
+    devices device-group switches
+     device-name [ nx ]
+    !
+    devices device-group all
+     device-group [ routers switches ]
+    !
+
+
+
+If you are not already at the NSO CLI it can be accessed via the following command from the NSO server (devbox)
+
+```
+cd ..
+ncs_cli -u admin -C
+```
 
 ```
 config t
@@ -345,7 +589,7 @@ show running-config devices device-group
 
 Or converted into structured data via the CLI, this is especially useful for generating API payloads
 
-!!! example "As XML"
+!!! info "As XML"
     ```xml
     admin@ncs# show running-config devices device-group | display xml
     <config xmlns="http://tail-f.com/ns/config/1.0">
@@ -369,7 +613,7 @@ Or converted into structured data via the CLI, this is especially useful for gen
     ```
 
 
-!!! example "As JSON"
+!!! info "As JSON"
     ```json
     admin@ncs# show running-config devices device-group | display json
     {
@@ -424,7 +668,7 @@ NSO supports several important operations for reconciling the configuration pres
 
 **sync-to** - bring the device into a consistent state with the configuration database
 
-As with configuration these operations can be triggered via CLI or API.
+As with configuration these operations can be triggered via CLI or API.  Go ahead and choose a method and do a sync-from.
 
 !!! example "via CLI"
     ```
@@ -459,12 +703,10 @@ The following steps will load some device configuration templates.
 
 #### Creating Templates
 
-!!! bug "TODO"
-    Is this step correct, because we also have applying the template step below
-Apply the `nso_templates/standard_ntp_template.xml` file via load merge.
+In this lab we have already created a template for you - `nso_templates/standard_ntp_template.xml`.  This template is quite simple, it sets NTP servers to 2.2.2.2 and 4.4.4.4.
 
-Lets take a look at the `nso_templates/standard_ntp_template`:
-??? example "standard_ntp_template.xml"
+Take a look at the `nso_templates/standard_ntp_template`
+??? info "standard_ntp_template.xml"
     ```xml
     <config xmlns="http://tail-f.com/ns/config/1.0">
       <devices xmlns="http://tail-f.com/ns/ncs">
@@ -519,11 +761,37 @@ Each template node e.g `ntp` can contain a list of configuration for each device
 
 * **nocreate**: Only apply the configuration if this node already exists on the device.
 
+
+You can see in the `standard_ntp_template` we are using the `replace` tag.
+
+
 These template files can be easily created based off existing devices using the conversion mechanisms outlined earlier. e.g `show running-config devices device nx config nx:ntp | display xml`
 
-!!! bug "TODO"
-    Get output of `show running-config devices device nx config nx:ntp | display xml`
+??? example "Output"
+    ```
+    admin@ncs# show running-config devices device nx config nx:ntp | display xml
+    <config xmlns="http://tail-f.com/ns/config/1.0">
+    <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+    <name>nx</name>
+      <config>
+      <ntp xmlns="http://tail-f.com/ned/cisco-nx">
+        <server>
+          <id>1.1.1.1</id>
+          <use-vrf>default</use-vrf>
+        </server>
+        <server>
+          <id>3.3.3.3</id>
+          <use-vrf>default</use-vrf>
+        </server>
+      </ntp>
+      </config>
+    </device>
+    </devices>
+    </config>
+    ```
 
+That should give you enough information to see how the template should be structured for each kind of device.
 
 Let's go ahead and apply the `standard_ntp_template.xml`.
 ```
@@ -543,13 +811,13 @@ commit
       admin@ncs(config)#
       ```
 
+At this point NSO has the template, but the devices have not had any configuration changes made to them yet.  Before we make changes we are going to look at Compliance Reports.
+
 #### Compliance Reporting
 
 Compliance Reports can be created to audit device configurations against the template contents. These reports can executed via CLI, or API and the results can be output in text, XML, or HTML formats. For convenience these reports are also hosted on the NSO web server so that they can be linked to from other systems.
 
-!!! bug "TODO"
-    Write a little about what this report is doing and what we are doing in this step
-
+Lets run create a report to look at the NTP configuration of the boxs vs the template we just imported.
 ```
 compliance reports report ntp_audit compare-template standard_ntp all
 commit
@@ -565,7 +833,10 @@ end
     admin@ncs#
     ```
 
-`compliance reports report ntp_audit run outformat html`
+Now that we have created the report we need to run it:
+```
+compliance reports report ntp_audit run outformat html
+```
 
 !!! example "Output"
     ```
@@ -587,11 +858,69 @@ You can use the provided URL to access the report.
 
     password: admin
 
+??? example "Example Report"
+    <meta name="ncs" content="reportcookie : g2gCbQAAAABtAAAACW50cF9hdWRpdA=="><h1></h1><p>Publication date : 2019-4-18 12:33:30</p><p>Produced by user : admin</p><h1></h1><h1>Summary</h1><p>Compliance result titled "" defined by report "ntp_audit"</p><p>Resulting in <b>violations</b></p><p>Checking 3 devices and no services</p><p>Produced 2019-4-18 12:33:30</p><p>From : Oldest available information</p><p>To : 2019-4-18 12:33:30</p><h2>Template discrepancies</h2><h3>standard_ntp</h3><p>Discrepancies in device</p><p>nx</p><p>xe</p><p>xr</p><h1></h1><h1>Details</h1><h2>Template discrepancies details</h2><h3>standard_ntp</h3><h4>Device nx</h4><pre> config {
+     nx:ntp {
+    -        server 1.1.1.1 {
+    -            use-vrf default;
+    -        }
+    +        server 2.2.2.2 {
+    +        }
+    -        server 3.3.3.3 {
+    -            use-vrf default;
+    -        }
+    +        server 4.4.4.4 {
+    +        }
+    +        source-interface Loopback0;
+     }
+    }
+    </pre><h4>Device xe</h4><pre> config {
+     ios:ntp {
+         source {
+    +            Loopback 0;
+         }
+         server {
+    -            peer-list 1.1.1.1 {
+    -            }
+    +            peer-list 2.2.2.2 {
+    +            }
+    -            peer-list 3.3.3.3 {
+    -            }
+    +            peer-list 4.4.4.4 {
+    +            }
+         }
+     }
+    }
+    </pre><h4>Device xr</h4><pre> config {
+     cisco-ios-xr:ntp {
+         server {
+    -            server-list 1.1.1.1 {
+    -            }
+    +            server-list 2.2.2.2 {
+    +            }
+    -            server-list 3.3.3.3 {
+    -            }
+    +            server-list 4.4.4.4 {
+    +            }
+         }
+     }
+    }
+    </pre>
+
+
+As you see, the devices are not in compliance with the template.  The report shows which servers will need to be added and which will need to be removed to bring the devices into compliance.
+
 #### Applying Templates
 
-As with configurations and operations, Templates can be triggered via CLI or API.
+As with configurations and operations, Templates can be triggered via CLI or API.  Let's go ahead and apply via CLI and do a `commit dry-run`.
 
-!!! example "via CLI"
+```
+conf t
+devices device-group all apply-template template-name standard_ntp
+commit dry-run
+```
+
+??? example "Output"
     ```
     # admin@ncs# config t
     Entering configuration mode terminal
@@ -616,15 +945,24 @@ As with configurations and operations, Templates can be triggered via CLI or API
     # admin@ncs(config)# commit
     ```
 
-!!! bug "TODO"
-    Need to have example of doing this via API
+Again, you can see what servers will be added or removed after the template is applied and commited.  Let's go ahead and `commit` the changes.
 
-#### Transactions, Rollbacks
+```
+commit
+```
+
+#### Transactions and Rollbacks
 
 As was mentioned earlier, everything in NSO is a transaction, and in addition to being `atomic`. They also give the ability `rollback` any configuration that was changed during that transaction.
 
-Lets look at a rollback
-!!! example "Example Rollback"
+Go ahead and do a rollback of the config and do a `commit dry-run`
+
+```
+rollback configuration
+commit dry-run
+```
+
+??? example "Example Rollback Output"
     ```
     admin@ncs(config)# rollback configuration
     admin@ncs(config)# commit dry-run
@@ -637,7 +975,7 @@ Lets look at a rollback
 After loading the rollback configuration, another commit (which could subsequently be rolled back as well) is performed.
 
 
-At this point we can exit NSO:
+At this point we can exit NSO.
 ```
 # admin@ncs(config)# exit
 Uncommitted changes found, commit them? [yes/no/CANCEL] no
@@ -647,15 +985,15 @@ Commit complete.
 
 ## NSO with Ansible Walkthrough
 
-As highlighted earlier, NSO provides nortbound API's for use with integrating with other tools and systems.  Integrating NSO with Ansible can become a force multiplier in cross-domain orchestration.
+As highlighted earlier, NSO provides northbound API's for use with integrating with other tools and systems.  Integrating NSO with Ansible can become a force multiplier in cross-domain orchestration.
 
 * Playbooks can be decoupled from low level device modules, and instead use common modules across all device types, which can interact with the CDB, or provide other operations.
 * Ansible can take advantage of the transaction/rollback capabilities of NSO.
 * Ansible can provide workflow to multi step operations.
 * NSO can compute required changes on the fly and provide compliance reporting.
 
-!!! bug "TODO"
-    Talk about what the playbook is doing
+
+The first playbook we'll be running is a basic task; doing a `sync-from` to pull the devices' configurations into NSO.
 
 We will be using `ansible_playbooks/sync_from_devices.yaml`.  We'll run this locally on the devbox running NSO, so we do not need to feed in an inventory file.
 
@@ -703,19 +1041,11 @@ ansible-playbook sync_from_devices.yaml
 
     ```
 
-!!! bug "TODO"
-    Add extra material
 
 ## Wrap Up
 
 !!! bug "TODO"
-    Add content
+    Add wrap up content
 
-## TODO
-
-- [x] Topology
-- [ ] setup docs/scripts
-- [ ] Ansible Playbook
-- [ ] "bonus material"
-- [ ] Lab Guide
-- [ ] Slides
+!!! bug "TODO"
+    Add bonus content
