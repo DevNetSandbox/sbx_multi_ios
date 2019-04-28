@@ -1,12 +1,11 @@
 # Introduction to Network Services Orchestrator (NSO) with Ansible
 
-!!! bug "TODO"
-    Once final steps are complete, re-number them ex: 1a, 1b etc, so we can call step numbers out in slides and the learn and do
 
 ## Overview
 
 !!! bug "TODO"
     Write an Overview
+
 
 
 ## Topology
@@ -37,6 +36,7 @@ We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  H
   make test
   ```
   This step will take a few minutes while we get things setup.  You can take a look at the `Makefile` while you are waiting to see what all is happening.
+
 
   You should see output similar to the following
 
@@ -88,6 +88,7 @@ source venv/bin/activate
     (venv) [developer@devbox nso-with-ansible]$
     ```
 
+
 At this point we have a running VIRL simulation, NSO installed and running, and we're ready to get started.
 
 ## Ansible Walkthrough
@@ -95,6 +96,7 @@ At this point we have a running VIRL simulation, NSO installed and running, and 
 ### Inventory
 
 Ansible works against multiple systems in your infrastructure at the same time. It does this by selecting portions of systems listed in Ansible’s inventory, which defaults to being saved in the location /etc/ansible/hosts. You can specify a different inventory file using the `-i <path>` option on the command line.
+
 
 Not only is this inventory configurable, but you can also use multiple inventory files at the same time and pull inventory from dynamic services (like NSO) or different file formats (YAML, ini, etc)
 
@@ -196,6 +198,7 @@ This is a very simple playbook with a single task in it.
               - "2048"
     ```
 
+
 ```
 cd ansible_playbooks
 ansible-playbook -i default_inventory.yaml enable_ssh.yaml
@@ -213,6 +216,7 @@ ansible-playbook -i default_inventory.yaml enable_ssh.yaml
     PLAY RECAP **************************************************************************************************************************
     xr                         : ok=1    changed=1    unreachable=0    failed=0
     ```
+
 
 
 
@@ -265,6 +269,7 @@ In the following examples with Ansible and NSO we will be altering the NTP confi
            config: no ntp server {{ item }}
          loop: "{{ actual_ntp_servers | difference(desired_ntp_servers) | default([]) }}"
     ```
+
 
 ```
 ansible-playbook -i default_inventory.yaml configure_ntp.yaml
@@ -375,6 +380,7 @@ ansible-playbook -i default_inventory.yaml configure_ntp.yaml
     As you see we COULD change our logic to find the NTP servers depending on the OS.
 
 
+
 ## NSO Walkthrough
 
 
@@ -389,6 +395,25 @@ We will start out by using the CLI of NSO.  The CLI provides a great starting po
     If you want you can skip this section and proceed to [NSO Device Groups](#nso-device-groups_1)
 
 NSO maintains a configuration database (CDB) of all the devices and services that it manages. The CDB is a YANG based datastore, and is the source of truth for all things NSO(including NSO itself)  Devices can be added to NSO in a variety of ways outlined below.
+=======
+To the NSO CLI can be accessed via the following command from the NSO server (devbox)
+
+```
+cd ..
+ncs_cli -u admin -C
+```
+
+### Importing devices into NSO  
+
+!!! bug "(TODO: [chapeter] I'm not following what we are doing here.  I'll come back to this after I do it a 2nd time.   Perhaps its a load by hand vs script?  On board with that idea if its what it is."
+
+Steps:
+1 - GET XE device ip from virlutils, note it then do this.
+)
+
+During the initial setup, the VIRL devices were  imported into NSO.  In doing so, we've already introduced you to one of the features of NSO, which is it's northbound REST API, but we will get to that in a second.
+
+NSO maintains a configuration database (CDB) of all the devices and services that it manages. The CDB is a YANG based datastore, and is the source of truth for all things NSO(including NSO itself)  Devices can be added to NSO in a variety of ways outline below.  You can skip this section and proceed to.
 
 1. Using the NSO CLI
 2. Using NSO REST API - this approach is useful for integrating NSO into other tools, such
@@ -425,6 +450,7 @@ virl nodes
     ```
 
 As you see our XE device uses the IP `172.16.30.53`
+
 
 **IMPORTANT NOTE:** IP's are assigned dynamically to the VIRL nodes,
 so you need to double check these examples shown below to make sure you are using the correct IP address.  The VIRL nodes can be viewed using the `virl nodes` command.
@@ -496,6 +522,7 @@ As we said before we've already imported the devices for you...so you can see ev
     }
     ```
 
+
 Once the commit happens, the **changes are atomic** which means that all of the changes will be made to any/all devices, or no change is made.
 
 
@@ -505,6 +532,7 @@ We will use the files located in the  [nso_cli_scripts](./nso_cli_scripts) direc
 ### NSO Device Groups
 
 Like Ansible inventory files, NSO can also leverage device groups.  Device groups are useful for managing a large number of devices, membership in groups can be organized in any number of ways; location, role, type, etc.
+
 
 !!! note classes
     * A device can be a member of multiple groups.
@@ -532,6 +560,7 @@ If you are not already at the NSO CLI it can be accessed via the following comma
 cd ..
 ncs_cli -u admin -C
 ```
+
 
 ```
 config t
@@ -670,6 +699,7 @@ NSO supports several important operations for reconciling the configuration pres
 
 As with configuration these operations can be triggered via CLI or API.  Go ahead and choose a method and do a sync-from.
 
+
 !!! example "via CLI"
     ```
     admin@ncs# devices device-group all sync-from
@@ -793,6 +823,7 @@ These template files can be easily created based off existing devices using the 
 
 That should give you enough information to see how the template should be structured for each kind of device.
 
+
 Let's go ahead and apply the `standard_ntp_template.xml`.
 ```
 conf t
@@ -818,6 +849,7 @@ At this point NSO has the template, but the devices have not had any configurati
 Compliance Reports can be created to audit device configurations against the template contents. These reports can executed via CLI, or API and the results can be output in text, XML, or HTML formats. For convenience these reports are also hosted on the NSO web server so that they can be linked to from other systems.
 
 Lets run create a report to look at the NTP configuration of the boxs vs the template we just imported.
+
 ```
 compliance reports report ntp_audit compare-template standard_ntp all
 commit
@@ -837,6 +869,7 @@ Now that we have created the report we need to run it:
 ```
 compliance reports report ntp_audit run outformat html
 ```
+
 
 !!! example "Output"
     ```
@@ -921,6 +954,7 @@ commit dry-run
 ```
 
 ??? example "Output"
+
     ```
     # admin@ncs# config t
     Entering configuration mode terminal
@@ -976,6 +1010,7 @@ After loading the rollback configuration, another commit (which could subsequent
 
 
 At this point we can exit NSO.
+
 ```
 # admin@ncs(config)# exit
 Uncommitted changes found, commit them? [yes/no/CANCEL] no
@@ -987,6 +1022,7 @@ Commit complete.
 
 As highlighted earlier, NSO provides northbound API's for use with integrating with other tools and systems.  Integrating NSO with Ansible can become a force multiplier in cross-domain orchestration.
 
+
 * Playbooks can be decoupled from low level device modules, and instead use common modules across all device types, which can interact with the CDB, or provide other operations.
 * Ansible can take advantage of the transaction/rollback capabilities of NSO.
 * Ansible can provide workflow to multi step operations.
@@ -994,6 +1030,7 @@ As highlighted earlier, NSO provides northbound API's for use with integrating w
 
 
 The first playbook we'll be running is a basic task; doing a `sync-from` to pull the devices' configurations into NSO.
+
 
 We will be using `ansible_playbooks/sync_from_devices.yaml`.  We'll run this locally on the devbox running NSO, so we do not need to feed in an inventory file.
 
@@ -1049,3 +1086,14 @@ ansible-playbook sync_from_devices.yaml
 
 !!! bug "TODO"
     Add bonus content
+=======
+    Add content
+
+## TODO
+
+- [x] Topology
+- [ ] setup docs/scripts
+- [ ] Ansible Playbook
+- [ ] "bonus material"
+- [ ] Lab Guide
+- [ ] Slides
