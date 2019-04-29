@@ -52,18 +52,18 @@ we will be using the [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx)
   cd sbx_multi_ios/nso-with-ansible
   ```
 
-  <!-- 3. Prep the sandbox:
+  3. Prep the sandbox:
 ```
 ./lab_prep.sh
-``` -->
+```
 
-  <!-- 3. Install Dependencies (TODO: Combine 3a and 3b?)
+  3. Install Dependencies (TODO: Combine 3a and 3b?)
 
   ```
   python3.6 -m venv venv
   source venv/bin/activate
   pip install -r requirements.txt
-  ``` -->
+  ```
 
   4. Launch demo environment (!!!NOTE This may take some time as we are installing some new NSO stuff as well as ansible etc.)
 
