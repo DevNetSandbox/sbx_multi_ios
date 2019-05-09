@@ -1,0 +1,15 @@
+[
+{
+	"basepath" : "Cisco-NX-OS-device:System/ospf-items/operSt",
+	"spec" : {
+		"fields" : [
+			{"name" : "Cisco-NX-OS-device:System/ospf-items/operSt", "tag" : true},
+			{"name" : "",
+				"fields" : [
+					{"name" : "operSt"}
+						]
+			}
+		]
+	}
+}
+]

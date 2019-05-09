@@ -1,0 +1,32 @@
+feature nxapi
+feature telemetry
+
+telemetry
+  destination-profile
+    use-vrf management
+  destination-group 100
+    ip address 10.10.20.20 port 57500 protocol gRPC encoding GPB
+!  sensor-group 100
+   path sys/cdp depth 0
+!    path sys/intf/phys-[eth1/1]/dbgIfIn depth 0
+  !  path sys/intf/phys-[eth1/2]/dbgIfIn depth 0
+  sensor-group 200
+    data-source NX-API
+    path "show ip route summary"
+    path "show system resources"
+!    path "show processes cpu"
+!    path "show processes memory"
+  sensor-group 300
+   data-source YANG
+!   path Cisco-NX-OS-device:System/bgp-items/inst-items
+   path Cisco-NX-OS-device:System/ospf-items/inst-items
+   path Cisco-NX-OS-device:System/intf-items/phys-items/PhysIf-list
+  !subscription 100
+    dst-grp 100
+    snsr-grp 100 sample-interval 20000
+  subscription 200
+    dst-grp 100
+    snsr-grp 200 sample-interval 20000
+  subscription 300
+    dst-grp 100
+    snsr-grp 300 sample-interval 5000

@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.95" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.95/virl.xsd">
+    <extensions>
+        <entry key="management_lxc" type="Boolean">false</entry>
+        <entry key="management_network" type="String">flat</entry>
+    </extensions>
+    <node name="nx1" type="SIMPLE" subtype="NX-OSv 9000" location="492,191" ipv4="192.168.0.2">
+        <extensions>
+            <entry key="ansible_group" type="String">switches</entry>
+            <entry key="config" type="string">! NX-OSv Config generated on 2019-03-28 16:24
+! by autonetkit_0.23.5
+!
+version 6.2(1)
+license grace-period
+!
+hostname nx
+vdc nx id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 96 maximum 96
+  limit-resource u6route-mem minimum 24 maximum 24
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature telnet
+
+feature ospf
+feature bgp
+
+username adminbackup password 5 ! role network-operator
+username admin password 5 $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51 role network-admin
+username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1 role network-operator
+username cisco role network-admin
+username lab password 5 $1$buoy/oqy$.EXQz8rCn72ii8qtdldj00 role network-admin
+no password strength-check
+ip domain-lookup
+copp profile strict
+snmp-server user lab network-admin auth md5 0x5ceb414591539ee35159fca86fdfa101 priv 0x5ceb414591539ee35159fca86fdfa101 localizedkey
+snmp-server user admin network-admin auth md5 0x328945d53e05e8e7207f8c20b142f0b7 priv 0x328945d53e05e8e7207f8c20b142f0b7 localizedkey
+snmp-server user cisco network-operator auth md5 0x55b3c64a53fb95518e75358ee75e82e9 priv 0x55b3c64a53fb95518e75358ee75e82e9 localizedkey
+snmp-server user cisco network-admin
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+
+vlan 1
+
+vrf context management
+  ip route 0.0.0.0/0 {{ gateway }}
+
+hardware forwarding unicast trace
+
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.1/32
+  ip router ospf 1 area 0
+
+interface Ethernet1/1
+  description to xe
+  no switchport
+  ip address 10.0.0.9/30
+  ip router ospf 1 area 0
+  mac-address fa16.3e00.0001
+  no shutdown
+
+interface Ethernet1/2
+  description Ethernet1/2
+  no switchport
+  no ip address
+  mac-address fa16.3e00.0002
+  no shutdown
+
+interface mgmt0
+  description OOB Management
+  ! Configured on launch
+  no ip address
+  mac-address fa16.3e00.0003
+  no shutdown
+  vrf member management
+
+
+line console
+line vty
+router ospf 1
+  router-id 192.168.0.1
+router bgp 1
+  router-id 192.168.0.1
+  address-family ipv4 unicast
+    network 192.168.0.1/32
+
+telemetry model-driven
+ destination-group PIPELINE
+  address-family ipv4 10.10.20.20 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group CPU
+  sensor-path Cisco-IOS-XR-wdsysmon-fd-oper:system-monitoring/cpu-utilization
+ !
+ sensor-group OSPF
+  sensor-path Cisco-IOS-XR-ipv4-ospf-oper:ospf/processes/process/default-vrf/ospf-summary
+ !
+ sensor-group BGP
+  sensor-path Cisco-IOS-XR-ipv4-bgp-oper:bgp/instances/instance/instance-active/default-vrf/process-info
+  sensor-path Cisco-IOS-XR-ipv4-bgp-oper:bgp/instances/instance/instance-active/default-vrf/afs/af/af-process-info/global
+ !
+ sensor-group BGP-RIB
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/bgp/as/information
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/connected/non-as/information
+!
+ sensor-group INTFS
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/generic-counters
+ !
+ sensor-group MEMORY
+  sensor-path Cisco-IOS-XR-nto-misc-oper:memory-summary/nodes/node/summary
+ !
+ sensor-group ROUTING
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/rib-table-ids/rib-table-id/summary-protos
+ !
+ subscription SUB1
+  sensor-group-id CPU sample-interval 10000
+  sensor-group-id OSPF sample-interval 10000
+  sensor-group-id BGP sample-interval 10000
+  sensor-group-id BGP-RIB sample-interval 10000
+
+  sensor-group-id INTFS sample-interval 10000
+  sensor-group-id MEMORY sample-interval 10000
+  sensor-group-id ROUTING sample-interval 10000
+  destination-id PIPELINE
+!
+
+        </entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
+            <entry key="AutoNetkit.IGP" type="String">ospf</entry>
+        </extensions>
+        <interface id="0" name="Ethernet1/1"/>
+        <interface id="1" name="Ethernet1/2"/>
+    </node>
+    <node name="nx2" type="SIMPLE" subtype="NX-OSv 9000" location="386,297">
+        <extensions>
+            <entry key="ansible_group" type="String">switches</entry>
+            <entry key="config" type="string">! NX-OSv Config generated on 2019-03-28 16:24
+! by autonetkit_0.23.5
+!
+version 6.2(1)
+license grace-period
+!
+hostname nx
+vdc nx id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 96 maximum 96
+  limit-resource u6route-mem minimum 24 maximum 24
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature telnet
+
+feature ospf
+feature bgp
+
+username adminbackup password 5 ! role network-operator
+username admin password 5 $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51 role network-admin
+username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1 role network-operator
+username cisco role network-admin
+username lab password 5 $1$buoy/oqy$.EXQz8rCn72ii8qtdldj00 role network-admin
+no password strength-check
+ip domain-lookup
+copp profile strict
+snmp-server user lab network-admin auth md5 0x5ceb414591539ee35159fca86fdfa101 priv 0x5ceb414591539ee35159fca86fdfa101 localizedkey
+snmp-server user admin network-admin auth md5 0x328945d53e05e8e7207f8c20b142f0b7 priv 0x328945d53e05e8e7207f8c20b142f0b7 localizedkey
+snmp-server user cisco network-operator auth md5 0x55b3c64a53fb95518e75358ee75e82e9 priv 0x55b3c64a53fb95518e75358ee75e82e9 localizedkey
+snmp-server user cisco network-admin
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+
+vlan 1
+
+vrf context management
+  ip route 0.0.0.0/0 {{ gateway }}
+
+hardware forwarding unicast trace
+
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.1/32
+  ip router ospf 1 area 0
+
+interface Ethernet1/1
+  description to xe
+  no switchport
+  ip address 10.0.0.9/30
+  ip router ospf 1 area 0
+  mac-address fa16.3e00.0001
+  no shutdown
+
+interface Ethernet1/2
+  description Ethernet1/2
+  no switchport
+  no ip address
+  mac-address fa16.3e00.0002
+  no shutdown
+
+interface mgmt0
+  description OOB Management
+  ! Configured on launch
+  no ip address
+  mac-address fa16.3e00.0003
+  no shutdown
+  vrf member management
+
+
+line console
+line vty
+router ospf 1
+  router-id 192.168.0.1
+router bgp 1
+  router-id 192.168.0.1
+  address-family ipv4 unicast
+    network 192.168.0.1/32
+
+telemetry model-driven
+ destination-group PIPELINE
+  address-family ipv4 10.10.20.20 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group CPU
+  sensor-path Cisco-IOS-XR-wdsysmon-fd-oper:system-monitoring/cpu-utilization
+ !
+ sensor-group OSPF
+  sensor-path Cisco-IOS-XR-ipv4-ospf-oper:ospf/processes/process/default-vrf/ospf-summary
+ !
+ sensor-group BGP
+  sensor-path Cisco-IOS-XR-ipv4-bgp-oper:bgp/instances/instance/instance-active/default-vrf/process-info
+  sensor-path Cisco-IOS-XR-ipv4-bgp-oper:bgp/instances/instance/instance-active/default-vrf/afs/af/af-process-info/global
+ !
+ sensor-group BGP-RIB
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/bgp/as/information
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/connected/non-as/information
+!
+ sensor-group INTFS
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/generic-counters
+ !
+ sensor-group MEMORY
+  sensor-path Cisco-IOS-XR-nto-misc-oper:memory-summary/nodes/node/summary
+ !
+ sensor-group ROUTING
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/rib-table-ids/rib-table-id/summary-protos
+ !
+ subscription SUB1
+  sensor-group-id CPU sample-interval 10000
+  sensor-group-id OSPF sample-interval 10000
+  sensor-group-id BGP sample-interval 10000
+  sensor-group-id BGP-RIB sample-interval 10000
+
+  sensor-group-id INTFS sample-interval 10000
+  sensor-group-id MEMORY sample-interval 10000
+  sensor-group-id ROUTING sample-interval 10000
+  destination-id PIPELINE
+!
+
+        </entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
+            <entry key="AutoNetkit.IGP" type="String">ospf</entry>
+        </extensions>
+        <interface id="0" name="Ethernet1/1"/>
+        <interface id="1" name="Ethernet1/2"/>
+    </node>
+    <node name="nx3" type="SIMPLE" subtype="NX-OSv 9000" location="627,295">
+        <extensions>
+            <entry key="ansible_group" type="String">switches</entry>
+            <entry key="config" type="string">! NX-OSv Config generated on 2019-03-28 16:24
+! by autonetkit_0.23.5
+!
+version 6.2(1)
+license grace-period
+!
+hostname nx
+vdc nx id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 96 maximum 96
+  limit-resource u6route-mem minimum 24 maximum 24
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature telnet
+
+feature ospf
+feature bgp
+
+username adminbackup password 5 ! role network-operator
+username admin password 5 $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51 role network-admin
+username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1 role network-operator
+username cisco role network-admin
+username lab password 5 $1$buoy/oqy$.EXQz8rCn72ii8qtdldj00 role network-admin
+no password strength-check
+ip domain-lookup
+copp profile strict
+snmp-server user lab network-admin auth md5 0x5ceb414591539ee35159fca86fdfa101 priv 0x5ceb414591539ee35159fca86fdfa101 localizedkey
+snmp-server user admin network-admin auth md5 0x328945d53e05e8e7207f8c20b142f0b7 priv 0x328945d53e05e8e7207f8c20b142f0b7 localizedkey
+snmp-server user cisco network-operator auth md5 0x55b3c64a53fb95518e75358ee75e82e9 priv 0x55b3c64a53fb95518e75358ee75e82e9 localizedkey
+snmp-server user cisco network-admin
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+
+vlan 1
+
+vrf context management
+  ip route 0.0.0.0/0 {{ gateway }}
+
+hardware forwarding unicast trace
+
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.1/32
+  ip router ospf 1 area 0
+
+interface Ethernet1/1
+  description to xe
+  no switchport
+  ip address 10.0.0.9/30
+  ip router ospf 1 area 0
+  mac-address fa16.3e00.0001
+  no shutdown
+
+interface Ethernet1/2
+  description Ethernet1/2
+  no switchport
+  no ip address
+  mac-address fa16.3e00.0002
+  no shutdown
+
+interface mgmt0
+  description OOB Management
+  ! Configured on launch
+  no ip address
+  mac-address fa16.3e00.0003
+  no shutdown
+  vrf member management
+
+
+line console
+line vty
+router ospf 1
+  router-id 192.168.0.1
+router bgp 1
+  router-id 192.168.0.1
+  address-family ipv4 unicast
+    network 192.168.0.1/32
+
+telemetry model-driven
+ destination-group PIPELINE
+  address-family ipv4 10.10.20.20 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group CPU
+  sensor-path Cisco-IOS-XR-wdsysmon-fd-oper:system-monitoring/cpu-utilization
+ !
+ sensor-group OSPF
+  sensor-path Cisco-IOS-XR-ipv4-ospf-oper:ospf/processes/process/default-vrf/ospf-summary
+ !
+ sensor-group BGP
+  sensor-path Cisco-IOS-XR-ipv4-bgp-oper:bgp/instances/instance/instance-active/default-vrf/process-info
+  sensor-path Cisco-IOS-XR-ipv4-bgp-oper:bgp/instances/instance/instance-active/default-vrf/afs/af/af-process-info/global
+ !
+ sensor-group BGP-RIB
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/bgp/as/information
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/connected/non-as/information
+!
+ sensor-group INTFS
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/generic-counters
+ !
+ sensor-group MEMORY
+  sensor-path Cisco-IOS-XR-nto-misc-oper:memory-summary/nodes/node/summary
+ !
+ sensor-group ROUTING
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/rib-table-ids/rib-table-id/summary-protos
+ !
+ subscription SUB1
+  sensor-group-id CPU sample-interval 10000
+  sensor-group-id OSPF sample-interval 10000
+  sensor-group-id BGP sample-interval 10000
+  sensor-group-id BGP-RIB sample-interval 10000
+
+  sensor-group-id INTFS sample-interval 10000
+  sensor-group-id MEMORY sample-interval 10000
+  sensor-group-id ROUTING sample-interval 10000
+  destination-id PIPELINE
+!
+
+        </entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
+            <entry key="AutoNetkit.IGP" type="String">ospf</entry>
+        </extensions>
+        <interface id="0" name="Ethernet1/1"/>
+        <interface id="1" name="Ethernet1/2"/>
+    </node>
+    <annotations/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[2]" src="/virl:topology/virl:node[3]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[2]" src="/virl:topology/virl:node[1]/virl:interface[2]"/>
+</topology>
