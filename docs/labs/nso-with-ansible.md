@@ -29,12 +29,12 @@ We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  H
   cd sbx_multi_ios/nso-with-ansible
   ```
 
-3. Launch demo environment
+3. Launch lab environment
 
 !!! info "This may take some time as we are installing some new NSO stuff as well as ansible etc.)"
 
   ```
-  make test
+  make lab
   ```
   This step will take a few minutes while we get things setup.  You can take a look at the `Makefile` while you are waiting to see what all is happening.
 
@@ -164,10 +164,6 @@ Take a look at your `default_inventory.yaml`.  You can see that the generated fi
 * routers
 * switches
 
-### Device Operations
-
-!!! bug "TODO"
-    @kecorbin - What were you thinking here?
 
 ### Playbooks
 
