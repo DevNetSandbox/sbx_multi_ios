@@ -5,8 +5,7 @@
 
 ## Overview
 
-!!! bug "TODO"
-    Write an Overview
+
 
 
 ## Topology
@@ -42,7 +41,7 @@ We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  H
 
 ??? example "Output"
     ```
-    [developer@devbox nso-with-ansible]$make test
+    [developer@devbox nso-with-ansible]$make lab
     Stopping All Netsim Instances...
     confd: no process found
     make: [clean-netsim] Error 1 (ignored)
@@ -104,7 +103,7 @@ For our purposes we will use `virlutils` to generate an inventory suitable for o
 
 ```
 virl generate ansible
-mv default_inventory ansible_playbooks/
+mv default_inventory.yaml ansible_playbooks/
 ```
 
 ??? example "Output"
