@@ -28,7 +28,7 @@
 							{"name": "cpu_state_idle"},
 							{"name": "memory_usage_free"},
 							{"name": "memory_usage_total"},
-							{"name": "memory_usage_total"}
+							{"name": "memory_usage_used"}
 						]
 				}
 			]
