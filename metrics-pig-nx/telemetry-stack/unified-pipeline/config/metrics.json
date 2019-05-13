@@ -1,0 +1,108 @@
+[
+	{
+		"basepath": "Cisco-NX-OS-device:System/ospf-items/operSt",
+		"spec": {
+			"fields": [
+				{"name": "Cisco-NX-OS-device:System/ospf-items/operSt", "tag": true},
+				{
+					"name": "",
+				  "fields":
+						[
+							{"name": "operSt"}
+						]
+				}
+			]
+		}
+	},
+	{
+		"basepath": "show system resources",
+		"spec": {
+			"fields": [
+				{"name": "show system resources", "tag": true},
+				{
+					"name": "",
+					"fields":
+						[
+							{"name": "cpu_state_user"},
+							{"name": "cpu_state_kernel"},
+							{"name": "cpu_state_idle"},
+							{"name": "memory_usage_free"},
+							{"name": "memory_usage_total"},
+							{"name": "memory_usage_total"}
+						]
+				}
+			]
+		}
+	},
+	{
+		"basepath": "Cisco-NX-OS-device:System/intf-items/phys-items/PhysIf-list/",
+		"spec": {
+			"fields": [
+				{"name": "Cisco-NX-OS-device:System/intf-items/phys-items/PhysIf-list/", "tag": true},
+				{
+					"name": "",
+					"fields":
+						[
+							{"name": "PhysIf-list",
+								"fields":
+									[
+										{"name": "",
+										 "fields":
+										 [
+											 {"name":"id", "tag": true},
+											 {"name":"dbgDot3Stats-items",
+												"fields":
+												[
+													{"name":"",
+													 "fields":
+													 [
+														 {"name": "alignmentErrors"},
+														 {"name": "babble"},
+														 {"name": "carrierSenseErrors"},
+														 {"name": "controlInUnknownOpcodes"},
+														 {"name": "deferredTransmissions"},
+														 {"name": "excessiveCollisions"},
+														 {"name": "fCSErrors"},
+														 {"name": "frameTooLongs"},
+														 {"name": "inPauseFrames"},
+														 {"name": "inputdribble"},
+														 {"name": "internalMacReceiveErrors"},
+														 {"name": "internalMacTransmitErrors"},
+														 {"name": "lateCollisions"},
+														 {"name" : "lostCarrierErrors"},
+														 {"name" : "multipleCollisionFrames"},
+														 {"name" : "noCarrierErrors"},
+														 {"name" : "outPauseFrames"},
+														 {"name" : "runts"},
+														 {"name" : "sQETTestErrors"},
+														 {"name" : "singleCollisionFrames"},
+														 {"name" : "symbolErrors"}
+													 ]
+												 }
+												]
+											},
+											{"name": "dbgEtherStats-items",
+											 "fields":
+											 [
+												 {"name": "",
+													"fields":
+													[
+														{"name": "broadcastPkts"},
+														{"name": "pkts"},
+														{"name": "octets"},
+														{"name": "rXNoErrors"},
+														{"name": "tXNoErrors"}
+													]
+												 }
+											 ]
+											}
+										 ]
+										}
+										]
+							}
+						]
+				}
+			]
+		}
+	}
+]
