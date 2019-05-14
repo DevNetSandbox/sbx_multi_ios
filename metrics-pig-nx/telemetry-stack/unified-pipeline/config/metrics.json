@@ -82,7 +82,7 @@
 				{"name":"", "fields":[
 					{"name":"TABLE_interface", "fields":[
 						{"name":"", "fields":[
-							{"name":"ROW_interfaces", "fields":[
+							{"name":"ROW_interface", "fields":[
 								{"name":"", "fields":[
 									{"name":"state"},
 									{"name":"vdc_lvl_in_avg_bits"},
