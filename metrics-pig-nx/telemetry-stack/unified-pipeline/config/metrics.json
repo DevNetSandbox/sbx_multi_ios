@@ -21,7 +21,7 @@
 				{"name": "show ip route summary", "tag": true},
 				{
 					"name":"", "fields": [
-						{"name":"TABLE_VRF", "fields":[
+						{"name":"TABLE_vrf", "fields":[
 							{"name":"", "fields": [
 								{"name":"ROW_vrf", "fields": [
 									{"name":"", "fields": [
@@ -34,6 +34,7 @@
 																{"name":"ROW_summary", "fields":[
 																	{"name":"","fields":[
 																		{"name":"routes"}
+																		{"name":"paths"}
 																		]}
 																	]}
 																]}
@@ -70,6 +71,39 @@
 							{"name": "memory_usage_used"}
 						]
 				}
+			]
+		}
+	},
+	{
+		"basepath": "show interface mgmt0",
+		"spec": {
+			"fields":[
+				{"name":"show interface mgmt0", "tag":true},
+				{"name":"", "fields":[
+					{"name":"TABLE_interface", "fields":[
+						{"name":"", "fields":[
+							{"name":"ROW_interfaces", "fields":[
+								{"name":"", "fields":[
+									{"name":"state"},
+									{"name":"vdc_lvl_in_avg_bits"},
+									{"name":"vdc_lvl_in_avg_pkts"},
+									{"name":"vdc_lvl_in_bcast"},
+									{"name":"vdc_lvl_in_bytes"},
+									{"name":"vdc_lvl_in_mcast"},
+									{"name":"vdc_lvl_in_pkts"},
+									{"name":"vdc_lvl_in_ucast"},
+									{"name":"vdc_lvl_out_avg_bits"},
+									{"name":"vdc_lvl_out_avg_pkts"},
+									{"name":"vdc_lvl_out_bcast"},
+									{"name":"vdc_lvl_out_bytes"},
+									{"name":"vdc_lvl_out_mcast"},
+									{"name":"vdc_lvl_out_pkts"},
+									{"name":"vdc_lvl_out_ucast"}
+									]}
+								]}
+							]}
+						]}
+					]}
 			]
 		}
 	},
