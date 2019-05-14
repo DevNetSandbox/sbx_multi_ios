@@ -33,7 +33,7 @@
 															{"name":"", "fields":[
 																{"name":"ROW_summary", "fields":[
 																	{"name":"","fields":[
-																		{"name":"routes"}
+																		{"name":"routes"},
 																		{"name":"paths"}
 																		]}
 																	]}
