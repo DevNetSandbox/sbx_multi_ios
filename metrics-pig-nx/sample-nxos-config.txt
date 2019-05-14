@@ -6,10 +6,8 @@ telemetry
     use-vrf management
   destination-group 100
     ip address 10.10.20.20 port 57500 protocol gRPC encoding GPB
-!  sensor-group 100
-   path sys/cdp depth 0
-!    path sys/intf/phys-[eth1/1]/dbgIfIn depth 0
-  !  path sys/intf/phys-[eth1/2]/dbgIfIn depth 0
+  sensor-group 100
+   path sys/cdp depth unbounded
   sensor-group 200
     data-source NX-API
     path "show ip route summary"

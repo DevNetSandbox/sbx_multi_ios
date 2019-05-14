@@ -15,6 +15,45 @@
 		}
 	},
 	{
+		"basepath": "show ip route summary",
+		"spec": {
+			"fields": [
+				{"name": "show ip route summary", "tag": true},
+				{
+					"name":"", "fields": [
+						{"name":"TABLE_VRF", "fields":[
+							{"name":"", "fields": [
+								{"name":"ROW_vrf", "fields": [
+									{"name":"", "fields": [
+										{"name":"TABLE_addrf", "fields": [
+											{"name":"", "fields":[
+												{"name":"ROW_addrf", "fields":[
+													{"name":"", "fields":[
+														{"name":"TABLE_summary", "fields":[
+															{"name":"", "fields":[
+																{"name":"ROW_summary", "fields":[
+																	{"name":"","fields":[
+																		{"name":"routes"}
+																		]}
+																	]}
+																]}
+															]}
+														]}
+													]}
+												]}
+											]}
+										]}
+									]}
+								]
+							}
+							]
+						}
+					]
+				}
+			]
+		}
+	},
+	{
 		"basepath": "show system resources",
 		"spec": {
 			"fields": [
