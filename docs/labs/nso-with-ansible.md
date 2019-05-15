@@ -1,23 +1,21 @@
 # Introduction to Network Services Orchestrator (NSO) with Ansible
 
-!!! bug "TODO"
-    Once final steps are complete, re-number them ex: 1a, 1b etc, so we can call step numbers out in slides and the learn and do
-
 ## Overview
 
 This lab demonstrates common network automation use cases using a few different
 approaches of using Ansible and NSO.
 
 
-Ansible - using Ansible playbooks/roles to provision devices. In this lab we will be provisioning
-accomplishing the following tasks using Ansible:
-  * Introduction to Ansible Inventory / playbook / role concepts
-  * Enable SSH on IOS-XR device (by running exec commands on the device)
-  * Configure NTP on IOS-XR, IOS-XE, and NX-OS devices
+* Ansible - using Ansible playbooks/roles to provision devices. In this lab we perform the following tasks using Ansible
+    * Introduction to Ansible Inventory / playbook / role concepts
+    * Enable SSH on IOS-XR device (by running exec commands on the device)
+    * Configure NTP on IOS-XR, IOS-XE, and NX-OS devices
 
-NSO - Deploys dmvpn10 and dmvpn20 a.k.a Tunnel10 and Tunnel20
+* NSO - NSO can provide many of the same capabilities as Ansible, with a slightly different approach as well as provide some additional capabilities.  In this lab we will complete the following tasks using NSO.
+    * Introduction to NSO configuration database, device operations, templates, and compliance reporting
+    * Import current device configuration into
 
-Better Together - uses a combination of NSO and Ansible to provision. This proof of concept deploys dmvpn30 and dmvpn40 a.k.a Tunnel30 and Tunnel40
+* Better Together - "coming soon"
 
 
 ## Topology
@@ -29,7 +27,7 @@ We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  H
 !!! danger "You must have the Cisco Devnet sbx_multi_ios sandbox checked out and gone through the [sandbox setup](sandbox-setup/)" If you are doing this lab at an event (DevNet, Cisco Live, VT, etc) this step may have been
 completed for you.  Check with your proctor for access instructions.
 
-## Lab Setup (~10 min)
+## Lab Setup
 
 !!! info "All steps presented in this guide are written to be completed from the devbox"
 
@@ -973,7 +971,7 @@ You can use the provided URL to access the report.
 
 
 As you see, the devices are not in compliance with the template.  The report shows which servers will need to be added and which will need to be removed to bring the devices into compliance. In this lab, you can see that we are removing the
-NTP servers previously added by Ansible as a result of the `replace` tag being used in our template. 
+NTP servers previously added by Ansible as a result of the `replace` tag being used in our template.
 
 #### Applying Templates
 
