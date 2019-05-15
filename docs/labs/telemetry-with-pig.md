@@ -113,6 +113,7 @@ You can find the NXOS config in `sample-nxos-config.txt`
     Add `sample-nxos-config.txt` to an example here
 
 In our example we have setup 2 sensor groups and 1 destination group:
+
 * destination-group 100 - This group points to Devbox port 57500 where our telemetry receiver is listening.  We are transporting data encoded in GPB over gRPC
 * sensor-group 100 - This group uses the DME
 * sensor-group 200 - This group uses NX-API
@@ -435,6 +436,8 @@ Continue to map out panels for `nx2` and `nx3` CPU utilization and arange the pa
 
 #### Free memory
 
+!!! bug "TODO"
+    Add in Free memory steps
 
 #### Challenge: Memory Utilization
 
@@ -446,22 +449,28 @@ Now that we have walked through a few different graphs, see if you can create a 
     ![Query](../img/telemetry-with-pig/grafana12.png)
 
 
+At this point you should have a dashboard like below:
+
+!!! bug "TODO"
+    Add in complete daashboard
+
+### Next steps
+
+Feel free to continue to explore creating new or other dashboards with Grafana.  More metrics were pre-parsed.  You can add more sensors outlined in `nxos-extra-sensors`
+
+!!! bug "TODO"
+    Create more sensors
+
+!!! bug "TODO"
+    Outline importing dashboards
 
 
 
 
-## Outline
-NX - review and add config
-  Cover 3 types on sensors
+## Lab Clean Up
 
-Telemetry stack overview and bring up
-
-Pipeline overview and metrics review
-
-Influx "show measurements work"
-
-Grafana - create graphs etc
-
+!!! bug "TODO"
+    Outline how to clean up the lab
 
 ## Reference Material
 
