@@ -1,0 +1,80 @@
+module netdevops {
+
+  namespace "http://example.com/vlan";
+  prefix netdevops;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+
+  description
+    "This is a simple L2 VLAN service with basic switchport / trunk configuration";
+
+  revision 2019-05-01 {
+    description
+      "Implements Basic L2 VLAN definition";
+  }
+
+  typedef zone1000-vlan {
+     tailf:info "by policy, this model is restricted to ID's 1000-2000";
+     type uint16 {
+       range "1000..2000";
+     }
+  }
+
+  list vlan {
+    tailf:info "Manage L2 VLAN Services";
+    description "A Layer 2 VLAN";
+
+    key name;
+    leaf name {
+      tailf:info "Unique service id";
+      tailf:cli-allow-range;
+      type string;
+    }
+
+    leaf id {
+        tailf:info "VLAN ID";
+        type zone1000-vlan;
+    }
+
+    list device {
+      key device;
+      leaf device {
+          type leafref {
+            path /ncs:devices/ncs:device/ncs:name;
+          }
+      }
+      list trunk-port {
+        key port;
+        leaf port {
+            type string;
+        }
+      }
+
+      list access-port {
+        key port;
+
+        leaf port {
+            type string;
+        }
+        must "count(/netdevops:vlan[name!=current()/../../name]/device[device=current()/../device]/access-port[port=current()]) = 0" {
+          error-message "Access port already in use by another VLAN";
+        }
+        leaf description {
+            type string;
+        }
+      }
+    }
+
+    uses ncs:service-data;
+    ncs:servicepoint vlan-servicepoint;
+  }
+}

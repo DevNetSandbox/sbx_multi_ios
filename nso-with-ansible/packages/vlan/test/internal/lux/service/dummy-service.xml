@@ -1,0 +1,12 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <services xmlns="http://tail-f.com/ns/ncs">
+    <global-settings>
+      <collect-forward-diff>true</collect-forward-diff>
+    </global-settings>
+  </services>
+  <vlan xmlns="http://example.com/vlan">
+    <name>33</name>
+    <device>eth</device>
+    <dummy>127.0.0.1</dummy>
+  </vlan>
+</config>

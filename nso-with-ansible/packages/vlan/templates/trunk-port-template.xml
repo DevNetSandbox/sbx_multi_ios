@@ -1,0 +1,49 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <?foreach {device}?>
+      <device>
+        <name>{device}</name>
+          <config>
+            <?foreach {./trunk-port}?>
+              <!-- NX-OS  -->
+              <interface xmlns="http://tail-f.com/ned/cisco-nx">
+                <Ethernet>
+                  <name>{port}</name>
+                  <switchport>
+                    <mode>trunk</mode>
+                    <trunk>
+                      <allowed>
+                        <vlan>
+                          <ids>{/id}</ids>
+                        </vlan>
+                      </allowed>
+                    </trunk>
+                  </switchport>
+                </Ethernet>
+              </interface>
+
+              <!-- IOS -->
+              <interface xmlns="urn:ios">
+                <TenGigabitEthernet>
+                  <name>{port}</name>
+                  <switchport>
+                    <mode>
+                      <trunk/>
+                    </mode>
+                    <trunk>
+                      <allowed>
+                        <vlan>
+                          <vlans>{/id}</vlans>
+                        </vlan>
+                      </allowed>
+                    </trunk>
+                  </switchport>
+                </TenGigabitEthernet>
+              </interface>
+
+            <?end?>
+          </config>
+        </device>
+    <?end?>
+  </devices>
+</config-template>
