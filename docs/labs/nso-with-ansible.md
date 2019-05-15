@@ -5,7 +5,19 @@
 
 ## Overview
 
+This lab demonstrates common network automation use cases using a few different
+approaches of using Ansible and NSO.
 
+
+Ansible - using Ansible playbooks/roles to provision devices. In this lab we will be provisioning
+accomplishing the following tasks using Ansible:
+  * Introduction to Ansible Inventory / playbook / role concepts
+  * Enable SSH on IOS-XR device (by running exec commands on the device)
+  * Configure NTP on IOS-XR, IOS-XE, and NX-OS devices
+
+NSO - Deploys dmvpn10 and dmvpn20 a.k.a Tunnel10 and Tunnel20
+
+Better Together - uses a combination of NSO and Ansible to provision. This proof of concept deploys dmvpn30 and dmvpn40 a.k.a Tunnel30 and Tunnel40
 
 
 ## Topology
@@ -14,7 +26,8 @@ We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  H
 
 ## Pre-reqs
 
-!!! danger "You must have the Cisco Devnet sbx_multi_ios sandbox checked out and gone through the [sandbox setup](sandbox-setup/)"
+!!! danger "You must have the Cisco Devnet sbx_multi_ios sandbox checked out and gone through the [sandbox setup](sandbox-setup/)" If you are doing this lab at an event (DevNet, Cisco Live, VT, etc) this step may have been
+completed for you.  Check with your proctor for access instructions.
 
 ## Lab Setup (~10 min)
 
@@ -76,10 +89,14 @@ We will be using [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx).  H
     ╘══════════╧══════════╛
     ```
 
+At this point we have a running VIRL simulation, NSO installed and running, and we're ready to get started.
+
 The last step is for us to be working in the correct virtualenv where we have the proper packages installed.
 ```
 source venv/bin/activate
 ```
+
+!!! info "If you have multiple sessions, or you disconnect from the devbox, you will need to re-run this command"
 
 ???+ example "Output"
     ```
@@ -87,7 +104,6 @@ source venv/bin/activate
     (venv) [developer@devbox nso-with-ansible]$
     ```
 
-At this point we have a running VIRL simulation, NSO installed and running, and we're ready to get started.
 
 ## Ansible Walkthrough
 
@@ -116,7 +132,7 @@ mv default_inventory.yaml ansible_playbooks/
     [developer@devbox nso-with-ansible]$mv default_inventory.yaml ansible_playbooks/
     ```
 
-Take a look at your `default_inventory.yaml` file to see how its built.
+Take a look at your `default_inventory.yaml` (`cat ansible_playbooks/default_inventory.yaml`) file to see how its built.
 
 ??? example "Example default_inventory file"
     ```
@@ -157,7 +173,7 @@ Device groups are useful for managing a large number of devices, membership in g
     * A device can be a member of multiple groups
     * Groups can contain other groups
 
-Take a look at your `default_inventory.yaml`.  You can see that the generated file has 3 groups:
+Take a look at your inventory (`cat ansible_playbooks/default_inventory.yaml`) You can see that the generated file has 3 groups:
 
 * all
 * routers
@@ -166,7 +182,7 @@ Take a look at your `default_inventory.yaml`.  You can see that the generated fi
 
 ### Playbooks
 
-Ansible uses modules to configure devices, these modules allow various operational/configuration commands to be running.  In the following example we will use the [./ansible_playbooks/enable_ssh.yaml](./ansible_playbooks/enable_ssh.yaml) playbook to enable SSH on the device `xr`.
+Ansible uses playbooks to define a set of tasks to complete.  These tasks use modules that interface with device and allow various operational/configuration commands to be executed.  In the following example we will use the [./ansible_playbooks/enable_ssh.yaml](./ansible_playbooks/enable_ssh.yaml) playbook to enable SSH on the device `xr` using the `telnet` module.
 
 This is a very simple playbook with a single task in it.
 
@@ -192,8 +208,7 @@ This is a very simple playbook with a single task in it.
     ```
 
 ```
-cd ansible_playbooks
-ansible-playbook -i default_inventory.yaml enable_ssh.yaml
+ansible-playbook -i ansible_playbooks/default_inventory.yaml ansible_playbooks/enable_ssh.yaml
 ```
 
 ??? example "Output"
@@ -209,8 +224,12 @@ ansible-playbook -i default_inventory.yaml enable_ssh.yaml
     xr                         : ok=1    changed=1    unreachable=0    failed=0
     ```
 
+You can confirm the playbook by attempting to SSH to the IOS-XR device using the following command
 
-
+The default credentials for the VIRL nodes are `cisco/cisco`
+```
+virl ssh xr
+```
 
 #### NTP Configuration
 
@@ -262,6 +281,7 @@ In the following examples with Ansible and NSO we will be altering the NTP confi
     ```
 
 ```
+cd ansible_playbooks
 ansible-playbook -i default_inventory.yaml configure_ntp.yaml
 ```
 
@@ -331,43 +351,48 @@ ansible-playbook -i default_inventory.yaml configure_ntp.yaml
     xr                         : ok=6    changed=1    unreachable=0    failed=0
     ```
 
-??? note
-    For fun run the playbook again.  You will see that because the way the playbook was written AND how the configuration of NTP exists on the XR device, Ansible believes it needs to reconfigure the NTP servers again.
+!!! note
+    Since we've changed directories into the ansible_playbooks subdirectory associated `virl` commands will not work
+    any longer, to use them we need to change directories back up one level to `nso-with-ansible`
 
-    ??? example "templates/ios-ntp.textfsm"
-        ```
-        Value SERVER (\S+)
 
-        Start
-          ^ntp server ${SERVER} -> Record
-        ```
+For fun run the playbook again.  You will see that because the way the playbook was written AND how the configuration of NTP exists on the XR device, Ansible believes it needs to reconfigure the NTP servers again.
 
-    ??? example "XE Config"
-        ```
-        xe#show run | i ntp
-        ntp server 1.1.1.1
-        ntp server 3.3.3.3
-        ```
 
-    ??? example "XR Config"
-        ```
-        RP/0/0/CPU0:xr#show run | i ntp
-        Wed Apr 17 20:01:07.876 UTC
-        Building configuration...
-        ntp
-        ```
-        As you notice, the NTP server config is below the NTP parent command vs XE's which each server is prepended with NTP.
-        ```
-        RP/0/0/CPU0:xr#show run | b ntp
-        Wed Apr 17 20:01:26.114 UTC
-        Building configuration...
-        ntp
-         server 1.1.1.1
-         server 3.3.3.3
-        !
-        ```
+??? example "templates/ios-ntp.textfsm"
+    ```
+    Value SERVER (\S+)
 
-    As you see we COULD change our logic to find the NTP servers depending on the OS.
+    Start
+      ^ntp server ${SERVER} -> Record
+    ```
+
+??? example "XE Config"
+    ```
+    xe#show run | i ntp
+    ntp server 1.1.1.1
+    ntp server 3.3.3.3
+    ```
+
+??? example "XR Config"
+    ```
+    RP/0/0/CPU0:xr#show run | i ntp
+    Wed Apr 17 20:01:07.876 UTC
+    Building configuration...
+    ntp
+    ```
+    As you notice, the NTP server config is below the NTP parent command vs XE's which each server is prepended with NTP.
+    ```
+    RP/0/0/CPU0:xr#show run | b ntp
+    Wed Apr 17 20:01:26.114 UTC
+    Building configuration...
+    ntp
+     server 1.1.1.1
+     server 3.3.3.3
+    !
+    ```
+
+    As you see we COULD change our logic to find the NTP servers depending on the OS, such inconsisitencies in OS platforms, needs to be thought out and accounted for in your playbook development.  
 
 
 ## NSO Walkthrough
@@ -508,7 +533,8 @@ Like Ansible inventory files, NSO can also leverage device groups.  Device group
 The ```nso_cli_scripts/create_device_groups.cli``` script creates groups `routers`, `switches`, and `all`.  It then adds `xe` and `xr` to the `routers` group; `nx` to the `switches` group; groups `router` and `switches` to the `all` group.
 
 
-??? info "nso_cli_scripts/create_device_groups.cli"
+??? info "Sample contents of nso_cli_scripts/create_device_groups.cli"
+    ```
     devices device-group routers
      device-name [ xe xr ]
     !
@@ -518,7 +544,7 @@ The ```nso_cli_scripts/create_device_groups.cli``` script creates groups `router
     devices device-group all
      device-group [ routers switches ]
     !
-
+    ```
 
 
 If you are not already at the NSO CLI it can be accessed via the following command from the NSO server (devbox)
@@ -650,6 +676,7 @@ This is super useful when integrating with Ansible!
         - device-name: [nx]
           name: switches
     ```
+
 
 ### Device Operations
 
@@ -789,21 +816,63 @@ These template files can be easily created based off existing devices using the 
 That should give you enough information to see how the template should be structured for each kind of device.
 
 Let's go ahead and apply the `standard_ntp_template.xml`.
+
+Launch a CLI session to NSO.  
+
+```
+ncs_cli -u admin -C
+```
+
+`load merge` the CLI script into NSO (you could also type the commands manually if you really wanted to)
 ```
 conf t
 load merge nso_templates/standard_ntp_template.xml
+commit dry-run
+! review and hit enter to commit
 commit
 ```
 
 ??? example "Output from merge"
       ```
       admin@ncs# config t
+      Entering configuration mode terminal
       admin@ncs(config)# load merge nso_templates/standard_ntp_template.xml
       Loading.
-      1.13 KiB parsed in 0.04 sec (25.22 KiB/sec)
+      1.10 KiB parsed in 0.02 sec (37.95 KiB/sec)
+      admin@ncs(config)# commit dry-run
+      cli {
+          local-node {
+              data  devices {
+                   +    template standard_ntp {
+                   +        config {
+                   +            cisco-ios-xr:ntp {
+                   +                server {
+                   +                    server-list 2.2.2.2;
+                   +                    server-list 4.4.4.4;
+                   +                }
+                   +            }
+                   +            nx:ntp {
+                   +                server 2.2.2.2;
+                   +                server 4.4.4.4;
+                   +                source-interface Loopback0;
+                   +            }
+                   +            ios:ntp {
+                   +                source {
+                   +                    Loopback 0;
+                   +                }
+                   +                server {
+                   +                    peer-list 2.2.2.2;
+                   +                    peer-list 4.4.4.4;
+                   +                }
+                   +            }
+                   +        }
+                   +    }
+                    }
+          }
+      }
+      admin@ncs(config)# ! review and hit enter to commit
       admin@ncs(config)# commit
       Commit complete.
-      admin@ncs(config)#
       ```
 
 At this point NSO has the template, but the devices have not had any configuration changes made to them yet.  Before we make changes we are going to look at Compliance Reports.
@@ -903,7 +972,8 @@ You can use the provided URL to access the report.
     </pre>
 
 
-As you see, the devices are not in compliance with the template.  The report shows which servers will need to be added and which will need to be removed to bring the devices into compliance.
+As you see, the devices are not in compliance with the template.  The report shows which servers will need to be added and which will need to be removed to bring the devices into compliance. In this lab, you can see that we are removing the
+NTP servers previously added by Ansible as a result of the `replace` tag being used in our template. 
 
 #### Applying Templates
 
