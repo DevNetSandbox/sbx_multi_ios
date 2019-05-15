@@ -83,6 +83,7 @@ There are four major components of telemetry we need to outline before we get st
 
 ### Data Collection
 Telemetry data is collected from a few possible sources:
+
 1. Data Management Engine (DME) - This data can be collected periodically or only when a change is made to the specified path
 2. NX-API - This data can be collected periodically
 3. YANG
