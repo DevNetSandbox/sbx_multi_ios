@@ -34,6 +34,8 @@ nso:
 
 test: clean-netsim clean-nso deps virl nso virl
 
+lab: clean-netsim clean-nso deps virl nso virl
+
 virl: nso
 	@virl up --provision
 	virl generate nso --syncfrom
