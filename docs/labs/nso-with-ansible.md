@@ -15,7 +15,8 @@ approaches of using Ansible and NSO.
     * Introduction to NSO configuration database, device operations, templates, and compliance reporting
     * Import current device configuration into
 
-* Better Together - "coming soon"
+* Better Together - Explore how combining these two great tools can simplify network automation.
+
 
 
 ## Topology
@@ -1046,7 +1047,7 @@ Commit complete.
 # admin@ncs# exit
 ```
 
-## NSO with Ansible Walkthrough
+## Introduction to Ansible Modules for NSO.
 
 As highlighted earlier, NSO provides northbound API's for use with integrating with other tools and systems.  Integrating NSO with Ansible can become a force multiplier in cross-domain orchestration.
 
@@ -1054,7 +1055,6 @@ As highlighted earlier, NSO provides northbound API's for use with integrating w
 * Ansible can take advantage of the transaction/rollback capabilities of NSO.
 * Ansible can provide workflow to multi step operations.
 * NSO can compute required changes on the fly and provide compliance reporting.
-
 
 The first playbook we'll be running is a basic task; doing a `sync-from` to pull the devices' configurations into NSO.
 
@@ -1105,10 +1105,9 @@ ansible-playbook sync_from_devices.yaml
     ```
 
 
-## Wrap Up
+## More Better Together!
 
-!!! bug "TODO"
-    Add wrap up content
+Let's explore this in the next section, using a slighting different use-case, as well as introducing how
+network services can be developed to quit your needs.
 
-!!! bug "TODO"
-    Add bonus content
+Continue on to [Part 2](../nso-service-development/)
