@@ -1,8 +1,11 @@
 # In the Know with Telemetry
 
+
 !!! bug "TODO"
     * [ ] Add prebuilt dashboard json examples
     * [ ] Add in section of Grafana to import dashboards
+    * [ ] Chnage name from metrics-pig-nx to "visualization nxos telemetry with grafana" metrics-grafana
+    * [ ] Build a makefile for make clean and make lab
 
 A few notes about the lab guide:
 
@@ -226,6 +229,9 @@ Look at the `sbx_multi_ios/metrics-pig-nx/telemetry-stack/unified-pipeline/confi
 Lets take a look at an NX-API parsing example: `show system resources`.
 
 The raw data looks like below.  You can get this info by looking at the telemetry_model_raw.txt file running in the `unified-pipeline` container .
+
+!!! bug "TODO"
+    do a docker exec command
 
 !!! info "show system resources telemetry"
     ```
