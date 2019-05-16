@@ -1,4 +1,6 @@
-# NetDevOps lab environments
+# NetDevOps Labs
+
+[![Documentation Status](https://readthedocs.org/projects/netdevops-labs/badge/?version=latest)](https://netdevops-labs.readthedocs.io/en/latest/?badge=latest)
 
 Sample code, examples, and resources for use with the [DevNet Multi-IOS Sandbox](https://devnetsandbox.cisco.com/RM/Diagram/Index/6b023525-4e7f-4755-81ae-05ac500d464a?diagramType=Topology)
 
