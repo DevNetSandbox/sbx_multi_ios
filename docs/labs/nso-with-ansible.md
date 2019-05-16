@@ -1,5 +1,6 @@
 # Introduction to Network Services Orchestrator (NSO) with Ansible
 
+
 ## Overview
 
 This lab demonstrates common network automation use cases using a few different
@@ -17,7 +18,6 @@ approaches of using Ansible and NSO.
     * Configure NTP on IOS-XR, IOS-XE, and NX-OS devices
 
 * Better Together - Explore how combining these two great tools can simplify network automation.
-
 
 
 ## Topology
@@ -393,7 +393,6 @@ For fun run the playbook again.  You will see that because the way the playbook 
     ```
 
     As you see we COULD change our logic to find the NTP servers depending on the OS, such inconsisitencies in OS platforms, needs to be thought out and accounted for in your playbook development.  
-
 
 ## NSO Walkthrough
 
@@ -1104,7 +1103,6 @@ ansible-playbook sync_from_devices.yaml
     localhost                  : ok=1    changed=1    unreachable=0    failed=0
 
     ```
-
 
 ## More Better Together!
 

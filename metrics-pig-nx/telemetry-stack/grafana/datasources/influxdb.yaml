@@ -1,0 +1,10 @@
+datasources:
+  - name: influxdb
+    type: influxdb
+    access: proxy
+    org_id: 1
+    url: http://influxdb:8086
+    database: netdevops 
+    user: cisco
+    password: cisco
+    is_default: true
