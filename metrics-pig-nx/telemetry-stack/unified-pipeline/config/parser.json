@@ -1,0 +1,200 @@
+{
+  "parsers":[
+    {
+      "encodingpath":"XYZ",
+      "function" :
+      {
+        "name" : "processGeneric",
+        "index": {
+          "index_prefix" : "telemetry",
+          "index_type" : "daily"
+        }
+      }
+    },
+    {
+      "encodingpath":"show processes cpu",
+      "function" :
+      {
+        "name" : "processGeneric",
+        "index": {
+          "index_prefix" : "lan_cpu_stats_",
+          "index_type" : "daily"
+        },
+        "members": [
+          {"gpb_name": "process", "gpb_type": "string", "db_name": "pname", "db_type": "string"},
+          {"gpb_name": "onesec", "gpb_type": "string", "db_name": "pname%", "db_type": "float"},
+          {"gpb_name": "Timestamp", "gpb_type": "long", "db_name": "timestamp", "db_type": "string"},
+          {"gpb_name": "node_id", "gpb_type": "string", "db_name": "swname", "db_type": "string"}
+        ]
+      }
+    },
+    {
+      "encodingpath":"show processes memory",
+      "function" :
+      {
+        "name" : "processGeneric",
+        "index": {
+          "index_prefix" : "lan_mem_stats_",
+          "index_type" : "daily"
+        },
+        "members": [
+          {"gpb_name": "process", "gpb_type": "string", "db_name": "pname", "db_type": "string"},
+          {"gpb_name": "mem_alloc", "gpb_type": "string", "db_name": "mem_alloc", "db_type": "long"},
+          {"gpb_name": "Timestamp", "gpb_type": "string", "db_name": "timestamp", "db_type": "string"},
+          {"gpb_name": "mem_used", "gpb_type": "string", "db_name": "mem_used", "db_type": "long"},
+          {"gpb_name": "mem_limit", "gpb_type": "string", "db_name": "mem_limit", "db_type": "long"},
+	  {"gpb_name": "node_id", "gpb_type": "string", "db_name": "swname", "db_type": "string"}
+       ]
+      }
+    },
+    {
+      "encodingpath":"show environment power",
+      "function" :
+      {
+        "name" : "processGeneric",
+        "index": {
+          "index_prefix" : "lan_power_stats_",
+          "index_type" : "daily"
+        },
+        "members": [
+          {"gpb_name": "psnum", "gpb_type": "string", "db_name": "num", "db_type": "int"},
+	  {"gpb_name": "psmodel", "gpb_type": "string", "db_name": "model", "db_type": "string"},
+	  {"gpb_name": "ps_status", "gpb_type": "string", "db_name": "status", "db_type": "string"},
+	  {"gpb_name": "Timestamp", "gpb_type": "string", "db_name": "timestamp", "db_type": "string"},
+	  {"gpb_name": "actual_input", "gpb_type": "string", "db_name": "input", "db_type": "string"},
+	  {"gpb_name": "actual_out", "gpb_type": "string", "db_name": "ouput", "db_type": "string"},
+	  {"gpb_name": "psnum", "gpb_type": "string", "db_name": "psnum", "db_type": "string"},
+	  {"gpb_name": "node_id", "gpb_type": "string", "db_name": "swname", "db_type": "string"}
+       ]
+      }
+    },
+    {
+      "encodingpath":"show system resources",
+      "function" :
+      {
+        "name" : "processGeneric",
+        "index": {
+          "index_prefix" : "lan_resources_stats_",
+          "index_type" : "daily"
+        },
+        "members": [
+          {"gpb_name": "cpu_state_idle", "gpb_type": "string", "db_name": "cpuidle", "db_type": "float"},
+          {"gpb_name": "memory_usage_used", "gpb_type": "string", "db_name": "memused", "db_type": "int"},
+          {"gpb_name": "Timestamp", "gpb_type": "string", "db_name": "timestamp", "db_type": "string"},
+          {"gpb_name": "node_id", "gpb_type": "string", "db_name": "swname", "db_type": "string"}
+       ]
+      }
+    },
+    {
+      "encodingpath":"show environment fan detail",
+      "function" :
+      {
+        "name" : "processGeneric",
+        "index": {
+          "index_prefix" : "lan_fan_stats_",
+          "index_type" : "daily"
+        },
+        "members": [
+	  {"gpb_name": "fanname", "gpb_type": "string", "db_name": "name", "db_type": "string"},
+          {"gpb_name": "fanstatus", "gpb_type": "string", "db_name": "status", "db_type": "string"},
+	  {"gpb_name": "Timestamp", "gpb_type": "string", "db_name": "timestamp", "db_type": "string"},
+	  {"gpb_name": "fannum", "gpb_type": "string", "db_name": "num", "db_type": "string"},
+	  {"gpb_name": "fanrpm", "gpb_type": "int", "db_name": "rpm", "db_type": "int"},
+          {"gpb_name": "fanperc", "gpb_type": "int", "db_name": "fan%", "db_type": "float"},
+          {"gpb_name": "fandir", "gpb_type": "string", "db_name": "dir", "db_type": "string"},
+	  {"gpb_name": "node_id", "gpb_type": "string", "db_name": "swname", "db_type": "string"}
+       ]
+      }
+    },
+    {
+      "encodingpath":"show_stats.*",
+      "function" :
+      {
+        "name" : "processStat",
+        "index": {
+          "index_prefix" : "fc_stats_",
+          "index_type" : "daily"
+        },
+        "type": "fcstat",
+        "members": [
+          {"gpb_name": "HC InBroadcast Pkts", "gpb_type": "hex_string", "db_name": "iBPkts", "db_type": "long"},
+          {"gpb_name": "HC InMulticast Pkts", "gpb_type": "hex_string", "db_name": "iMPkts", "db_type": "long"},
+          {"gpb_name": "HC InUcast Pkts", "gpb_type": "hex_string", "db_name": "iUPkts", "db_type": "long"},
+          {"gpb_name": "HC InOctets", "gpb_type": "hex_string", "db_name": "rx", "db_type": "long"},
+          {"gpb_name": "HC OutBroadcast Pkts", "gpb_type": "hex_string", "db_name": "oBPkts", "db_type": "long"},
+          {"gpb_name": "HC OutMulticast Pkts", "gpb_type": "hex_string", "db_name": "oMPkts", "db_type": "long"},
+          {"gpb_name": "HC OutUCast Pkts", "gpb_type": "hex_string", "db_name": "oUPKts", "db_type": "long"},
+          {"gpb_name": "HC OutOctets", "gpb_type": "hex_string", "db_name": "tx", "db_type": "long"},
+          {"gpb_name": "IfIn Discards", "gpb_type": "hex_string", "db_name": "iDiscards", "db_type": "long"},
+          {"gpb_name": "IfIn Errors", "gpb_type": "hex_string", "db_name": "iErrs", "db_type": "long"},
+          {"gpb_name": "IfIn Frames", "gpb_type": "hex_string", "db_name": "iFrms", "db_type": "long"},
+          {"gpb_name": "IfOut Discards", "gpb_type": "hex_string", "db_name": "oDiscards", "db_type": "long"},
+          {"gpb_name": "IfOut Errors", "gpb_type": "hex_string", "db_name": "oErrs", "db_type": "long"},
+          {"gpb_name": "IfOut Frames", "gpb_type": "hex_string", "db_name": "oFrms", "db_type": "long"},
+          {"gpb_name": "Invalid CRCs", "gpb_type": "hex_string", "db_name": "crcErrs", "db_type": "long"},
+          {"gpb_name": "Rx BBCredit Transition to Zero", "gpb_type": "hex_string", "db_name": "rxb2bTz", "db_type": "long"},
+          {"gpb_name": "Tx BBCredit Trasition to Zero", "db_type": "hex_string", "db_name": "txb2bTz", "db_type": "long"},
+          {"gpb_name": "Sig Loss", "gpb_type": "hex_string", "db_name": "sigLoss", "db_type": "long"},
+          {"gpb_name": "Sync Loss", "gpb_type": "hex_string", "db_name": "SyncLoss", "db_type": "long"},
+          {"gpb_name": "Link Failures", "gpb_type": "hex_string", "db_name": "LnkFail", "db_type": "long"},
+          {"gpb_name": "Link Reset Ins", "gpb_type": "hex_string", "db_name": "LnkRstIn", "db_type": "long"},
+          {"gpb_name": "Link Reset Outs", "gpb_type": "hex_string", "db_name": "LnkRstOut", "db_type": "long"},
+          {"gpb_name": "Timestamp", "gpb_type": "long", "db_name": "timestamp", "db_type": "long"},
+          {"gpb_name": "node_id", "gpb_type": "string", "db_name": "swIP", "db_type": "string"},
+          {"gpb_name": "Interface Name", "gpb_type": "string", "db_name": "port", "db_type": "string"},
+          {"gpb_name": "Interface State", "gpb_type": "string", "db_name": "PortState", "db_type": "string"}
+       ]
+      }
+    },
+    {
+      "encodingpath": "analytics.*",
+      "function": {
+        "name": "processFlow",
+        "index": {
+          "index_prefix" : "fc_flows_",
+          "index_type" : "daily"
+        },
+        "type": "flow",
+        "members": [
+          {"gpb_name": "Timestamp",  "gpb_type": "long", "db_name": "timestamp",  "db_type": "long"},
+          {"gpb_name": "port",  "gpb_type": "string", "db_name": "port", "db_type": "string"},
+          {"gpb_name": "vsan", "gpb_type": "string", "db_name": "vsan", "db_type": "int"},
+          {"gpb_name": "app_id", "gpb_type": "string", "db_name": "appid", "db_type": "int"},
+          {"gpb_name": "initiator_id", "gpb_type": "hex_string", "db_name": "sid", "db_type": "long"},
+          {"gpb_name": "target_id", "gpb_type": "hex_string", "db_name": "did", "db_type": "long"},
+          {"gpb_name": "lun", "gpb_type": "string", "db_name": "lun", "db_type": "string"},
+          {"gpb_name": "active_io_read_count", "gpb_type": "string", "db_name": "raIO", "db_type": "long"},
+          {"gpb_name": "active_io_write_count", "gpb_type": "string", "db_name": "waIO", "db_type": "long"},
+          {"gpb_name": "total_read_io_count", "gpb_type": "string", "db_name": "rtIO", "db_type": "long"},
+          {"gpb_name": "total_write_io_count", "gpb_type": "string", "db_name": "wtIO", "db_type": "long"},
+          {"gpb_name": "total_read_io_time", "gpb_type": "string", "db_name": "rIOt", "db_type": "long"},
+          {"gpb_name": "total_write_io_time", "gpb_type": "string", "db_name": "wIOt", "db_type": "long"},
+          {"gpb_name": "total_read_io_initiation_time", "gpb_type": "string", "db_name": "rIOint", "db_type": "long"},
+          {"gpb_name": "total_write_io_initiation_time", "gpb_type": "string", "db_name": "wIOint", "db_type": "long"},
+          {"gpb_name": "total_read_io_bytes", "gpb_type": "string", "db_name": "rIOb", "db_type": "long"},
+          {"gpb_name": "total_write_io_bytes", "gpb_type": "string", "db_name": "wIOb", "db_type": "long"},
+          {"gpb_name": "read_io_rate", "gpb_type": "string", "db_name": "rIOr", "db_type": "long"},
+          {"gpb_name": "write_io_rate", "gpb_type": "string", "db_name": "wIOr", "db_type": "long"},
+          {"gpb_name": "read_io_bandwidth", "gpb_type": "string", "db_name": "rIObw", "db_type": "long"},
+          {"gpb_name": "write_io_bandwidth", "gpb_type": "string", "db_name": "wIObw", "db_type": "long"},
+          {"gpb_name": "read_io_size_min", "gpb_type": "string", "db_name": "rIOsMi", "db_type": "long"},
+          {"gpb_name": "read_io_size_max", "gpb_type": "string", "db_name": "rIOsMa", "db_type": "long"},
+          {"gpb_name": "write_io_size_min", "gpb_type": "string", "db_name": "wIOsMi", "db_type": "long"},
+          {"gpb_name": "write_io_size_max", "gpb_type": "string", "db_name": "wIOsMa", "db_type": "long"},
+          {"gpb_name": "read_io_completion_time_min", "gpb_type": "string", "db_name": "rIOctMi", "db_type": "long"},
+          {"gpb_name": "read_io_completion_time_max", "gpb_type": "string", "db_name": "rIOctMa", "db_type": "long"},
+          {"gpb_name": "write_io_completion_time_min", "gpb_type": "string", "db_name": "wIOctMi", "db_type": "long"},
+          {"gpb_name": "write_io_completion_time_max", "gpb_type": "string", "db_name": "wIOctMa", "db_type": "long"},
+          {"gpb_name": "read_io_initiation_time_max", "gpb_type": "string", "db_name": "rIOitMa", "db_type": "long"},
+          {"gpb_name": "write_io_initiation_time_max", "gpb_type": "string", "db_name": "wIOitMa", "db_type": "long"},
+          {"gpb_name": "read_io_aborts", "gpb_type": "string", "db_name": "rIOa", "db_type": "int"},
+          {"gpb_name": "write_io_aborts", "gpb_type": "string", "db_name": "wIOa", "db_type": "int"},
+          {"gpb_name": "read_io_failures", "gpb_type": "string", "db_name": "rIOf", "db_type": "int"},
+          {"gpb_name": "write_io_failures", "gpb_type": "string", "db_name": "wIOf", "db_type": "int"},
+          {"gpb_name": "node_id", "gpb_type": "string", "db_name": "swIP", "db_type": "string"}
+
+        ]
+      }
+    }
+  ]
+}
