@@ -13,6 +13,7 @@ nav:
   - Labs:
     - NSO with Ansible: labs/nso-with-ansible.md
     - NSO with Ansible (Part 2): labs/nso-service-development.md
+    - Streaming Telemetry with NXOS: labs/telemetry-with-pig.md
     # WIP: additioonal labs need blogged @julio
     # - Telemetry with PIG: labs/telemetry-with-pig.md
     # - Using PYATS with Jenkins: labs/using_pyats_with_jenkins.md
