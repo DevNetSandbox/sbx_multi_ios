@@ -11,9 +11,14 @@ nav:
   - Overview: index.md
   - Sandbox Setup: sandbox-setup.md
   - Labs:
-    - NSO with Ansible: labs/nso-with-ansible.md
+    - NSO with Ansible (Part 2): labs/nso-service-development.md
     - Visualizing Telemetry Data with Grafana: labs/metrics-grafana.md
-    - Using PYATS with Jenkins: labs/using_pyats_with_jenkins.md
+    # WIP: additioonal labs need blogged @julio
+    # - Telemetry with PIG: labs/telemetry-with-pig.md
+    # - Using PYATS with Jenkins: labs/using_pyats_with_jenkins.md
+    # - cicd-xxxxx
+    # - etc.
+
 
 markdown_extensions:
   - admonition
