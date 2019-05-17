@@ -1,4 +1,4 @@
-receiver# Visualizing Telemetry Data with Grafana
+# Visualizing Telemetry Data with Grafana
 
 
 !!! bug "TODO"
@@ -523,8 +523,14 @@ Continue to map out panels for `nx2` and `nx3` CPU utilization and arange the pa
 
 #### Free memory
 
-!!! bug "TODO"
-    Add in Free memory steps
+Now lets track free memory across all three devices on one graph:
+
+!!! example Query
+    ![Grafana Free Memory](../img/metrics-grafana/grafana13.png)
+
+When you are done it should look like this:
+![Grafana Free Mem Graph](../img/metrics-grafana/grafana14.png)
+
 
 #### Challenge: Memory Utilization
 
@@ -545,19 +551,16 @@ At this point you should have a dashboard like below:
 
 Feel free to continue to explore creating new or other dashboards with Grafana.  More metrics were pre-parsed.  You can add more sensors outlined in `nxos-extra-sensors`
 
-!!! bug "TODO"
-    Create more sensors
-
-!!! bug "TODO"
-    Outline importing dashboards
 
 
 
 
 ## Lab Clean Up
 
-!!! bug "TODO"
-    Outline how to clean up the lab
+Once you are done lets go ahead and clean up the lab
+```
+make clan
+```
 
 ## Reference Material
 
