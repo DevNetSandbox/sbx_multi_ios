@@ -1,12 +1,6 @@
 # Visualizing Telemetry Data with Grafana
 
 
-!!! bug "TODO"
-    * [ ] Add prebuilt dashboard json examples
-    * [ ] Add in section of Grafana to import dashboards
-    * [x] Chnage name from metrics-pig-nx to "visualization nxos telemetry with grafana" metrics-grafana
-    * [x] Build a makefile for make clean and make lab
-
 A few notes about the lab guide:
 
 ???+ example "Output"
@@ -173,9 +167,26 @@ In our example we have setup 2 sensor groups and 1 destination group:
 Copy the content of `sample-nxos-config.txt` and apply it to nx1, nx2, and nx3.  We will use virlutils to ssh into the devices.
 
 You can find the NXOS config in `sample-nxos-config.txt`
-!!! bug "TODO"
-    Add `sample-nxos-config.txt` to an example here
 
+??? example "sample-nxos-config.txt"
+    ```
+    feature nxapi
+    feature telemetry
+
+    telemetry
+      destination-profile
+        use-vrf management
+      destination-group 100
+        ip address 10.10.20.20 port 57500 protocol gRPC encoding GPB
+      sensor-group 200
+        data-source NX-API
+        path "show ip route summary"
+        path "show system resources"
+        path "show interface mgmt0"
+      subscription 200
+        dst-grp 100
+        snsr-grp 200 sample-interval 20000
+    ```
 
 | Credentials | |
 | --- | --- |
@@ -493,13 +504,15 @@ Now that we have connected Grafana to InfluxDB we can begin to visualize the dat
 Let's build a dashboard.  Click `Create your first Dashboard`
 ![Grafana First Dashbard](../img/metrics-grafana/grafana3.png)
 
-!!! bug "TODO"
-    Add screenshot
+![Grafana Add Query](../img/metrics-grafana/grafana15.png)
 
 Click `Add Query`
 
 Here we can see a live graph that will map the data we are going to query over time.
 ![Grafana Query1](../img/metrics-grafana/grafana6.png)
+
+You will also want to change how far back we are looking into the database.  Let's change that range to 5 minutes.  You can do this in the top right corner of the screen:
+![Grafana Time](../img/metrics-grafana/grafana17.png)
 
 We will map out `nx1`  user and kernel CPU utilization.  We'll be adding two queries.  If you are familiar with SQL you will see similarities here.
 
@@ -544,8 +557,8 @@ Now that we have walked through a few different graphs, see if you can create a 
 
 At this point you should have a dashboard like below:
 
-!!! bug "TODO"
-    Add in complete daashboard
+??? info "Final Dashboard"
+    ![Final Dashboard](../img/metrics-grafana/grafana16.png)
 
 ### Next steps
 
@@ -561,6 +574,10 @@ Once you are done lets go ahead and clean up the lab
 ```
 make clan
 ```
+
+## More Labs
+
+There are more telemetry based labs in DevnetSandbox, go check them out!
 
 ## Reference Material
 
