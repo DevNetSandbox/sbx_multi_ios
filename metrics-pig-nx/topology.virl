@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.95" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.95/virl.xsd">
+    <extensions>
+        <entry key="management_network" type="String">flat</entry>
+        <entry key="management_lxc" type="Boolean">false</entry>
+        <entry key="AutoNetkit.IGP" type="String">ospf</entry>
+    </extensions>
+    <node name="nx1" type="SIMPLE" subtype="NX-OSv 9000" location="438,184" ipv4="192.168.0.1">
+        <extensions>
+            <entry key="config" type="string">! NX-OSv Config generated on 2019-05-09 13:22
+! by autonetkit_0.23.5
+!
+version 6.2(1)
+license grace-period
+!
+hostname nx1
+vdc nx1 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 96 maximum 96
+  limit-resource u6route-mem minimum 24 maximum 24
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature telnet
+
+feature ospf
+feature bgp
+
+username adminbackup password 5 ! role network-operator
+username admin password 5 $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51 role network-admin
+username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1 role network-operator
+username cisco role network-admin
+username lab password 5 $1$buoy/oqy$.EXQz8rCn72ii8qtdldj00 role network-admin
+no password strength-check
+ip domain-lookup
+copp profile strict
+snmp-server user lab network-admin auth md5 0x5ceb414591539ee35159fca86fdfa101 priv 0x5ceb414591539ee35159fca86fdfa101 localizedkey
+snmp-server user admin network-admin auth md5 0x328945d53e05e8e7207f8c20b142f0b7 priv 0x328945d53e05e8e7207f8c20b142f0b7 localizedkey
+snmp-server user cisco network-operator auth md5 0x55b3c64a53fb95518e75358ee75e82e9 priv 0x55b3c64a53fb95518e75358ee75e82e9 localizedkey
+snmp-server user cisco network-admin
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+
+vlan 1
+
+vrf context management
+  ip route 0.0.0.0/0 {{ gateway }}
+hardware forwarding unicast trace
+
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.1/32
+  ip router ospf 1 area 0
+
+interface Ethernet1/1
+  description Ethernet1/1
+  no switchport
+  no ip address
+  mac-address fa16.3e00.0001
+  no shutdown
+
+interface Ethernet1/2
+  description to nx2
+  no switchport
+  ip address 10.0.0.5/30
+  ip router ospf 1 area 0
+  mac-address fa16.3e00.0002
+  no shutdown
+
+interface Ethernet1/3
+  description to nx3
+  no switchport
+  ip address 10.0.0.9/30
+  ip router ospf 1 area 0
+  mac-address fa16.3e00.0003
+  no shutdown
+
+interface mgmt0
+  description OOB Management
+  ! Configured on launch
+  no ip address
+  mac-address fa16.3e00.0004
+  no shutdown
+  vrf member management
+
+
+line console
+line vty
+router ospf 1
+  router-id 192.168.0.1
+router bgp 1
+  router-id 192.168.0.1
+  address-family ipv4 unicast
+    network 192.168.0.1/32
+  !
+! iBGP
+!
+! iBGP peers
+  !
+  neighbor 192.168.0.2 remote-as 1
+    description iBGP peer nx2
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+  !
+  neighbor 192.168.0.3 remote-as 1
+    description iBGP peer nx3
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+        </entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
+        </extensions>
+        <interface id="0" name="Ethernet1/1"/>
+        <interface id="1" name="Ethernet1/2" ipv4="10.0.0.5" netPrefixLenV4="30"/>
+        <interface id="2" name="Ethernet1/3" ipv4="10.0.0.9" netPrefixLenV4="30"/>
+    </node>
+    <node name="nx2" type="SIMPLE" subtype="NX-OSv 9000" location="340,308" ipv4="192.168.0.2">
+        <extensions>
+            <entry key="config" type="string">! NX-OSv Config generated on 2019-05-09 13:22
+! by autonetkit_0.23.5
+!
+version 6.2(1)
+license grace-period
+!
+hostname nx2
+vdc nx2 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 96 maximum 96
+  limit-resource u6route-mem minimum 24 maximum 24
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature telnet
+
+feature ospf
+feature bgp
+
+username adminbackup password 5 ! role network-operator
+username admin password 5 $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51 role network-admin
+username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1 role network-operator
+username cisco role network-admin
+username lab password 5 $1$buoy/oqy$.EXQz8rCn72ii8qtdldj00 role network-admin
+no password strength-check
+ip domain-lookup
+copp profile strict
+snmp-server user lab network-admin auth md5 0x5ceb414591539ee35159fca86fdfa101 priv 0x5ceb414591539ee35159fca86fdfa101 localizedkey
+snmp-server user admin network-admin auth md5 0x328945d53e05e8e7207f8c20b142f0b7 priv 0x328945d53e05e8e7207f8c20b142f0b7 localizedkey
+snmp-server user cisco network-operator auth md5 0x55b3c64a53fb95518e75358ee75e82e9 priv 0x55b3c64a53fb95518e75358ee75e82e9 localizedkey
+snmp-server user cisco network-admin
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+
+vlan 1
+
+vrf context management
+  ip route 0.0.0.0/0 {{ gateway }}
+hardware forwarding unicast trace
+
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.2/32
+  ip router ospf 1 area 0
+
+interface Ethernet1/1
+  description to nx1
+  no switchport
+  ip address 10.0.0.6/30
+  ip router ospf 1 area 0
+  mac-address fa16.3e00.0005
+  no shutdown
+
+interface Ethernet1/2
+  description Ethernet1/2
+  no switchport
+  no ip address
+  mac-address fa16.3e00.0006
+  no shutdown
+
+interface Ethernet1/3
+  description to nx3
+  no switchport
+  ip address 10.0.0.13/30
+  ip router ospf 1 area 0
+  mac-address fa16.3e00.0007
+  no shutdown
+
+interface mgmt0
+  description OOB Management
+  ! Configured on launch
+  no ip address
+  mac-address fa16.3e00.0008
+  no shutdown
+  vrf member management
+
+
+line console
+line vty
+router ospf 1
+  router-id 192.168.0.2
+router bgp 1
+  router-id 192.168.0.2
+  address-family ipv4 unicast
+    network 192.168.0.2/32
+  !
+! iBGP
+!
+! iBGP peers
+  !
+  neighbor 192.168.0.1 remote-as 1
+    description iBGP peer nx1
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+  !
+  neighbor 192.168.0.3 remote-as 1
+    description iBGP peer nx3
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+        </entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
+        </extensions>
+        <interface id="0" name="Ethernet1/1" ipv4="10.0.0.6" netPrefixLenV4="30"/>
+        <interface id="1" name="Ethernet1/2"/>
+        <interface id="2" name="Ethernet1/3" ipv4="10.0.0.13" netPrefixLenV4="30"/>
+    </node>
+    <node name="nx3" type="SIMPLE" subtype="NX-OSv 9000" location="541,316" ipv4="192.168.0.3">
+        <extensions>
+            <entry key="config" type="string">! NX-OSv Config generated on 2019-05-09 13:22
+! by autonetkit_0.23.5
+!
+version 6.2(1)
+license grace-period
+!
+hostname nx3
+vdc nx3 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 768
+  limit-resource u4route-mem minimum 96 maximum 96
+  limit-resource u6route-mem minimum 24 maximum 24
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature telnet
+
+feature ospf
+feature bgp
+
+username adminbackup password 5 ! role network-operator
+username admin password 5 $1$KuOSBsvW$Cy0TSD..gEBGBPjzpDgf51 role network-admin
+username cisco password 5 $1$Nk7ZkwH0$fyiRmMMfIheqE3BqvcL0C1 role network-operator
+username cisco role network-admin
+username lab password 5 $1$buoy/oqy$.EXQz8rCn72ii8qtdldj00 role network-admin
+no password strength-check
+ip domain-lookup
+copp profile strict
+snmp-server user lab network-admin auth md5 0x5ceb414591539ee35159fca86fdfa101 priv 0x5ceb414591539ee35159fca86fdfa101 localizedkey
+snmp-server user admin network-admin auth md5 0x328945d53e05e8e7207f8c20b142f0b7 priv 0x328945d53e05e8e7207f8c20b142f0b7 localizedkey
+snmp-server user cisco network-operator auth md5 0x55b3c64a53fb95518e75358ee75e82e9 priv 0x55b3c64a53fb95518e75358ee75e82e9 localizedkey
+snmp-server user cisco network-admin
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+
+vlan 1
+
+vrf context management
+  ip route 0.0.0.0/0 {{ gateway }}
+hardware forwarding unicast trace
+
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.3/32
+  ip router ospf 1 area 0
+
+interface Ethernet1/1
+  description to nx1
+  no switchport
+  ip address 10.0.0.10/30
+  ip router ospf 1 area 0
+  mac-address fa16.3e00.0009
+  no shutdown
+
+interface Ethernet1/2
+  description to nx2
+  no switchport
+  ip address 10.0.0.14/30
+  ip router ospf 1 area 0
+  mac-address fa16.3e00.000a
+  no shutdown
+
+interface Ethernet1/3
+  description Ethernet1/3
+  no switchport
+  no ip address
+  mac-address fa16.3e00.000b
+  no shutdown
+
+interface mgmt0
+  description OOB Management
+  ! Configured on launch
+  no ip address
+  mac-address fa16.3e00.000c
+  no shutdown
+  vrf member management
+
+
+line console
+line vty
+router ospf 1
+  router-id 192.168.0.3
+router bgp 1
+  router-id 192.168.0.3
+  address-family ipv4 unicast
+    network 192.168.0.3/32
+  !
+! iBGP
+!
+! iBGP peers
+  !
+  neighbor 192.168.0.1 remote-as 1
+    description iBGP peer nx1
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+  !
+  neighbor 192.168.0.2 remote-as 1
+    description iBGP peer nx2
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+        </entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
+        </extensions>
+        <interface id="0" name="Ethernet1/1" ipv4="10.0.0.10" netPrefixLenV4="30"/>
+        <interface id="1" name="Ethernet1/2" ipv4="10.0.0.14" netPrefixLenV4="30"/>
+        <interface id="2" name="Ethernet1/3"/>
+    </node>
+    <annotations/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[2]" src="/virl:topology/virl:node[2]/virl:interface[3]"/>
+</topology>

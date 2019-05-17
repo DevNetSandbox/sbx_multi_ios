@@ -14,7 +14,8 @@ approaches of using Ansible and NSO.
 
 * NSO - NSO can provide many of the same capabilities as Ansible, with a slightly different approach as well as provide some additional capabilities.  In this lab we will complete the following tasks using NSO.
     * Introduction to NSO configuration database, device operations, templates, and compliance reporting
-    * Import current device configuration into
+    * Import current device configuration (brownfield) into the configuration database (CDB)
+    * Configure NTP on IOS-XR, IOS-XE, and NX-OS devices
 
 * Better Together - Explore how combining these two great tools can simplify network automation.
 
