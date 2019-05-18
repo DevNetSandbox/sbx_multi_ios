@@ -11,6 +11,7 @@ nav:
   - Overview: index.md
   - Sandbox Setup: sandbox-setup.md
   - Labs:
+    - NSO with Ansible: labs/nso-with-ansible.md
     - NSO with Ansible (Part 2): labs/nso-service-development.md
     - Visualizing Telemetry Data with Grafana: labs/metrics-grafana.md
     # WIP: additioonal labs need blogged @julio
