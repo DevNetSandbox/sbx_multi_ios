@@ -7,7 +7,7 @@ clean-virl:
 	-@virl down
 	-@rm -Rf .virl/
 
-lab: stack virl
+lab: stack virl stack-status
 
 stack: stack-build stack-up
 
