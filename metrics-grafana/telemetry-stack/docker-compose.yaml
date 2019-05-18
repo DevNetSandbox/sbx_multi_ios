@@ -8,22 +8,13 @@ services:
     volumes:
       - ./unified-pipeline/config:/etc/pipeline
     links:
-      - "elasticsearch:elasticsearch"
+      - "influxdb:influxdb"
     depends_on:
-      # - iosxr-pipeline
-      - elasticsearch
       - influxdb
     environment:
       - influx_ip=influxdb
       - influx_port=8086
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
-    ports:
-      - 9200:9200
-      - 9300:9300
-    environment:
-      - "discovery.type=single-node"
 
 
 
@@ -38,9 +29,9 @@ services:
 
   grafana:
     image: grafana/grafana:master
-    volumes:
-      - ./grafana/dashboards:/etc/grafana/dashboards
-      - ./grafana/datasources:/etc/grafana/datasources
+    # volumes:
+    #   - ./grafana/dashboards:/etc/grafana/dashboards
+    #   - ./grafana/datasources:/etc/grafana/datasources
     ports:
       - "3000:3000"
     environment:
