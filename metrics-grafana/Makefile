@@ -9,7 +9,7 @@ clean-virl:
 
 lab: stack virl stack-status
 
-stack: stack-build stack-up
+stack: stack-pull stack-build stack-up
 
 stack-up:
 	docker-compose -f telemetry-stack/docker-compose.yaml up -d
@@ -17,8 +17,13 @@ stack-up:
 stack-build:
 	docker-compose -f telemetry-stack/docker-compose.yaml build
 
+stack-pull:
+	docker-compose -f telemetry-stack/docker-compose.yaml pull
+
 stack-status:
 	docker-compose -f telemetry-stack/docker-compose.yaml ps
+
+stage: stack-pull stack-build
 
 tap:
 	docker-compose -f telemetry-stack/docker-compose.yaml exec unified-pipeline tail -n 1000 telemetry_model_raw.txt
