@@ -63,12 +63,6 @@ make lab
 
 This step may take a few minutes while we get things setup.  You can take a look at the Makefile to see what we are doing to setup the environment.
 
-You should see output similar to the following:
-
-!!! bug "TODO"
-    Add 'make lab' output
-
-???+ example "Output"
 
 At this point we have a running VIRL simulation, a full containerized telemetry stack, and we are ready to get started.
 
@@ -194,11 +188,10 @@ You can find the NXOS config in `sample-nxos-config.txt`
 | password | cisco |
 
 ```
-cp sample-nxos-config.txt
 virl ssh nx1
 ```
 
-Explore some `show telemetry` commands.  You should see if we are successfully sending telemetry data.
+After you paste in the config, explore some `show telemetry` commands.  You should see if we are successfully sending telemetry data.
 
 ## Pipeline Overview
 [Pipeline](https://github.com/cisco/bigmuddy-network-telemetry-pipeline) is an open source telemetry receiver for IOS XR and NXOS.
@@ -508,28 +501,35 @@ Let's build a dashboard.  Click `Create your first Dashboard`
 
 Click `Add Query`
 
-Here we can see a live graph that will map the data we are going to query over time.
 ![Grafana Query1](../img/metrics-grafana/grafana6.png)
 
-You will also want to change how far back we are looking into the database.  Let's change that range to 5 minutes.  You can do this in the top right corner of the screen:
-![Grafana Time](../img/metrics-grafana/grafana17.png)
+Here we want to display a live graph that will map nx1's CPU over time.
+
+
+!!! danger "Important"
+    You will also want to change how far back we are looking into the database.  Let's change that range to 5 minutes.  You can do this in the top right corner of the screen:
+    ![Grafana Time](../img/metrics-grafana/grafana17.png)
 
 We will map out `nx1`  user and kernel CPU utilization.  We'll be adding two queries.  If you are familiar with SQL you will see similarities here.
 
-??? example "Queries"
+You can see the example queries below.  You will want to ensure to delete the unneeded elements in the SELECT and GROUP BY sections
+
+???+ example "Queries"
     ![Grafana Query2](../img/metrics-grafana/grafana7.png)
+
+
 
 
 As you see they overlay each other, but what we are really looking for is mapping out totaly cpu utilization.  Click on the 2nd icon on the left to adjust the visualization.
 
 Here we want to enable data stacking
 
-??? example "Data Stacking"
+???+ example "Data Stacking"
     ![Grafana Stacking](../img/metrics-grafana/grafana8.png)
 
 Continue to map out panels for `nx2` and `nx3` CPU utilization and arange the panels to the top of the Dashboard
 
-??? example "CPU"
+???+ example "CPU"
     ![Grafana CPU](../img/metrics-grafana/grafana9.png)
 
 
