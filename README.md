@@ -1,3 +1,6 @@
+# Temporary Lab Outage 
+**Status Note: July 11, 2019:** Several of these labs are currently not working due to some neccessary updates in the DevNet Sandbox.  We are working to bring these labs back to functionality as quickly as we can, but we do not have an estimated time of recovery at this time.  
+
 # NetDevOps Labs
 
 [![Documentation Status](https://readthedocs.org/projects/netdevops-labs/badge/?version=latest)](https://netdevops-labs.readthedocs.io/en/latest/?badge=latest)
