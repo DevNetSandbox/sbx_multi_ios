@@ -13,9 +13,9 @@ services:
     environment:
       - GITLAB_ROOT_PASSWORD=C1sco12345
       - GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN=sandboxrunners
-      - GITLAB_HOST=http://10.10.20.20
+      - GITLAB_HOST=http://10.10.20.50
     extra_hosts:
-      gitlab: 10.10.20.20
+      gitlab: 10.10.20.50
 
   runner1:
     image: gitlab/gitlab-runner
@@ -24,10 +24,10 @@ services:
       - RUNNER_NAME=runner1
       - RUNNER_EXECUTOR=docker
       - CI_SERVER_URL=http://gitlab/
-      - CLONE_URL=http://10.10.20.20/
+      - CLONE_URL=http://10.10.20.50/
       - REGISTER_NON_INTERACTIVE=true
       - DOCKER_IMAGE=alpine
-      - DOCKER_EXTRA_HOSTS=gitlab:10.10.20.20
+      - DOCKER_EXTRA_HOSTS=gitlab:10.10.20.50
       - DOCKER_PULL_POLICY=if-not-present
     volumes:
       #- ./etc/runner:/etc/etc/gitlab-runner
