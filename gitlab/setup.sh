@@ -39,11 +39,12 @@ success () {
     printf "$STARTCOLOR%b$ENDCOLOR" "done\n";
 }
 
-echo ""
-echo "Ensuring firewalld is stopped and disabled"
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
-sudo systemctl restart docker
+# FirewallD stopped in sandbox image
+# echo ""
+# echo "Ensuring firewalld is stopped and disabled"
+# sudo systemctl stop firewalld
+# sudo systemctl disable firewalld
+# sudo systemctl restart docker
 
 echo ""
 printf "Launching Gitlab CE ..."
