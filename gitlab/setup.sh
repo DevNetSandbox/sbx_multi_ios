@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-gitlab_host="http://10.10.20.20"
+gitlab_host="http://10.10.20.50"
 gitlab_user="root"
 gitlab_password="C1sco12345"
 
@@ -53,14 +53,14 @@ success
 
 printf "Waiting for Gitlab CE to become available ."
 
-until $(curl --output /dev/null --silent --head --fail http://10.10.20.20); do
+until $(curl --output /dev/null --silent --head --fail http://10.10.20.50); do
     printf '.'
     sleep 10
 done
 success
 
 printf "Configuring external URL for GitLab"
-docker-compose exec gitlab /bin/bash -c "echo external_url \'http://10.10.20.20\' >> /etc/gitlab/gitlab.rb"
+docker-compose exec gitlab /bin/bash -c "echo external_url \'http://10.10.20.50\' >> /etc/gitlab/gitlab.rb"
 docker-compose exec gitlab gitlab-ctl reconfigure 2>&1 >> gitlab_setup.log
 
 printf "Registering GitLab Runner ... "
@@ -69,7 +69,7 @@ docker-compose exec runner1 gitlab-runner register 2>&1 >> gitlab_setup.log
 success
 printf "Creating user 'developer' ..."
 create_gitlab_token 2>&1 >> gitlab_setup.log
-curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "email=developer@devnetsandbox.cisco.com&password=C1sco12345&username=developer&name=developer&skip_confirmation=true" "http://10.10.20.20/api/v4/users" 2>&1 >> gitlab_setup.log
+curl -s --header "PRIVATE-TOKEN: $personal_access_token" -d "email=developer@devnetsandbox.cisco.com&password=C1sco12345&username=developer&name=developer&skip_confirmation=true" "http://10.10.20.50/api/v4/users" 2>&1 >> gitlab_setup.log
 success
 
 echo "Updating git global config on devbox"
