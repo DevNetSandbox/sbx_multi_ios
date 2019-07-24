@@ -43,7 +43,7 @@ we will be using the [virlfiles/xe-xr-nx](https://github.com/virlfiles/xe-xr-nx)
   * **Note:** all steps completed from the devbox (TODO: do we need local?)
 
 
-  1. ssh to devbox `ssh developer@10.10.20.20` (password C1sco12345)
+  1. ssh to devbox `ssh developer@10.10.20.50` (password C1sco12345)
 
   2. Clone required code
 
@@ -507,7 +507,7 @@ location http://localhost:8080/compliance-reports/report_2_admin_1_2019-4-4T23:5
 
 You can use the provided URL to access the report.
 
-(TODO: **NOTE:**  you may need to change localhost to 10.10.20.20 to view this URL - user: admin password: admin)
+(TODO: **NOTE:**  you may need to change localhost to 10.10.20.50 to view this URL - user: admin password: admin)
 
 ### Applying Templates
 

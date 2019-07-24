@@ -28,7 +28,7 @@ This following script should cover all the initial installation:
 
 ## Getting started
 
-You should be able to see your infrastructure as code repository at http://10.10.20.20/developer/cicd-3tier
+You should be able to see your infrastructure as code repository at http://10.10.20.50/developer/cicd-3tier
 
 
 ## Known issues
@@ -182,7 +182,7 @@ Delta compression using up to 5 threads.
 Compressing objects: 100% (30/30), done.
 Writing objects: 100% (35/35), 356.63 KiB | 0 bytes/s, done.
 Total 35 (delta 7), reused 0 (delta 0)
-To http://developer:C1sco12345@10.10.20.20/developer/cicd-3tier.git
+To http://developer:C1sco12345@10.10.20.50/developer/cicd-3tier.git
  * [new branch]      test -> test
 Branch test set up to track remote branch test from origin.
 Switched to a new branch 'production'
@@ -191,7 +191,7 @@ remote:
 remote: To create a merge request for production, visit:
 remote:   http://gitlab/developer/cicd-3tier/merge_requests/new?merge_request%5Bsource_branch%5D=production
 remote:
-To http://developer:C1sco12345@10.10.20.20/developer/cicd-3tier.git
+To http://developer:C1sco12345@10.10.20.50/developer/cicd-3tier.git
  * [new branch]      production -> production
 Branch production set up to track remote branch production from origin.
 Switched to branch 'test'
@@ -270,7 +270,7 @@ With the pre-requisites under control, follow these steps to setup your local de
 1. Clone a copy of the repository from GitLab to your local workstation.  Use this command to ensure the demo credentials are embedded in the git configuration.  
 
     ```bash
-    git clone http://developer:C1sco12345@10.10.20.20/developer/cicd-3tier
+    git clone http://developer:C1sco12345@10.10.20.50/developer/cicd-3tier
     cd cicd-3tier
     ```
 

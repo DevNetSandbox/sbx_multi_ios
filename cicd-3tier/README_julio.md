@@ -48,7 +48,7 @@ Once the setup is ready you will receive an email with all required information 
 Open a terminal window (ie. [putty](https://www.putty.org/) on Windows or `terminal` on OSX) and `ssh` to your _devbox_ with the following credentials: `developer`/`C1sco12345`
 
 ```
-$ ssh developer@10.10.20.20
+$ ssh developer@10.10.20.50
 ```
 
 Once in, clone the repository that includes all required files to build the setup into your _devbox_.
@@ -81,7 +81,7 @@ CONTAINER ID        IMAGE                  COMMAND                  CREATED     
 182c5937b931        gitlab/gitlab-runner   "/usr/bin/dumb-init …"   2 days ago          Up 2 days
 ```
 
-Please point your browser to [http://10.10.20.20](http://10.10.20.20/), the IP address of your _devbox_ (default port 80), and check that you can access the HTTP interface for your new GitLab service.
+Please point your browser to [http://10.10.20.50](http://10.10.20.50/), the IP address of your _devbox_ (default port 80), and check that you can access the HTTP interface for your new GitLab service.
 
 ### <a name='CICDsetup'></a>CICD setup
 
@@ -224,9 +224,9 @@ $ sh nso-4.5.3.darwin.x86_64.installer.bin ~/ncs-4.5.3 --local-install
 You may download the required NEDs from your sandbox _devbox_ via SCP to your own workstation.
 
 ```
-$ scp developer@10.10.20.20:/usr/src/nso/ncs-4.5.3-cisco-ios-5.8.signed.bin .
-$ scp developer@10.10.20.20:/usr/src/nso/ncs-4.5-cisco-nx-4.5.10.signed.bin .
-$ scp developer@10.10.20.20:/usr/src/nso/ncs-4.5-cisco-iosxr-6.2.10.signed.bin .
+$ scp developer@10.10.20.50:/usr/src/nso/ncs-4.5.3-cisco-ios-5.8.signed.bin .
+$ scp developer@10.10.20.50:/usr/src/nso/ncs-4.5-cisco-nx-4.5.10.signed.bin .
+$ scp developer@10.10.20.50:/usr/src/nso/ncs-4.5-cisco-iosxr-6.2.10.signed.bin .
 ```
 
 Install those NEDs, by running the following two commands for each downloaded binary...
@@ -317,7 +317,7 @@ Let's now dig into setting up the local environment in your workstation.
 1. Clone a copy of the repository from GitLab to your local workstation. Use this command to ensure the demo credentials are embedded in the git configuration.
 
     ```
-    $ git clone http://developer:C1sco12345@10.10.20.20/developer/cicd-3tier
+    $ git clone http://developer:C1sco12345@10.10.20.50/developer/cicd-3tier
     $ cd cicd-3tier
     ```
 
@@ -510,7 +510,7 @@ Integrating that environment with the local setup we built in the previous secti
 <img src="imgs/33cicd_arch.png">
 </p>
 
-Your GitLab Version Control Server (VCS) is ready. Please find the new infrastructure-as-code repository by pointing your browser to [http://10.10.20.20/developer/cicd-3tier](http://10.10.20.20/developer/cicd-3tier), and login with `developer`/`C1sco12345`. Leave that window open, as we will use it to run the demo.
+Your GitLab Version Control Server (VCS) is ready. Please find the new infrastructure-as-code repository by pointing your browser to [http://10.10.20.50/developer/cicd-3tier](http://10.10.20.50/developer/cicd-3tier), and login with `developer`/`C1sco12345`. Leave that window open, as we will use it to run the demo.
 
 <p align="center"> 
 <img src="imgs/21gitlab_project.png">
@@ -526,7 +526,7 @@ The repository (or _repo_) stores all required files and configurations to work 
 __If__ you did not follow the optional local setup process, please clone a copy of the repository from GitLab to your local workstation (if you already did it in the previous section, please skip this step). Use this command to ensure the demo credentials are embedded in the git configuration.
 
 ```
-$ git clone http://developer:C1sco12345@10.10.20.20/developer/cicd-3tier
+$ git clone http://developer:C1sco12345@10.10.20.50/developer/cicd-3tier
 $ cd cicd-3tier
 ```
 
@@ -622,17 +622,17 @@ Now is the time to send our configuration change to the remote repo in the VCS G
 
 ```
 $ git push
-warning: redirecting to http://10.10.20.20/developer/cicd-3tier.git/
+warning: redirecting to http://10.10.20.50/developer/cicd-3tier.git/
 Counting objects: 4, done.
 Delta compression using up to 12 threads.
 Compressing objects: 100% (4/4), done.
 Writing objects: 100% (4/4), 389 bytes | 389.00 KiB/s, done.
 Total 4 (delta 3), reused 0 (delta 0)
-To http://10.10.20.20/developer/cicd-3tier
+To http://10.10.20.50/developer/cicd-3tier
    00f2b65..1b70da9  test -> test
 ```
 
-Go back to the browser window that pointed to your GitLab repo at [http://10.10.20.20/developer/cicd-3tier](http://10.10.20.20/developer/cicd-3tier), and you will see the update there.
+Go back to the browser window that pointed to your GitLab repo at [http://10.10.20.50/developer/cicd-3tier](http://10.10.20.50/developer/cicd-3tier), and you will see the update there.
 
 <p align="center"> 
 <img src="imgs/22gitlab_pipeline_start.png">
