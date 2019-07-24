@@ -2,5 +2,5 @@ all:
   vars:
     nso:
       password: admin
-      url: http://10.10.20.20:8080/jsonrpc
+      url: http://10.10.20.50:8080/jsonrpc
       username: admin
