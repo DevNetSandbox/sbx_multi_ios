@@ -36,7 +36,7 @@ VPN credentials and gateways are emailed to you once your sandbox is ready.
 While VPN'd into the sandbox. SSH into the  devbox
 
 ```
-ssh developer@10.10.20.20
+ssh developer@10.10.20.50
 ```
 The
 default credentials are `developer/C1sco12345`
@@ -55,7 +55,7 @@ This following script should cover all the initial installation
 ./setup.sh
 ```
 
-Once the process is complete, HEMP should be accessible at http://10.10.20.20:5001
+Once the process is complete, HEMP should be accessible at http://10.10.20.50:5001
 
 ## Environment Overview
 
@@ -102,7 +102,7 @@ The topology contains four routers `partner1`, `partner2`, `partner3` and `partn
 
 * The NSO instance running on the devbox uses credentials `admin`/`admin` you can access it by running `ncs_cli -u admin` from the devbox
 * The default grafana credentials are `admin`/`admin` as well, you will be prompted to change this the first time you access the dashboards.
-* If you want to tinker with the Grafana instance it is accessible at http://10.10.20.20:3000
+* If you want to tinker with the Grafana instance it is accessible at http://10.10.20.50:3000
 
 
 ### Known Issues

@@ -1,5 +1,5 @@
-# Temporary Lab Outage 
-**Status Note: July 11, 2019:** Several of these labs are currently not working due to some neccessary updates in the DevNet Sandbox.  We are working to bring these labs back to functionality as quickly as we can, but we do not have an estimated time of recovery at this time.  
+<!-- # Temporary Lab Outage 
+**Status Note: July 11, 2019:** Several of these labs are currently not working due to some neccessary updates in the DevNet Sandbox.  We are working to bring these labs back to functionality as quickly as we can, but we do not have an estimated time of recovery at this time.   -->
 
 # NetDevOps Labs
 
@@ -33,7 +33,7 @@ Here's a video overview of the process... from here feel free to press fast forw
 After your reservation is complete you will receive and email with credential to
 connect to the sandbox via VPN.  Once connected you can ssh to the devbox using the following credentials: `developer/C1sco12345`
 
-    ssh developer@10.10.20.20
+    ssh developer@10.10.20.50
 
 ### Step 2: Clone this repository
 

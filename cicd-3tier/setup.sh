@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 logfile=cicd-setup.log
-gitlab_host="http://10.10.20.20"
+gitlab_host="http://10.10.20.50"
 gitlab_user="developer"
 gitlab_password="C1sco12345"
 repo_name="cicd-3tier"
@@ -41,8 +41,9 @@ success () {
     printf "$STARTCOLOR%b$ENDCOLOR" "done\n";
 }
 
+# Telnet is present
 # installing telnet if not present
-sudo yum install -y telnet
+# sudo yum install -y telnet
 
 echo "Launching VIRL simulations (prod+test) ... "
 root_dir=$(pwd)
@@ -111,7 +112,7 @@ git config --global user.email "developer@devnetsandbox.cisco.com"
 
 echo "Initalizing Local Repository"
 git init
-git remote add origin http://$gitlab_user:$gitlab_password@10.10.20.20/developer/${repo_name}.git
+git remote add origin http://$gitlab_user:$gitlab_password@10.10.20.50/developer/${repo_name}.git
 
 git add .
 git checkout -b test

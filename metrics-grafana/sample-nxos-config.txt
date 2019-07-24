@@ -5,7 +5,7 @@ telemetry
   destination-profile
     use-vrf management
   destination-group 100
-    ip address 10.10.20.20 port 57500 protocol gRPC encoding GPB
+    ip address 10.10.20.50 port 57500 protocol gRPC encoding GPB
   sensor-group 200
     data-source NX-API
     path "show ip route summary"

@@ -33,7 +33,7 @@ port conflicts in the sandbox.
 
 # Usage
 
-### You can start using jenkins by opening a browser to [http://10.10.20.20:8000/](http://10.10.20.20:8000)
+### You can start using jenkins by opening a browser to [http://10.10.20.50:8000/](http://10.10.20.50:8000)
 
 #### Username: **developer**
 #### Password: C1sco12345
