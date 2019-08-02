@@ -1,0 +1,16 @@
+feature nxapi
+feature telemetry
+
+telemetry
+  destination-profile
+    use-vrf management
+  destination-group 100
+    ip address 10.10.20.50 port 57500 protocol gRPC encoding GPB
+  sensor-group 200
+    data-source NX-API
+    path "show ip route summary"
+    path "show system resources"
+    path "show interface mgmt0"
+  subscription 200
+    dst-grp 100
+    snsr-grp 200 sample-interval 20000

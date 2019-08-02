@@ -1,0 +1,13 @@
+<clispec xmlns="http://tail-f.com/ns/clispec/1.0" style="c">
+    <pipeCmds>
+       <cmd name="yaml">
+         <info>Convert json to yaml </info>
+         <help>Do show | display json | yaml</help>
+         <callback>
+           <exec>
+             <osCommand>json2yaml.py</osCommand>
+           </exec>
+         </callback>
+       </cmd>
+     </pipeCmds>
+</clispec>

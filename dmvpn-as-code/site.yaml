@@ -1,0 +1,32 @@
+---
+
+- name: Apply Common Template
+  hosts: all
+  connection: local
+  gather_facts: yes
+  vars:
+    cli:
+      host: "{{ ansible_host }}"
+  roles:
+    - common
+
+- name: Configure Headend Routers
+  hosts: headends
+  connection: local
+  gather_facts: yes
+  vars:
+    cli:
+      host: "{{ ansible_host }}"
+  roles:
+    - headend_router
+
+
+- name: Configure Remote Routers
+  hosts: remotes
+  connection: local
+  gather_facts: yes
+  vars:
+    cli:
+      host: "{{ ansible_host }}"
+  roles:
+    - remote_router

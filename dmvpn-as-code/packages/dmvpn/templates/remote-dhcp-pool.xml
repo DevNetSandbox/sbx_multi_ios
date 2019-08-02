@@ -1,0 +1,22 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{$DEVICE}</name>
+      <config>
+        <ip xmlns="urn:ios">
+          <dhcp>
+            <pool>
+              <id>LAN_DHCP_POOL</id>
+              <network>
+                <network-number>{$LAN_NETWORK}</network-number>
+                <mask>{$LAN_MASK}</mask>
+              </network>
+              <dns-server>{/dns_server}</dns-server>
+              <default-router>{$LAN_IP}</default-router>
+            </pool>
+          </dhcp>
+        </ip>
+      </config>
+    </device>
+  </devices>
+</config-template>

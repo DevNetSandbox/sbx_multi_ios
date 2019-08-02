@@ -1,0 +1,66 @@
+
+- name: Synchronization of Devices
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+    - name: Create Devices
+      nso_config:
+        url: "http://localhost:8080/jsonrpc"
+        username: "admin"
+        password: "admin"
+        data:
+          tailf-ncs:devices:
+            authgroups:
+              group:
+                - name: virl
+                  default-map:
+                    remote-name: cisco
+                    remote-password: cisco
+
+            device:
+            - name: nx
+              address: 10.94.241.238
+              authgroup: virl
+              device-type:
+                cli:
+                  ned-id: tailf-ned-cisco-nx-id:cisco-nx
+                  protocol: telnet
+              state:
+                admin-state: unlocked
+
+            - name: xe
+              address: 10.94.241.239
+              authgroup: virl
+              device-type:
+                cli:
+                  ned-id: tailf-ned-cisco-ios-id:cisco-ios
+                  protocol: telnet
+              state:
+                admin-state: unlocked
+
+            - name: xr
+              address: 10.94.241.240
+              authgroup: virl
+              device-type:
+                cli:
+                  ned-id: tailf-ned-cisco-ios-xr-id:cisco-ios-xr
+                  protocol: telnet
+              state:
+                admin-state: unlocked
+
+    - name: Create Device Group
+      nso_config:
+        url: "http://localhost:8080/jsonrpc"
+        username: "admin"
+        password: "admin"
+        data:
+          tailf-ncs:devices:
+            device-group:
+              - name: all-devices
+                device-name:
+                  - nx
+                  - xe
+                  - xr

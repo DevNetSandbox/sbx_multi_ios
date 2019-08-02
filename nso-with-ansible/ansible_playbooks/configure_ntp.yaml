@@ -1,0 +1,39 @@
+---
+
+- hosts: all
+  connection: network_cli
+  gather_facts: no
+  vars:
+   ansible_ssh_pass: "{{ lookup('env','ANSIBLE_NET_PASSWORD') }}"
+   ansible_user: "{{ lookup('env','ANSIBLE_NET_USERNAME') }}"
+   desired_ntp_servers:
+    - 1.1.1.1
+    - 3.3.3.3
+
+  tasks:
+   - name: Get current NTP servers
+     cli_command:
+       command: show run | inc ntp
+     register: output
+
+   - set_fact:
+      actual_ntp_servers: "{{ output.stdout | parse_cli_textfsm('templates/ios-ntp.textfsm') | map(attribute='SERVER') | list }}"
+
+   - debug:
+      var: actual_ntp_servers
+
+   - debug:
+      msg: "Add the following: {{ desired_ntp_servers | difference(actual_ntp_servers) | join(',') }}"
+
+   - debug:
+      msg: "Remove the following: {{ actual_ntp_servers | difference(desired_ntp_servers) | join(',') }}"
+
+   - name: Add the new servers
+     cli_config:
+       config: ntp server {{ item }}
+     loop: "{{ desired_ntp_servers | difference(actual_ntp_servers) | default([]) }}"
+
+   - name: Remove old servers
+     cli_config:
+       config: no ntp server {{ item }}
+     loop: "{{ actual_ntp_servers | difference(desired_ntp_servers) | default([]) }}"

@@ -1,0 +1,70 @@
+module vpn {
+  namespace "http://com/example/vpn";
+  prefix vpn;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  list vpn {
+    key partner_name;
+
+    uses ncs:service-data;
+    ncs:servicepoint "vpn";
+
+    leaf partner_name {
+      type string;
+    }
+
+    // may replace this with other ways of refering to the devices.
+    leaf-list device {
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+    }
+    leaf sequence {
+      type uint32;
+    }
+    leaf peer_ip {
+      type inet:ipv4-address;
+    }
+    leaf isakmp_algo {
+      type enumeration {
+         enum "3des";
+         enum "des";
+         enum "aes";
+       }
+    }
+    leaf isakmp_group {
+      type enumeration {
+         enum "1";
+         enum "2";
+       }
+    }
+    leaf pre_shared_key {
+      type string;
+    }
+    leaf acl_number {
+      type string;
+    }
+    leaf acl_rule {
+      type string;
+    }
+    leaf transform_encryption {
+      type enumeration {
+        enum "esp-3des";
+        enum "esp-aes";
+      }
+    }
+    leaf transform_auth {
+      type enumeration {
+        enum "esp-sha-hmac";
+        enum "esp-md5-hmac";
+      }
+    }
+
+  }
+}

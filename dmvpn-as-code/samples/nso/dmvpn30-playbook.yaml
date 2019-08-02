@@ -1,0 +1,39 @@
+---
+
+- name: Synchronization of Devices
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: NSO sync-to action
+      nso_action:
+        url: "http://localhost:8080/jsonrpc"
+        username: "admin"
+        password: "admin"
+        path: /ncs:devices/sync-to
+        input: {}
+
+    - name: Device configuration
+      nso_config:
+        url: "http://localhost:8080/jsonrpc"
+        username: "admin"
+        password: "admin"
+        data:
+          dmvpn:dmvpn:
+            - name: dmvpn30-ansible
+              lan-pool: 10.30.0.0/16
+              tunnel-pool: 192.168.30.0/24
+              tunnel_key: 30
+              tunnel_number: 30
+              nhrp_authentication_key: cisco30
+              psk: cisco30
+              eigrp_process: 100
+              primary_headend:
+                device: headend1
+                public-interface:
+                  type: GigabitEthernet
+                  number: 2
+              remotes:
+                - device: remote3
+                - device: remote4

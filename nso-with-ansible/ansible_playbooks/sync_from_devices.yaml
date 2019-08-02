@@ -1,0 +1,16 @@
+
+---
+
+- name: Synchronization of Devices
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: NSO sync-from action
+      nso_action:
+        url: "http://localhost:8080/jsonrpc"
+        username: "admin"
+        password: "admin"
+        path: /ncs:devices/sync-from
+        input: {}

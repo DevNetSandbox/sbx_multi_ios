@@ -1,0 +1,20 @@
+---
+
+- name: "Applying Headend IOS Template"
+  tags:
+    - golden_config
+  ios_config:
+    provider: "{{ cli }}"
+    src: "headend_common.j2"
+
+- name: "Applying Headend Public Interface Configuration"
+  tags: dmvpn
+  ios_config:
+    provider: "{{ cli }}"
+    src: "headend_public_interface.j2"
+
+- name: "Applying Headend Tunnel Configuration"
+  tags: dmvpn
+  ios_config:
+    provider: "{{ cli }}"
+    src: "headend_tunnels.j2"
