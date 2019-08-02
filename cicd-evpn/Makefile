@@ -74,12 +74,12 @@ verify-prod:
     # important: need to add our current directory to PYTHONPATH
     # -robot prod.robot
 
-verify-prod:
+verify-test:
 		-cd tests
 		PYTHONPATH=$PYTHONPATH:$PWD
 		-robot tests/test.robot
     # important: need to add our current directory to PYTHONPATH
-    -robot test.robot
+    #-robot test.robot
 
 ssh:
 	ssh admin@prod-nso -p 2024
