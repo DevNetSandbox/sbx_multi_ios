@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 #!/usr/bin/env bash
 logfile=cicd-evpn-setup.log
-gitlab_host="http://10.10.20.20"
+gitlab_host="http://10.10.20.50"
 gitlab_user="developer"
 gitlab_password="C1sco12345"
 repo_name="cicd-evpn"
@@ -144,7 +144,7 @@ git config --global user.email "developer@devnetsandbox.cisco.com"
 
 echo "Initalizing Local Repository"
 git init
-git remote add origin http://$gitlab_user:$gitlab_password@10.10.20.20/developer/${repo_name}.git
+git remote add origin http://$gitlab_user:$gitlab_password@10.10.20.50/developer/${repo_name}.git
 
 git add .
 git checkout -b test
