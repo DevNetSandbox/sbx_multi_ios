@@ -7,12 +7,6 @@ import ncs.maapi as maapi
 import ncs.maagic as maagic
 import re
 
-try:
-    unicode = str
-except:
-    pass
-
-
 def get_ip(ipandmask):
     ip = ipandmask.split('/')[0]
     return ip

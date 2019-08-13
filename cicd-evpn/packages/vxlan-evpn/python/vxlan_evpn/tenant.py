@@ -3,12 +3,7 @@ from ncs.application import Service
 from . import fabric
 from .allocation import *
 import ipaddress
-
-try:
-    unicode = str
-except:
-    pass
-
+import sys
 
 class TenantService(Service):
     # Allocate VNIIDs for all segments and for the l3 part
@@ -88,8 +83,12 @@ class TenantService(Service):
             else:
                 vars.add('SUPPRESS_ARP', '')
 
-            net = s.network
-            net = ipaddress.ip_network(unicode(net))
+            if sys.version_info.major > 2:
+                net = unicode(s.network)
+            else:
+                net = s.network
+
+            net = ipaddress.ip_network(net)
             hosts = list(net.hosts())
             gw = '{}/{}'.format(hosts[0],net.prefixlen)
             vars.add('GATEWAY', gw)
