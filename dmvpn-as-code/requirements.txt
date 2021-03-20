@@ -25,7 +25,7 @@ genie.predcore==3.1.0
 genie.telemetry==3.1.4
 genie.utils==3.1.4
 idna==2.8
-Jinja2==2.10
+Jinja2==2.11.3
 jsonpickle==1.1
 junit-xml==1.8
 MarkupSafe==1.1.0
