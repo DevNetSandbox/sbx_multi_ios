@@ -3,7 +3,7 @@ asn1crypto==0.24.0
 bcrypt==3.1.6
 cffi==1.12.2
 cryptography==2.5
-Jinja2==2.10
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 paramiko==2.4.2
 pyasn1==0.4.5
